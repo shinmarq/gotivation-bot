@@ -326,21 +326,18 @@ bot.dialog('/guest-list', [
     function (session, results) {
         if (results.response) {
             var names = results.response.split(',');
-            builder.Prompts.confirm(session, "You entered ${names}. Is this confirmed? (Yes/No)");
+            builder.Prompts.confirm(session, `You entered ${names}. Is this confirmed?`);
         } else {
-            session.dialogData.enterNamesForGuestlist(session)
+            session.dialogData.enterNamesForGuestlist(session);
         }
     },
     function (session, results) {
-        session.send("You chose '%s'", results.response ? 'yes' : 'no');
-
-        if (results.response === 'no') {
-            session.dialogData.enterNamesForGuestlist(session)
+        if (results.response === 'yes') {
+            builder.Prompts.confirm(session, "Great. Do you have a promoter code?");
+        } else {
+            session.dialogData.enterNamesForGuestlist(session);
         }
     }, 
-    function (session, results) {
-        builder.Prompts.confirm(session, "Great. Do you have a promoter code? (Yes/No)");
-    },
     function (session, results) {
         session.send(`We have received your guest list request for ${session.dialogData.event}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
     }
