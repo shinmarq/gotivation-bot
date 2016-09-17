@@ -280,7 +280,9 @@ bot.dialog('/guest-list', [
     function (session, results) {
         session.dialogData.party = results;
         if (session.userData.promoCode) {
-            session.endDialog(`{Name/s} has/have now been successfully guest listed for {event name} at {venue name}! Your name will be under {promoter name} so please bring a valid ID with birth date.`);
+            results.response = 'yes';
+            next(session, results.response);
+            // session.endDialog(`{Name/s} has/have now been successfully guest listed for {event name} at {venue name}! Your name will be under {promoter name} so please bring a valid ID with birth date.`);
         } else {
             builder.Prompts.confirm('Great! Do you have a promoter code?');
         }
