@@ -277,19 +277,38 @@ bot.dialog('/guest-list', [
         session.dialogData.event = item;
         session.beginDialog('/ensureParty');
     },
-    function (session, results, next) {
-        session.dialogData.party = results;
-        // session.beginDialog('/ensurePromoCode');
-        next();
-    }, 
     function (session, results) {
-        session.endDialog(`We have received your guest list request for ${session.dialogData.event} with ${session.dialogData.party.toString()}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
+        session.dialogData.party = results;
+        if (session.userData.promoCode) {
+            session.endDialog(`{Name/s} has/have now been successfully guest listed for {event name} at {venue name}! Your name will be under {promoter name} so please bring a valid ID with birth date.`);
+        } else {
+            builder.Prompts.confirm('Great! Do you have a promoter code?');
+        }
+    }, 
+    function (session, results, next) {
+        var choice = results.response ? 'yes' : 'no';
+        if (choice === 'yes') {
+            session.beginDialog('/ensurePromoCode');
+        } else {
+            next();
+        }
+    },
+    function (session, results) {
+        if (results.response && results.response === 'valid') {
+            session.endDialog(`You,${session.dialogData.party.toString()} has/have now been successfully guest listed \
+            for ${session.dialogData.event} at ${session.dialogData.venue}! \
+            Your name will be under ${session.userData[`${session.dialogData.venue}`].promoter} \
+            so please bring a valid ID with birth date.\n \
+            Remember to be there before the 12MN cutoff and follow the dress code. \
+            Note that the management has the right to refuse entry at all times.`);
+        } else {
+            session.endDialog(`We have received your guest list request for ${session.dialogData.event} with ${session.dialogData.party.toString()}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
+        }
     }
 ]);
 
 bot.dialog('/ensureParty', [
     function (session, args, next) {
-        // session.dialogData.party = args || [];
         builder.Prompts.text(session, 'Please enter the names you would like to add in the guest list (separated by a comma):');
     },
     function (session, results, next) {
@@ -308,7 +327,23 @@ bot.dialog('/ensureParty', [
     }
 ]);
 
-bot.dialo
+bot.dialog('/ensurePromoCode', [
+    function (session, args, next) {
+        session.dialogData = args || {};
+        if (!session.userData[`${session.dialogData.venue}`].promoCode) {
+            builder.Prompts.text(session, `Please enter your promoter code for ${dialogData.venue} now:`);
+        } else {
+            // validate via API
+            // if promo code valid
+            session.endDialogWithResult('valid');
+            // else
+        }
+    },
+    function (session, results, next) {
+        session.userData[`${session.dialogData.venue}`].promoCode = results.response;
+        session.replaceDialog('/ensureParty');
+    }
+]);
 
 bot.dialog('/book-table', [
 
