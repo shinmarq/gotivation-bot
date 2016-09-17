@@ -277,7 +277,7 @@ bot.dialog('/guest-list', [
         session.dialogData.event = item;
         session.beginDialog('/ensureParty');
     },
-    function (session, results) {
+    function (session, results, next) {
         session.dialogData.party = results;
         // session.beginDialog('/ensurePromoCode');
         next();
