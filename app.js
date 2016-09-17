@@ -344,7 +344,7 @@ bot.dialog('/ensurePromoCode', [
     },
     function (session, results, next) {
         session.userData[`${session.dialogData.venue}`].promoCode = results.response;
-        session.replaceDialog('/ensureParty');
+        session.replaceDialog('/ensurePromoCode');
     }
 ]);
 
