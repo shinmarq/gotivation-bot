@@ -279,12 +279,12 @@ bot.dialog('/guest-list', [
     },
     function (session, results) {
         session.dialogData.party = results;
-        // if (session.userData.promoCode) {
-        //     results.response = 'yes';
-        //     next(session, results.response);
-        // } else {
-            builder.Prompts.confirm('Great! Do you have a promoter code?');
-        // }
+        if (session.userData.promoCode) {
+            results.response = 'yes';
+            next(session, results.response);
+        } else {
+            builder.Prompts.confirm(session, 'Great! Do you have a promoter code?');
+        }
     }, 
     function (session, results, next) {
         var choice = results.response ? 'yes' : 'no';
