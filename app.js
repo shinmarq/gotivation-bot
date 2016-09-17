@@ -332,10 +332,12 @@ bot.dialog('/guest-list', [
         }
     },
     function (session, results) {
-        if (results.response === 'yes') {
+        var enterNamesForGuestlist = session.dialogData.enterNamesForGuestlist;
+
+        if (results.response.entity === 'yes') {
             builder.Prompts.confirm(session, "Great. Do you have a promoter code?");
         } else {
-            session.dialogData.enterNamesForGuestlist(session);
+            enterNamesForGuestlist(session);
         }
     }, 
     function (session, results) {
