@@ -321,14 +321,14 @@ bot.dialog('/guest-list', [
         session.dialogData.event = item;
         
         session.dialogData.enterNamesForGuestlist = function (session) {builder.Prompts.text(session, 'Please enter the names you would like to add in the guest list (separated by a comma).');};
-//        session.dialogData.enterNamesForGuestlist(session);
+        session.dialogData.enterNamesForGuestlist(session);
     },
     function (session, results) {
         if (results.response) {
             var names = results.response.split(',');
-            builder.Prompts.confirm(session, `You entered ${names}. Is this confirmed?`);
+            builder.Prompts.confirm(session, `So ${names} will join you at ${session.dialogData.event}. Is this confirmed?`);
         } else {
-
+            // todo: handle error
         }
     },
     function (session, results) {
