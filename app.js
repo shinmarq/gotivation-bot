@@ -193,7 +193,30 @@ bot.dialog('/guest-list', [
             ]);
         builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
     },
+    // function (session, results) {
+    //     var action, item;
+    //     var kvPair = results.response.entity.split(':');
+    //     switch (kvPair[0]) {
+    //         case 'select':
+    //             action = 'selected';
+    //             break;
+    //     }
+    //     switch (kvPair[1]) {
+    //         case '100':
+    //             item = "the <b>Space Needle</b>";
+    //             break;
+    //         case '101':
+    //             item = "<b>Pikes Place Market</b>";
+    //             break;
+    //         case '102':
+    //             item = "the <b>EMP Museum</b>";
+    //             break;
+    //     }
+    //     // session.endDialog('You %s "%s"', action, item);
+    //     session.dialogData.venue = item;
+    // },
     function (session, results) {
+
         var action, item;
         var kvPair = results.response.entity.split(':');
         switch (kvPair[0]) {
@@ -212,11 +235,8 @@ bot.dialog('/guest-list', [
                 item = "the <b>EMP Museum</b>";
                 break;
         }
-        // session.endDialog('You %s "%s"', action, item);
-        session.dialogData.venue = item;
-    },
-    function (session) {
-        session.send(`Here are the events you can go to this week at ${session.dialogData.venue}`);
+
+        session.send(`Here are the events you can go to this week at ${item}`);
         // Ask the user to select an item from a carousel.
         var msg = new builder.Message(session)
             .textFormat(builder.TextFormat.xml)
@@ -258,6 +278,27 @@ bot.dialog('/guest-list', [
             ]);
         builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
     },
+    // function (session, results) {
+    //     var action, item;
+    //     var kvPair = results.response.entity.split(':');
+    //     switch (kvPair[0]) {
+    //         case 'select':
+    //             action = 'selected';
+    //             break;
+    //     }
+    //     switch (kvPair[1]) {
+    //         case '100':
+    //             item = "the <b>Space Needle Event</b>";
+    //             break;
+    //         case '101':
+    //             item = "<b>Pikes Place Market Event</b>";
+    //             break;
+    //         case '102':
+    //             item = "the <b>EMP Museum Event</b>";
+    //             break;
+    //     }
+    //     session.dialogData.event = item;
+    // },
     function (session, results) {
         var action, item;
         var kvPair = results.response.entity.split(':');
@@ -278,8 +319,7 @@ bot.dialog('/guest-list', [
                 break;
         }
         session.dialogData.event = item;
-    },
-    function (session) {
+        
         builder.Prompts.text(session, 'Please enter the names you would like to add in the guest list (separated by a comma).');
         session.dialogData.enterNamesForGuestlist = arguments.callee;
     },
