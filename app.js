@@ -12,14 +12,12 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 });
   
 // Create chat bot
-// var connector = new builder.ConsoleConnector().listen();
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
-
 
 //=========================================================
 // Activity Events
@@ -333,9 +331,8 @@ bot.dialog('/guest-list', [
         }
     },
     function (session, results) {
-        console.log(`results : ${results}`);
-
-        if (results.response.entity === 'yes') {
+        var choice = results.response ? 'yes' : 'no';
+        if (choice === 'yes') {
             builder.Prompts.confirm(session, "Great. Do you have a promoter code?");
         } else if (session.dialogData.enterNamesForGuestlist) {
             session.dialogData.enterNamesForGuestlist(session);
