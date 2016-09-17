@@ -334,7 +334,7 @@ bot.dialog('/ensurePromoCode', [
     function (session, args, next) {
         session.dialogData = args || {};
         if (!session.userData[`${session.dialogData.venue}`].promoCode) {
-            builder.Prompts.text(session, `Please enter your promoter code for ${dialogData.venue} now:`);
+            builder.Prompts.text(session, `Please enter your promoter code for ${session.dialogData.venue} now:`);
         } else {
             // validate via API
             // if promo code valid
