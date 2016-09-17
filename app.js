@@ -1,6 +1,5 @@
 var restify = require('restify');
 var builder = require('botbuilder');
-var util = require('util')
 
 //=========================================================
 // Bot Setup
@@ -284,7 +283,7 @@ bot.dialog('/guest-list', [
         next();
     }, 
     function (session, results) {
-        session.endDialog(`We have received your guest list request for ${session.dialogData.event} with ${util.inspect(session.dialogData.party)}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
+        session.endDialog(`We have received your guest list request for ${session.dialogData.event} with ${session.dialog.party.toString()}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
     }
 ]);
 
@@ -302,7 +301,7 @@ bot.dialog('/ensureParty', [
     function (session, results) {
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
-            session.endDialogWithResult({ response: session.dialogData.party });
+            session.endDialogWithResult( session.dialogData.party );
         } else {
             session.replaceDialog('/ensureParty');
         }
