@@ -58,7 +58,7 @@ bot.on('contactRelationUpdate', function (message) {
         var name = message.user ? message.user.name : null;
         var reply = new builder.Message()
                 .address(message.address)
-                .text("Hello %s... Thanks for adding me. Say 'hello' to see some great demos.", name || 'there');
+                .text("Hello %s... Welcome to the Official The Palace Messenger Bot! What can I do for you?", name || 'there');
         bot.send(reply);
     } else {
         // delete their data
@@ -90,17 +90,18 @@ bot.beginDialogAction('help', '/help', { matches: /^help/i });
 
 bot.dialog('/', [
     function (session) {
-        // Send a greeting and show help.
+        // Send a greeting and show the menu.
         var card = new builder.HeroCard(session)
-            .title("Microsoft Bot Framework")
-            .text("Your bots - wherever your users are talking.")
+        // todo: change to venue.model
+            .title("The Palace Bot")
+            .text("Official Bot of The Palace Manila")
             .images([
-                 builder.CardImage.create(session, "http://docs.botframework.com/images/demo_bot_image.png")
+                 builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
             ]);
         var msg = new builder.Message(session).attachments([card]);
         session.send(msg);
-        session.send("Hi... I'm the Microsoft Bot Framework demo bot for Skype. I can show you everything you can use our Bot Builder SDK to do on Skype.");
-        session.beginDialog('/help');
+        session.send("Welcome to the Official The Palace Messenger Bot!");
+        session.beginDialog('/menu');
     },
     function (session, results) {
         // Display menu
@@ -108,38 +109,210 @@ bot.dialog('/', [
     },
     function (session, results) {
         // Always say goodbye
-        session.send("Ok... See you later!");
+        session.send("See you at The Palace!");
     }
 ]);
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|cards|list|carousel|receipt|actions|(quit)");
+        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|exit");
     },
     function (session, results) {
-        if (results.response && results.response.entity != '(quit)') {
-            // Launch demo dialog
-            session.beginDialog('/' + results.response.entity);
-        } else {
-            // Exit the menu
-            session.endDialog();
+        if (results.response) 
+        {
+            switch (results.response.entity)
+            {
+                case 'Guest List':
+                    session.beginDialog('/guest-list');
+                    break;
+                case 'Book a Table':
+                    session.beginDialog('/book-table');
+                    break;
+                case 'Buy Tickets':
+                    session.beginDialog('/buy-tickets');
+                    break;
+                case 'exit':
+                    session.endDialog();
+                    break;  
+            } 
         }
     },
     function (session, results) {
-        // The menu runs a loop until the user chooses to (quit).
+        // The menu runs a loop until the user chooses to exit.
         session.replaceDialog('/menu');
     }
 ]).reloadAction('reloadMenu', null, { matches: /^menu|show menu/i });
 
-bot.dialog('/help', [
+// bot.dialog('/help', [
+//     function (session) {
+//         session.endDialog("Global commands that are available anytime:\n\n* menu - Exits a demo and returns to the menu.\n* goodbye - End this conversation.\n* help - Displays these commands.");
+//     }
+// ]);
+
+bot.dialog('guest-list', [
     function (session) {
-        session.endDialog("Global commands that are available anytime:\n\n* menu - Exits a demo and returns to the menu.\n* goodbye - End this conversation.\n* help - Displays these commands.");
+        session.send("Which venue would you like to get in the guest list for?");
+        // Ask the user to select an item from a carousel.
+        var msg = new builder.Message(session)
+            .textFormat(builder.TextFormat.xml)
+            .attachmentLayout(builder.AttachmentLayout.carousel)
+            .attachments([
+                new builder.HeroCard(session)
+                    .title("Space Needle")
+                    .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
+                    .images([
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/320px-Seattlenighttimequeenanne.jpg")
+                            .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/800px-Seattlenighttimequeenanne.jpg")),
+                    ])
+                    .buttons([
+                        builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle", "Wikipedia"),
+                        builder.CardAction.imBack(session, "select:100", "Select")
+                    ]),
+                new builder.HeroCard(session)
+                    .title("Pikes Place Market")
+                    .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
+                    .images([
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/320px-PikePlaceMarket.jpg")
+                            .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/800px-PikePlaceMarket.jpg")),
+                    ])
+                    .buttons([
+                        builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market", "Wikipedia"),
+                        builder.CardAction.imBack(session, "select:101", "Select")
+                    ]),
+                new builder.HeroCard(session)
+                    .title("EMP Museum")
+                    .text("<b>EMP Musem</b> is a leading-edge nonprofit museum, dedicated to the ideas and risk-taking that fuel contemporary popular culture.")
+                    .images([
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/320px-Night_Exterior_EMP.jpg")
+                            .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/800px-Night_Exterior_EMP.jpg"))
+                    ])
+                    .buttons([
+                        builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/EMP_Museum", "Wikipedia"),
+                        builder.CardAction.imBack(session, "select:102", "Select")
+                    ])
+            ]);
+        builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
+    },
+    function (session, results) {
+        var action, item;
+        var kvPair = results.response.entity.split(':');
+        switch (kvPair[0]) {
+            case 'select':
+                action = 'selected';
+                break;
+        }
+        switch (kvPair[1]) {
+            case '100':
+                item = "the <b>Space Needle</b>";
+                break;
+            case '101':
+                item = "<b>Pikes Place Market</b>";
+                break;
+            case '102':
+                item = "the <b>EMP Museum</b>";
+                break;
+        }
+        // session.endDialog('You %s "%s"', action, item);
+        session.dialogData.venue = item;
+    },
+    function (session) {
+        session.send(`Here are the events you can go to this week at ${session.dialogData.venue}`);
+        // Ask the user to select an item from a carousel.
+        var msg = new builder.Message(session)
+            .textFormat(builder.TextFormat.xml)
+            .attachmentLayout(builder.AttachmentLayout.carousel)
+            .attachments([
+                new builder.HeroCard(session)
+                    .title("Space Needle")
+                    .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
+                    .images([
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/320px-Seattlenighttimequeenanne.jpg")
+                            .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/800px-Seattlenighttimequeenanne.jpg")),
+                    ])
+                    .buttons([
+                        builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle", "Wikipedia"),
+                        builder.CardAction.imBack(session, "select:100", "Select")
+                    ]),
+                new builder.HeroCard(session)
+                    .title("Pikes Place Market")
+                    .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
+                    .images([
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/320px-PikePlaceMarket.jpg")
+                            .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/800px-PikePlaceMarket.jpg")),
+                    ])
+                    .buttons([
+                        builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market", "Wikipedia"),
+                        builder.CardAction.imBack(session, "select:101", "Select")
+                    ]),
+                new builder.HeroCard(session)
+                    .title("EMP Museum")
+                    .text("<b>EMP Musem</b> is a leading-edge nonprofit museum, dedicated to the ideas and risk-taking that fuel contemporary popular culture.")
+                    .images([
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/320px-Night_Exterior_EMP.jpg")
+                            .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/800px-Night_Exterior_EMP.jpg"))
+                    ])
+                    .buttons([
+                        builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/EMP_Museum", "Wikipedia"),
+                        builder.CardAction.imBack(session, "select:102", "Select")
+                    ])
+            ]);
+        builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
+    },
+    function (session, results) {
+        var action, item;
+        var kvPair = results.response.entity.split(':');
+        switch (kvPair[0]) {
+            case 'select':
+                action = 'selected';
+                break;
+        }
+        switch (kvPair[1]) {
+            case '100':
+                item = "the <b>Space Needle Event</b>";
+                break;
+            case '101':
+                item = "<b>Pikes Place Market Event</b>";
+                break;
+            case '102':
+                item = "the <b>EMP Museum Event</b>";
+                break;
+        }
+        session.dialogData.event = item;
+    },
+    function (session) {
+        builder.Prompts.text(session, 'Please enter the names you would like to add in the guest list (separated by a comma).');
+        session.dialogData.enterNamesForGuestlist = arguments.callee;
+    },
+    function (session, results) {
+        var names = results.response.entity.split(',');
+        builder.Prompts.confirm(session, "You entered ${names}. Is this confirmed? (Yes/No)");
+    },
+    function (session, results) {
+        session.send("You chose '%s'", results.response ? 'yes' : 'no');
+
+        if (results.response === 'no') {
+            session.dialogData.enterNamesForGuestlist(session)
+        }
+    }, 
+    function (session, results) {
+        builder.Prompts.confirm(session, "Great. Do you have a promoter code? (Yes/No)");
+    },
+    function (session, results) {
+        session.send(`We have received your guest list request for ${session.dialogData.event}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
     }
+]);
+
+bot.dialog('/book-table', [
+
+]);
+
+bot.dialog('buy-tickets', [
+
 ]);
 
 bot.dialog('/prompts', [
     function (session) {
-        session.send("Our Bot Builder SDK has a rich set of built-in prompts that simplify asking the user a series of questions. This demo will walk you through using each prompt. Just follow the prompts and you can quit at any time by saying 'cancel'.");
+        session.send("Our Bot Builder SDK has a rich set of built-in prompts that simplify asking the user a series of questions. This demo will walk you through using each prompt. Just follow the prompts and you can exit at any time by saying 'cancel'.");
         builder.Prompts.text(session, "Prompts.text()\n\nEnter some text and I'll say it back.");
     },
     function (session, results) {
