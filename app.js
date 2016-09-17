@@ -213,8 +213,9 @@ bot.dialog('/guest-list', [
                 break;
         }
 
-        session.userData[`${item}`] = session.userData[`${item}`] || {};
-        session.send(`Here are the events you can go to this week at ${item}`);
+        session.dialogData.venue = item;
+        session.userData[`${session.dialogData.venue}`] = session.userData[`${session.dialogData.venue}`] || {};
+        session.send(`Here are the events you can go to this week at ${session.dialogData.venue}`);
         // Ask the user to select an item from a carousel.
         var msg = new builder.Message(session)
             .textFormat(builder.TextFormat.xml)
@@ -290,7 +291,7 @@ bot.dialog('/guest-list', [
     function (session, results, next) {
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
-            session.beginDialog('/ensurePromoCode');
+            session.beginDialog('/ensurePromoCode', session.dialogData);
         } else {
             next();
         }
