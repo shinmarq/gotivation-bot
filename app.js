@@ -324,8 +324,12 @@ bot.dialog('/guest-list', [
         session.dialogData.enterNamesForGuestlist = arguments.callee;
     },
     function (session, results) {
-        var names = results.response.entity.split(',');
-        builder.Prompts.confirm(session, "You entered ${names}. Is this confirmed? (Yes/No)");
+        if (results.response) {
+            var names = results.response.split(',');
+            builder.Prompts.confirm(session, "You entered ${names}. Is this confirmed? (Yes/No)");
+        } else {
+            session.dialogData.enterNamesForGuestlist(session)
+        }
     },
     function (session, results) {
         session.send("You chose '%s'", results.response ? 'yes' : 'no');
