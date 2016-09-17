@@ -149,7 +149,7 @@ bot.dialog('/menu', [
 //     }
 // ]);
 
-bot.dialog('guest-list', [
+bot.dialog('/guest-list', [
     function (session) {
         session.send("Which venue would you like to get in the guest list for?");
         // Ask the user to select an item from a carousel.
