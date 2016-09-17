@@ -192,28 +192,6 @@ bot.dialog('/guest-list', [
             ]);
         builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
     },
-    // function (session, results) {
-    //     var action, item;
-    //     var kvPair = results.response.entity.split(':');
-    //     switch (kvPair[0]) {
-    //         case 'select':
-    //             action = 'selected';
-    //             break;
-    //     }
-    //     switch (kvPair[1]) {
-    //         case '100':
-    //             item = "the <b>Space Needle</b>";
-    //             break;
-    //         case '101':
-    //             item = "<b>Pikes Place Market</b>";
-    //             break;
-    //         case '102':
-    //             item = "the <b>EMP Museum</b>";
-    //             break;
-    //     }
-    //     // session.endDialog('You %s "%s"', action, item);
-    //     session.dialogData.venue = item;
-    // },
     function (session, results) {
 
         var action, item;
@@ -277,27 +255,6 @@ bot.dialog('/guest-list', [
             ]);
         builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
     },
-    // function (session, results) {
-    //     var action, item;
-    //     var kvPair = results.response.entity.split(':');
-    //     switch (kvPair[0]) {
-    //         case 'select':
-    //             action = 'selected';
-    //             break;
-    //     }
-    //     switch (kvPair[1]) {
-    //         case '100':
-    //             item = "the <b>Space Needle Event</b>";
-    //             break;
-    //         case '101':
-    //             item = "<b>Pikes Place Market Event</b>";
-    //             break;
-    //         case '102':
-    //             item = "the <b>EMP Museum Event</b>";
-    //             break;
-    //     }
-    //     session.dialogData.event = item;
-    // },
     function (session, results) {
         var action, item;
         var kvPair = results.response.entity.split(':');
@@ -318,30 +275,40 @@ bot.dialog('/guest-list', [
                 break;
         }
         session.dialogData.event = item;
-        
-        session.dialogData.enterNamesForGuestlist = function (session) {builder.Prompts.text(session, 'Please enter the names you would like to add in the guest list (separated by a comma).');};
-        session.dialogData.enterNamesForGuestlist(session);
+        session.beginDialog('/ensureParty');
     },
     function (session, results) {
+        session.dialogData.party = results;
+        // session.beginDialog('/ensurePromoCode');
+        next();
+    }, 
+    function (session, results) {
+        session.endDialog(`We have received your guest list request for ${session.dialogData.event} with ${session.dialogData.party}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
+    }
+]);
+
+bot.dialog('/ensureParty', [
+    function (session, args, next) {
+        // session.dialogData.party = args || [];
+        builder.Prompts.text(session, 'Please enter the names you would like to add in the guest list (separated by a comma):');
+    },
+    function (session, results, next) {
         if (results.response) {
-            var names = results.response.split(',');
-            builder.Prompts.confirm(session, `So ${names} will join you at ${session.dialogData.event}. Is this confirmed?`);
-        } else {
-            // todo: handle error
-        }
+            session.dialogData.party = results.response.split(',');
+            builder.Prompts.confirm(session, `So ${session.dialogData.party} will join you - is this confirmed?`);
+        } 
     },
     function (session, results) {
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
-            builder.Prompts.confirm(session, "Great. Do you have a promoter code?");
-        } else if (session.dialogData.enterNamesForGuestlist) {
-            session.dialogData.enterNamesForGuestlist(session);
+            session.endDialogWithResult({ response: session.dialogData.party });
+        } else {
+            session.replaceDialog('/ensureParty');
         }
-    }, 
-    function (session, results) {
-        session.send(`We have received your guest list request for ${session.dialogData.event}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
     }
 ]);
+
+bot.dialo
 
 bot.dialog('/book-table', [
 
