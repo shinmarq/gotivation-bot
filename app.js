@@ -213,6 +213,7 @@ bot.dialog('/guest-list', [
                 break;
         }
 
+        session.userData[`${item}`] = session.userData[`${item}`] || {};
         session.send(`Here are the events you can go to this week at ${item}`);
         // Ask the user to select an item from a carousel.
         var msg = new builder.Message(session)
