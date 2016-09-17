@@ -1,5 +1,5 @@
 var restify = require('restify');
-var builder = require('../../core/');
+var builder = require('botbuilder');
 
 //=========================================================
 // Bot Setup
