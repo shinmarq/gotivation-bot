@@ -171,10 +171,10 @@ bot.dialog('/guest-list', [
                     .title("Valkyrie")
                     .text("Description of Valkyrie.")
                     .images([
-                        builder.CardImage.create(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=\
-                        585FC3B0")
-                            .tap(builder.CardAction.showImage(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=\
-                            585FC3B0")),
+                        builder.CardImage.create(session, 
+                        "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")
+                            .tap(builder.CardAction.showImage(session, 
+                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                     ])
                     .buttons([
                         builder.CardAction.openUrl(session, "http://valkyrie.thepalacemanila.com", "Webpage"),
@@ -184,10 +184,10 @@ bot.dialog('/guest-list', [
                     .title("Revel")
                     .text("Description of Revel")
                     .images([
-                        builder.CardImage.create(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/12936646_769083589893653_1821227043396906639_n.jpg?oh=8e6011d47c7ce9457d66a1fd5191cd6c&oe=\
-                        586B47CA")
-                            .tap(builder.CardAction.showImage(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/12936646_769083589893653_1821227043396906639_n.jpg?oh=8e6011d47c7ce9457d66a1fd5191cd6c&oe=\
-                            586B47CA")),
+                        builder.CardImage.create(session, 
+                        "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/12936646_769083589893653_1821227043396906639_n.jpg?oh=8e6011d47c7ce9457d66a1fd5191cd6c&oe=586B47CA")
+                            .tap(builder.CardAction.showImage(session, 
+                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/12936646_769083589893653_1821227043396906639_n.jpg?oh=8e6011d47c7ce9457d66a1fd5191cd6c&oe=586B47CA")),
                     ])
                     .buttons([
                         builder.CardAction.openUrl(session, "http://revel.thepalacemanila.com", "Webpage"),
@@ -197,8 +197,10 @@ bot.dialog('/guest-list', [
                     .title("Pool Club")
                     .text("Description of Pool Club")
                     .images([
-                        builder.CardImage.create(session, "http://manilaclubbing.com/wp-content/uploads/the-palace-pool-club-manila.jpg")
-                            .tap(builder.CardAction.showImage(session, "http://manilaclubbing.com/wp-content/uploads/the-palace-pool-club-manila.jpg"))
+                        builder.CardImage.create(session, 
+                        "http://manilaclubbing.com/wp-content/uploads/the-palace-pool-club-manila.jpg")
+                            .tap(builder.CardAction.showImage(session, 
+                            "http://manilaclubbing.com/wp-content/uploads/the-palace-pool-club-manila.jpg"))
                     ])
                     .buttons([
                         builder.CardAction.openUrl(session, "http://poolclub.thepalacemanila.com", "Webpage"),
@@ -238,12 +240,12 @@ bot.dialog('/guest-list', [
             .attachments([
                 new builder.HeroCard(session)
                     .title("Thursday")
-                    .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
+                    .text("Thursday Event Description")
                     .images([
-                        builder.CardImage.create(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14495447_664615407032155_3623638486678869431_n.jpg?oh=de9fe103b07a1ae37771b2c129e44934&oe=\
-                        589F0A91")
-                            .tap(builder.CardAction.showImage(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14495447_664615407032155_3623638486678869431_n.jpg?oh=de9fe103b07a1ae37771b2c129e44934&oe=\
-                            589F0A91")),
+                        builder.CardImage.create(session, 
+                        "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14495447_664615407032155_3623638486678869431_n.jpg?oh=de9fe103b07a1ae37771b2c129e44934&oe=589F0A91")
+                            .tap(builder.CardAction.showImage(session, 
+                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14495447_664615407032155_3623638486678869431_n.jpg?oh=de9fe103b07a1ae37771b2c129e44934&oe=589F0A91")),
                     ])
                     .buttons([
                         // builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle", "Wikipedia"),
@@ -251,12 +253,12 @@ bot.dialog('/guest-list', [
                     ]),
                 new builder.HeroCard(session)
                     .title("Friday")
-                    .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
+                    .text("Friday Event Description")
                     .images([
-                        builder.CardImage.create(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=\
-                        5865458E")
-                            .tap(builder.CardAction.showImage(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=\
-                            5865458E")),
+                        builder.CardImage.create(session, 
+                        "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=5865458E")
+                            .tap(builder.CardAction.showImage(session, 
+                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=5865458E")),
                     ])
                     .buttons([
                         // builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market", "Wikipedia"),
@@ -264,12 +266,12 @@ bot.dialog('/guest-list', [
                     ]),
                 new builder.HeroCard(session)
                     .title("Saturday")
-                    .text("<b>EMP Musem</b> is a leading-edge nonprofit museum, dedicated to the ideas and risk-taking that fuel contemporary popular culture.")
+                    .text("Saturday Event Description")
                     .images([
-                        builder.CardImage.create(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=\
-                        5865458E")
-                            .tap(builder.CardAction.showImage(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=\
-                            5865458E"))
+                        builder.CardImage.create(session, 
+                        "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=5865458E")
+                            .tap(builder.CardAction.showImage(session, 
+                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=5865458E"))
                     ])
                     .buttons([
                         // builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/EMP_Museum", "Wikipedia"),
