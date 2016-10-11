@@ -583,7 +583,9 @@ bot.dialog('/ensure-table', [
 ]);
 
 bot.dialog('buy-tickets', [
-
+    function (session) {
+        session.endDialog("Buy your tickets here: https://smtickets.com/events/view/4944");
+    }
 ]);
 
 bot.dialog('/prompts', [
