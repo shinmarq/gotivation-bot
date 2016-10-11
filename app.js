@@ -3,13 +3,13 @@
 var restify = require('restify');
 var builder = require('botbuilder');
 var mongoose = require('mongoose');
+var Reply = require('reply');
 
 //=========================================================
 // Database Setup
 //=========================================================
 
 mongoose.connect(process.env.MONGODB_URI);
-
 
 //=========================================================
 // Bot Setup

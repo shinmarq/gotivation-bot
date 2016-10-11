@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 // schema
 var replySchema = new Schema({
-    intent: Stirng, 
+    intent: String, 
     entity: String,
     value: String    
 });
