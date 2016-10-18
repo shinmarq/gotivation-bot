@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "async": "^2.1.2",
-    "partybot-http-client": "0.0.1-beta-12"
+    "botbuilder": "^3.3.2",
+    "partybot-http-client": "0.0.1-beta-12",
+    "restify": "^4.1.1"
   }
 }
