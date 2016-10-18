@@ -4,6 +4,7 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var mongoose = require('mongoose');
 var async = require('async');
+var _ = require('underscode');
 var partyBot = require('partybot-http-client');
 // var Reply = require('reply');
 var ORGANISATION_ID =  "5800471acb97300011c68cf7";
