@@ -4,7 +4,8 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var mongoose = require('mongoose');
 // var Reply = require('reply');
-
+const ORGANISATION_ID =  "5800471acb97300011c68cf7";
+const VENUE_ID = "5800889684555e0011585f3c";
 //=========================================================
 // Database Setup
 //=========================================================
