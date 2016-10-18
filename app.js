@@ -3,9 +3,11 @@
 var restify = require('restify');
 var builder = require('botbuilder');
 var mongoose = require('mongoose');
+var async = require('async');
+var partyBot = require('partybot-http-client');
 // var Reply = require('reply');
-const ORGANISATION_ID =  "5800471acb97300011c68cf7";
-const VENUE_ID = "5800889684555e0011585f3c";
+var ORGANISATION_ID =  "5800471acb97300011c68cf7";
+var VENUE_ID = "5800889684555e0011585f3c";
 //=========================================================
 // Database Setup
 //=========================================================
@@ -585,7 +587,64 @@ bot.dialog('/ensure-table', [
 
 bot.dialog('/buy-tickets', [
     function (session) {
-        session.endDialog("Buy your tickets here: https://smtickets.com/events/view/4944");
+        var getTicketParams = {
+            organisationId: ORGANISATION_ID,
+            venueId: VENUE_ID,
+            tags: 'ticket'
+        };
+
+        var msg = new builder.Message(session);
+        async.waterfall([
+            async.apply(getTickets, getTicketParams, msg),
+            formatBody,
+            sendMessage
+            ],
+            function(err, msg, selectString) {
+                session.send("Pick a Ticket");
+                builder.Prompts.choice(session, msg, selectString);
+                
+            });
+        function getTickets(getTicketParams, msg, callback) {
+            partyBot.products.getProducts(getTicketParams, function(err, res, body) {
+                if(!err && res.statusCode == 200) {
+                    callback(null, body, msg);
+                } else {
+                    callback(body, res.statusCode);
+                }
+            });
+        }
+
+        function formatBody(body, msg, callback) {
+            var attachments = [];
+            var selectString = [];
+            body.forEach(function(value, index) {
+                selectString.push('select:'+value._id);
+                attachments.push(
+                    new builder.HeroCard(session)
+                    .title(value.name)
+                    .text(value.description)
+                    .images([
+                        builder.CardImage.create(session, value.image || 
+                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
+                        .tap(builder.CardAction.showImage(session, 
+                            value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
+                        ])
+                    .buttons([
+                        builder.CardAction.openUrl(session, value.ticket_url || "httphttps://smtickets.com/events/view/4944", "Webpage"),
+                        builder.CardAction.imBack(session, "select:"+value._id, "Select")
+                        ])
+                    );
+            });
+            callback(null, msg, attachments, selectString);
+        }
+        
+        function sendMessage(msg, attachments, selectString, callback) {
+            msg
+            .textFormat(builder.TextFormat.xml)
+            .attachmentLayout(builder.AttachmentLayout.carousel)
+            .attachments(attachments);
+            callback(null, msg, selectString);
+        }        
     }
 ]);
 

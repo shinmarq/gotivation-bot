@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "console": "./node_modules/.bin/nodemon console.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/jslint ./app.js"
   },
   "repository": {
     "type": "git",
@@ -15,6 +15,7 @@
   "author": "JC Velasquez",
   "license": "MIT",
   "devDependencies": {
+    "jslint": "^0.10.3",
     "nodemon": "^1.11.0"
   },
   "dependencies": {
