@@ -33,7 +33,7 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 server.get('/webhook', function (req, res) {
-    if (req.query['hub.verify_token'] === 'Partybot.Rocks') {
+    if (req.query['hub.verify_token'] === 'Partybot_Rocks') {
       res.send(req.query['hub.challenge']);
   } else {
       res.send('Error, wrong validation token');    
