@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "console": "./node_modules/.bin/nodemon console.js",
+    "dev": "./node_modules/.bin/nodemon app.js",
     "test": "./node_modules/.bin/jslint ./app.js"
   },
   "repository": {
@@ -22,6 +23,7 @@
     "async": "^2.1.2",
     "botbuilder": "^3.3.2",
     "partybot-http-client": "0.0.1-beta-12",
+    "request": "^2.75.0",
     "restify": "^4.1.1",
     "underscore": "^1.8.3"
   }

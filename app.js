@@ -7,8 +7,10 @@ var async = require('async');
 var _ = require('underscore');
 var partyBot = require('partybot-http-client');
 // var Reply = require('reply');
+var request = require('request');
 var ORGANISATION_ID =  "5800471acb97300011c68cf7";
 var VENUE_ID = "5800889684555e0011585f3c";
+var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW5xbDstkCOq8TR8ZBNsJfwHjeaUsxZBaYESyxGew1BrzkippXM8vIFHeDbvraHw59Xj4QNrrZBpreBkE7cJ1SGTIPjcBXq4e3CedZBHU6wJV3ZCfARxAZAeR438gZDZD";
 //=========================================================
 // Database Setup
 //=========================================================
@@ -22,6 +24,7 @@ var VENUE_ID = "5800889684555e0011585f3c";
 // Setup Restify Server
 var server = restify.createServer();
 server.use(restify.queryParser());
+server.use(restify.bodyParser());
 server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
@@ -40,6 +43,33 @@ server.get('/webhook', function (req, res) {
     } else {
         res.send('Error, wrong validation token');    
     }
+});
+// handler receiving messages
+server.post('/webhook', function (req, res) {
+    var events = req.body.entry[0].messaging, i = 0, event, payload, recipientID;
+    for (i = 0; i < events.length; i += 1) {
+        event = events[i];
+        recipientID = event.sender.id;
+
+        if (event.message) {
+            var options = {
+                method: 'post',
+                body: { recipient: { id: recipientID }, message: { text: `Welcome to the Official The Palace Messenger Bot!\n
+The Palace Bot: What can I do for you?\n
+ 1. Guest List\n
+2. Book a Table\n
+3. Buy Tickets\n
+4. exit` } },
+                json: true,
+                url: 'https://graph.facebook.com/v2.6/me/messages?access_token='+FBPAGE_ACCESS_TOKEN
+            }
+            request.post(options, function(err, res, body) {
+            });
+        }
+    }
+
+    res.send(200);
+
 });
 //=========================================================
 // Activity Events
