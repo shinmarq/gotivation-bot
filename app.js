@@ -35,6 +35,7 @@ var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 server.get('/webhook', function (req, res) {
     if (req.params.hub.verify_token === 'partybot_rocks') {
+        res.header('Content-Type', 'text/plain');
         res.send(req.params.hub.challenge);
     } else {
         res.send('Error, wrong validation token');    
