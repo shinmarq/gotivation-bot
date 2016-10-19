@@ -2,7 +2,7 @@
 
 var restify = require('restify');
 var builder = require('botbuilder');
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
 var partyBot = require('partybot-http-client');
@@ -13,7 +13,7 @@ var VENUE_ID = "5800889684555e0011585f3c";
 // Database Setup
 //=========================================================
 
-mongoose.connect(process.env.MONGODB_URI);
+// mongoose.connect(process.env.MONGODB_URI);
 
 //=========================================================
 // Bot Setup
@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGODB_URI);
 
 // Setup Restify Server
 var server = restify.createServer();
+server.use(restify.queryParser());
 server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
@@ -33,11 +34,11 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 server.get('/webhook', function (req, res) {
-    if (req.query['hub.verify_token'] === 'Partybot_Rocks') {
-      res.send(req.query['hub.challenge']);
-  } else {
-      res.send('Error, wrong validation token');    
-  }
+    if (req.params.hub.verify_token === 'partybot_rocks') {
+        res.send(req.params.hub.challenge);
+    } else {
+        res.send('Error, wrong validation token');    
+    }
 });
 //=========================================================
 // Activity Events
