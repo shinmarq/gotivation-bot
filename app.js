@@ -29,6 +29,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
   
+var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=c68f9c94-cf14-4d3b-a338-2b425be37e5b&subscription-key=e36241e8e5584d638fefb6302a0c6c86&q=';
+var recognizer = new builder.LuisRecognizer(model);
+var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
+
 // Create chat bot
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
@@ -36,7 +40,7 @@ var connector = new builder.ChatConnector({
 });
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
-server.get('/webhook', function (req, res) {
+server.get('/api/messages', function (req, res) {
     if (req.params.hub.verify_token === 'partybot_rocks') {
         res.header('Content-Type', 'text/plain');
         res.send(req.params.hub.challenge);
@@ -45,32 +49,6 @@ server.get('/webhook', function (req, res) {
     }
 });
 // handler receiving messages
-server.post('/webhook', function (req, res) {
-    var events = req.body.entry[0].messaging, i = 0, event, payload, recipientID;
-    for (i = 0; i < events.length; i += 1) {
-        event = events[i];
-        recipientID = event.sender.id;
-
-        if (event.message) {
-            var options = {
-                method: 'post',
-                body: { recipient: { id: recipientID }, message: { text: `Welcome to the Official The Palace Messenger Bot!\n
-The Palace Bot: What can I do for you?\n
- 1. Guest List\n
-2. Book a Table\n
-3. Buy Tickets\n
-4. exit` } },
-                json: true,
-                url: 'https://graph.facebook.com/v2.6/me/messages?access_token='+FBPAGE_ACCESS_TOKEN
-            }
-            request.post(options, function(err, res, body) {
-            });
-        }
-    }
-
-    res.send(200);
-
-});
 //=========================================================
 // Activity Events
 //=========================================================
