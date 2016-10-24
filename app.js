@@ -2,21 +2,18 @@
 
 var restify = require('restify');
 var builder = require('botbuilder');
-<<<<<<< HEAD
+
 var mongoose = require('mongoose');
 var Reply = require('./models/reply');
 
-=======
-// var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
 var partyBot = require('partybot-http-client');
-// var Reply = require('reply');
 var request = require('request');
 var ORGANISATION_ID =  "5800471acb97300011c68cf7";
 var VENUE_ID = "5800889684555e0011585f3c";
 var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW5xbDstkCOq8TR8ZBNsJfwHjeaUsxZBaYESyxGew1BrzkippXM8vIFHeDbvraHw59Xj4QNrrZBpreBkE7cJ1SGTIPjcBXq4e3CedZBHU6wJV3ZCfARxAZAeR438gZDZD";
->>>>>>> df5c41fa343dee6e497a1465b0a133f0f1988ff5
+
 //=========================================================
 // Database Setup
 //=========================================================
