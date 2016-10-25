@@ -129,7 +129,7 @@ bot.dialog('/', intentDialog);
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|exit", { maxRetries: 0 });
+        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|exit", { maxRetries: 0, promptAfterAction: false });
     },
     function (session, results) {
         console.log('response entity : ' + results.response.entity);
