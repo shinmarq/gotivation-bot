@@ -129,7 +129,7 @@ bot.dialog('/', intentDialog);
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|exit", { maxRetries: 0, promptAfterAction: false });
+        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|Cancel");
     },
     function (session, results) {
         var resultsJSONString = JSON.stringify(results);
@@ -148,16 +148,12 @@ bot.dialog('/menu', [
                 case 'Buy Tickets':
                     session.beginDialog('/buy-tickets');
                     break;
-                case 'exit':
+                case 'Cancel':
                     session.endDialog();
-                    break;  
-                default:
-                    console.log("check default");
                     break;
             } 
-        }
-        else {
-            intentDialog.recognize(session);
+        } else {
+            session.endDialog();
         }
     },
     function (session, results) {
@@ -896,3 +892,5 @@ intentDialog.onDefault([
         session.beginDialog('/menu');
     }
 ]);
+
+intentDialog.onBegin(func)
