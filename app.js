@@ -128,28 +128,28 @@ bot.beginDialogAction('help', '/help', { matches: /^help/i });
 
 bot.dialog('/', intentDialog);//[
 //     intentDialog,
-//     function (session) {
-//         // Send a greeting and show the menu.
-//         var card = new builder.HeroCard(session)
-//         // todo: change to venue.model
-//             .title("The Palace Bot")
-//             .text("Official Bot of The Palace Manila")
-//             .images([
-//                  builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
-//             ]);
-//         var msg = new builder.Message(session).attachments([card]);
-//         session.send(msg);
-//         session.send("Welcome to the Official The Palace Messenger Bot!");
-//         session.beginDialog('/menu');
-//     },
-//     function (session, results) {
-//         // Display menu
-//         session.beginDialog('/menu');
-//     },
-//     function (session, results) {
-//         // Always say goodbye
-//         session.send("See you at The Palace!");
-//     }
+    // function (session) {
+    //     // Send a greeting and show the menu.
+    //     var card = new builder.HeroCard(session)
+    //     // todo: change to venue.model
+    //         .title("The Palace Bot")
+    //         .text("Official Bot of The Palace Manila")
+    //         .images([
+    //              builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
+    //         ]);
+    //     var msg = new builder.Message(session).attachments([card]);
+    //     session.send(msg);
+    //     session.send("Welcome to the Official The Palace Messenger Bot!");
+    //     session.beginDialog('/menu');
+    // },
+    // function (session, results) {
+    //     // Display menu
+    //     session.beginDialog('/menu');
+    // },
+    // function (session, results) {
+    //     // Always say goodbye
+    //     session.send("See you at The Palace!");
+    // }
 // ]);
 
 bot.dialog('/menu', [
@@ -856,7 +856,30 @@ intentDialog.matches('AskSomething', [
     }
 ]);
 
-intentDialog.onDefault('/menu');
+intentDialog.onDefault([
+    function (session) {
+        // Send a greeting and show the menu.
+        var card = new builder.HeroCard(session)
+        // todo: change to venue.model
+            .title("The Palace Bot")
+            .text("Official Bot of The Palace Manila")
+            .images([
+                 builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
+            ]);
+        var msg = new builder.Message(session).attachments([card]);
+        session.send(msg);
+        session.send("Welcome to the Official The Palace Messenger Bot!");
+        session.beginDialog('/menu');
+    },
+    function (session, results) {
+        // Display menu
+        session.beginDialog('/menu');
+    },
+    function (session, results) {
+        // Always say goodbye
+        session.send("See you at The Palace!");
+    }
+]);
 
 // function getReply(message) {
 //     var predicate = {};
