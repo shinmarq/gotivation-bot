@@ -135,7 +135,7 @@ bot.dialog('/menu', [
         var resultsJSONString = JSON.stringify(results);
         console.log(`results JSON: ${resultsJSONString}`);
 
-        if (results.error) { session.beginDialog('/' + session.message); }
+        if (results.error) { session.beginDialog('/' + session.message.text); }
         
         if (results.response) 
         {
@@ -161,7 +161,7 @@ bot.dialog('/menu', [
         }
         else {
             console.log("check default else");
-            session.beginDialog('/' + session.message);
+            session.beginDialog('/' + session.message.text);
         }
     },
     function (session, results) {
