@@ -123,31 +123,31 @@ bot.beginDialogAction('help', '/help', { matches: /^help/i });
 // Bots Dialogs
 //=========================================================
 
-bot.dialog('/', [
-    intentDialog,
-    function (session) {
-        // Send a greeting and show the menu.
-        var card = new builder.HeroCard(session)
-        // todo: change to venue.model
-            .title("The Palace Bot")
-            .text("Official Bot of The Palace Manila")
-            .images([
-                 builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
-            ]);
-        var msg = new builder.Message(session).attachments([card]);
-        session.send(msg);
-        session.send("Welcome to the Official The Palace Messenger Bot!");
-        session.beginDialog('/menu');
-    },
-    function (session, results) {
-        // Display menu
-        session.beginDialog('/menu');
-    },
-    function (session, results) {
-        // Always say goodbye
-        session.send("See you at The Palace!");
-    }
-]);
+bot.dialog('/', intentDialog);//[
+//     intentDialog,
+//     function (session) {
+//         // Send a greeting and show the menu.
+//         var card = new builder.HeroCard(session)
+//         // todo: change to venue.model
+//             .title("The Palace Bot")
+//             .text("Official Bot of The Palace Manila")
+//             .images([
+//                  builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
+//             ]);
+//         var msg = new builder.Message(session).attachments([card]);
+//         session.send(msg);
+//         session.send("Welcome to the Official The Palace Messenger Bot!");
+//         session.beginDialog('/menu');
+//     },
+//     function (session, results) {
+//         // Display menu
+//         session.beginDialog('/menu');
+//     },
+//     function (session, results) {
+//         // Always say goodbye
+//         session.send("See you at The Palace!");
+//     }
+// ]);
 
 bot.dialog('/menu', [
     function (session) {
@@ -755,201 +755,6 @@ bot.dialog('/book-table', [
             callback(null, msgString);
         }
     }
-    // function (session) {
-    //     session.send('Which venue would you like to book a table at?');
-    //     // Ask the user to select an item from a carousel.
-    //     var msg = new builder.Message(session)
-    //         .textFormat(builder.TextFormat.xml)
-    //         .attachmentLayout(builder.AttachmentLayout.carousel)
-    //         .attachments([
-    //             new builder.HeroCard(session)
-    //                 .title("Space Needle")
-    //                 .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
-    //                 .images([
-    //                     builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/320px-Seattlenighttimequeenanne.jpg")
-    //                         .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/800px-Seattlenighttimequeenanne.jpg")),
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:100", "Select")
-    //                 ]),
-    //             new builder.HeroCard(session)
-    //                 .title("Pikes Place Market")
-    //                 .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
-    //                 .images([
-    //                     builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/320px-PikePlaceMarket.jpg")
-    //                         .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/800px-PikePlaceMarket.jpg")),
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:101", "Select")
-    //                 ]),
-    //             new builder.HeroCard(session)
-    //                 .title("EMP Museum")
-    //                 .text("<b>EMP Musem</b> is a leading-edge nonprofit museum, dedicated to the ideas and risk-taking that fuel contemporary popular culture.")
-    //                 .images([
-    //                     builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/320px-Night_Exterior_EMP.jpg")
-    //                         .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/800px-Night_Exterior_EMP.jpg"))
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/EMP_Museum", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:102", "Select")
-    //                 ])
-    //         ]);
-    //     builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
-    // },
-    // function (session, results) {
-    //     var action, item;
-    //     var kvPair = results.response.entity.split(':');
-    //     switch (kvPair[0]) {
-    //         case 'select':
-    //             action = 'selected';
-    //             break;
-    //     }
-    //     switch (kvPair[1]) {
-    //         case '100':
-    //             item = "the <b>Space Needle Event</b>";
-    //             break;
-    //         case '101':
-    //             item = "<b>Pikes Place Market Event</b>";
-    //             break;
-    //         case '102':
-    //             item = "the <b>EMP Museum Event</b>";
-    //             break;
-    //     }
-        
-    //     var venue = session.dialogData.venue = item;
-    //     session.userData[`${venue}`] = session.userData[`${venue}`] || {};
-    //     session.send(`Here are the events you can go to this week at ${venue}. When would you like to reserve a table?`);
-    //     // Ask the user to select an item from a carousel.
-    //     var msg = new builder.Message(session)
-    //         .textFormat(builder.TextFormat.xml)
-    //         .attachmentLayout(builder.AttachmentLayout.carousel)
-    //         .attachments([
-    //             new builder.HeroCard(session)
-    //                 .title("Space Needle")
-    //                 .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
-    //                 .images([
-    //                     builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/320px-Seattlenighttimequeenanne.jpg")
-    //                         .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/800px-Seattlenighttimequeenanne.jpg")),
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:100", "Select")
-    //                 ]),
-    //             new builder.HeroCard(session)
-    //                 .title("Pikes Place Market")
-    //                 .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
-    //                 .images([
-    //                     builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/320px-PikePlaceMarket.jpg")
-    //                         .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/800px-PikePlaceMarket.jpg")),
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:101", "Select")
-    //                 ]),
-    //             new builder.HeroCard(session)
-    //                 .title("EMP Museum")
-    //                 .text("<b>EMP Musem</b> is a leading-edge nonprofit museum, dedicated to the ideas and risk-taking that fuel contemporary popular culture.")
-    //                 .images([
-    //                     builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/320px-Night_Exterior_EMP.jpg")
-    //                         .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/800px-Night_Exterior_EMP.jpg"))
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/EMP_Museum", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:102", "Select")
-    //                 ])
-    //         ]);
-    //     builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
-    // },
-    // function (session, results) {
-    //     var action, item;
-    //     var kvPair = results.response.entity.split(':');
-    //     switch (kvPair[0]) {
-    //         case 'select':
-    //             action = 'selected';
-    //             break;
-    //     }
-    //     switch (kvPair[1]) {
-    //         case '100':
-    //             item = "the <b>Space Needle Event</b>";
-    //             break;
-    //         case '101':
-    //             item = "<b>Pikes Place Market Event</b>";
-    //             break;
-    //         case '102':
-    //             item = "the <b>EMP Museum Event</b>";
-    //             break;
-    //     }
-        
-    //     var event = session.dialogData.event = item;
-
-    //     session.send(`Great! Which table do you prefer?`);
-    //     // Ask the user to select an item from a carousel.
-    //     var msg = new builder.Message(session)
-    //         .textFormat(builder.TextFormat.xml)
-    //         .attachmentLayout(builder.AttachmentLayout.carousel)
-    //         .attachments([
-    //             new builder.HeroCard(session)
-    //                 .title("Space Needle")
-    //                 .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
-    //                 .images([
-    //                     builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/320px-Seattlenighttimequeenanne.jpg")
-    //                         .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/800px-Seattlenighttimequeenanne.jpg")),
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:100", "Select")
-    //                 ]),
-    //             new builder.HeroCard(session)
-    //                 .title("Pikes Place Market")
-    //                 .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
-    //                 .images([
-    //                     builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/320px-PikePlaceMarket.jpg")
-    //                         .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/800px-PikePlaceMarket.jpg")),
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:101", "Select")
-    //                 ]),
-    //             new builder.HeroCard(session)
-    //                 .title("EMP Museum")
-    //                 .text("<b>EMP Musem</b> is a leading-edge nonprofit museum, dedicated to the ideas and risk-taking that fuel contemporary popular culture.")
-    //                 .images([
-    //                     builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/320px-Night_Exterior_EMP.jpg")
-    //                         .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/800px-Night_Exterior_EMP.jpg"))
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/EMP_Museum", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:102", "Select")
-    //                 ])
-    //         ]);
-    //     builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
-    // },
-    // function (session, results) {
-    //     var action, item;
-    //     var kvPair = results.response.entity.split(':');
-    //     switch (kvPair[0]) {
-    //         case 'select':
-    //             action = 'selected';
-    //             break;
-    //     }
-    //     switch (kvPair[1]) {
-    //         case '100':
-    //             item = "the <b>Space Needle Event</b>";
-    //             break;
-    //         case '101':
-    //             item = "<b>Pikes Place Market Event</b>";
-    //             break;
-    //         case '102':
-    //             item = "the <b>EMP Museum Event</b>";
-    //             break;
-    //     }
-
-    //     var table = session.dialogData.table = item;
-    //     session.beginDialog('/ensure-table', session.dialogData.table);
-    // },
-
 ]);
 
 bot.dialog('/ensure-table', [
@@ -1048,17 +853,17 @@ intentDialog.matches('AskSomething', [
 
 intentDialog.onDefault(builder.DialogAction.send("Cannot understand."));
 
-function getReply(message) {
-    var predicate = {};
-    if (_.has(message, intent)) predicate.intent = message.intent;
-    // todo: change to in
-    if (_.has(message, entities)) predicate.entities = message.entities;
+// function getReply(message) {
+//     var predicate = {};
+//     if (_.has(message, intent)) predicate.intent = message.intent;
+//     // todo: change to in
+//     if (_.has(message, entities)) predicate.entities = message.entities;
 
-    Reply.find(predicate, function(err, results) {
-        if (results.length > 0) {
-            return results[0];
-        } else {
-            return false;
-        }
-    });
-}
+//     Reply.find(predicate, function(err, results) {
+//         if (results.length > 0) {
+//             return results[0];
+//         } else {
+//             return false;
+//         }
+//     });
+// }
