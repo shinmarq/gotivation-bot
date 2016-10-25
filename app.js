@@ -174,6 +174,7 @@ bot.dialog('/menu', [
                     session.endDialog();
                     break;  
                 default:
+                console.log("check default");
                     session.beginDialog('/' + results.response.entity);
                     break;
             } 
