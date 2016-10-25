@@ -57,7 +57,7 @@ var recognizer = new builder.LuisRecognizer(model)
 var intentDialog = new builder.IntentDialog({ 
     recognizers: [recognizer], 
     intentThreshold: 0.5, 
-    recognizeMode: builder.RecognizeMode.onBeginIfRoot });
+    recognizeMode: builder.RecognizeMode.onBegin });
 
 //=========================================================
 // Activity Events
