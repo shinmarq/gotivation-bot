@@ -129,7 +129,9 @@ bot.dialog('/', intentDialog);
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|Cancel");
+        var retryMessage = new builder.Message(session);
+        retryMessage.text = "Please select one of the choices.";
+        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|Cancel", { retryPrompt: 'Please select one of the choices.'});
     },
     function (session, results) {
         var resultsJSONString = JSON.stringify(results);
