@@ -892,5 +892,3 @@ intentDialog.onDefault([
         session.beginDialog('/menu');
     }
 ]);
-
-intentDialog.onBegin(func)
