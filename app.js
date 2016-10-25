@@ -1046,7 +1046,7 @@ intentDialog.matches('AskSomething', [
     }
 ]);
 
-intentDialog.onDefault('/menu');
+intentDialog.onDefault(builder.DialogAction.send("Cannot understand."));
 
 function getReply(message) {
     var predicate = {};
