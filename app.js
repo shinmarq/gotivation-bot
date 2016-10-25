@@ -2,7 +2,6 @@
 
 var restify = require('restify');
 var builder = require('botbuilder');
-// var mongoose = require('mongoose');
 
 var async = require('async');
 var _ = require('underscore');
@@ -52,7 +51,8 @@ server.get('/api/messages', function (req, res) {
 //=========================================================
 
 // Create LUIS recognizer that points at our model and add it as the root '/' dialog for our Cortana Bot.
-var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=6c4a0d3e-41ff-4800-9ec7-8fd206ee41e8&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
+var model = process.env.model || 
+'https://api.projectoxford.ai/luis/v1/application?id=6c4a0d3e-41ff-4800-9ec7-8fd206ee41e8&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
 var recognizer = new builder.LuisRecognizer(model)
 var intentDialog = new builder.IntentDialog({ 
     recognizers: [recognizer], 
@@ -132,6 +132,9 @@ bot.dialog('/menu', [
         builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|exit", { maxRetries: 0, promptAfterAction: false });
     },
     function (session, results) {
+        var resultsJSONString = JSON.stringify(results);
+        console.log(`results JSON: ${resultsJSONString}`);
+
         if (results.error) { session.beginDialog('/' + session.message); }
         
         if (results.response) 
