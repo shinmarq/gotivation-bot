@@ -839,14 +839,15 @@ bot.dialog('/buy-tickets', [
 
 intentDialog.matches('Greet', [ 
     function (session, args, next) {
-        session.send("Greet intent detected.");
+
+        session.send(`Greet intent detected. ${args}.`);
         next();
     }
 ]);
 
 intentDialog.matches('AskSomething', [ 
     function (session, args, next) {
-        session.send("AskSomething intent detected.");
+        session.send(`AskSomething intent detected. ${args}.`);
         next();
     }
 ]);
