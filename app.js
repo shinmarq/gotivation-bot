@@ -161,7 +161,7 @@ bot.dialog('/menu', [
         }
         else {
             console.log("check default else");
-            session.beginDialog('/' + results.response.entity);
+            session.beginDialog('/' + session.message);
         }
     },
     function (session, results) {
