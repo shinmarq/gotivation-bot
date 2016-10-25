@@ -173,6 +173,9 @@ bot.dialog('/menu', [
                 case 'exit':
                     session.endDialog();
                     break;  
+                default:
+                    session.beginDialog('/' + results.response.entity);
+                    break;
             } 
         }
     },
