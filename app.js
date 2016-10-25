@@ -917,7 +917,7 @@ intentDialog.onDefault([
         var msg = new builder.Message(session).attachments([card]);
         session.send(msg);
         session.send("Welcome to the Official The Palace Messenger Bot!");
-        session.endDialog('/menu');
+        session.beginDialog('/menu');
     }//,
     // function (session, results) {
     //     // Display menu
