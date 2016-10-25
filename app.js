@@ -856,6 +856,46 @@ intentDialog.matches('AskSomething', [
     }
 ]);
 
+intentDialog.matches('Appreciate', [ 
+    function (session, args, next) {
+        var argsJSONString = JSON.stringify(args);
+        session.send(`Appreciate intent detected. ${argsJSONString}`);
+        next();
+    }
+]);
+
+intentDialog.matches('Confirm', [ 
+    function (session, args, next) {
+        var argsJSONString = JSON.stringify(args);
+        session.send(`Confirm intent detected. ${argsJSONString}`);
+        next();
+    }
+]);
+
+intentDialog.matches('Negative', [ 
+    function (session, args, next) {
+        var argsJSONString = JSON.stringify(args);
+        session.send(`Negative intent detected. ${argsJSONString}`);
+        next();
+    }
+]);
+
+intentDialog.matches('Curse', [ 
+    function (session, args, next) {
+        var argsJSONString = JSON.stringify(args);
+        session.send(`Curse intent detected. ${argsJSONString}`);
+        next();
+    }
+]);
+
+intentDialog.matches('Leave', [ 
+    function (session, args, next) {
+        var argsJSONString = JSON.stringify(args);
+        session.send(`Leave intent detected. ${argsJSONString}`);
+        next();
+    }
+]);
+
 intentDialog.onDefault([
     function (session) {
         // Send a greeting and show the menu.
