@@ -1036,6 +1036,14 @@ bot.dialog('/buy-tickets', [
 dialog.matches('Greet', [ 
     function (session, args, next) {
         session.send("Greet intent detected.");
+        next();
+    }
+]);
+
+dialog.matches('AskSomething', [ 
+    function (session, args, next) {
+        session.send("AskSomething intent detected.");
+        next();
     }
 ]);
 
