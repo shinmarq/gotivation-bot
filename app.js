@@ -127,7 +127,6 @@ bot.beginDialogAction('help', '/help', { matches: /^help/i });
 //=========================================================
 
 bot.dialog('/', intentDialog);//[
-//     intentDialog,
     // function (session) {
     //     // Send a greeting and show the menu.
     //     var card = new builder.HeroCard(session)
@@ -918,16 +917,16 @@ intentDialog.onDefault([
         var msg = new builder.Message(session).attachments([card]);
         session.send(msg);
         session.send("Welcome to the Official The Palace Messenger Bot!");
-        session.beginDialog('/menu');
-    },
-    function (session, results) {
-        // Display menu
-        session.beginDialog('/menu');
-    },
-    function (session, results) {
-        // Always say goodbye
-        session.send("See you at The Palace!");
-    }
+        session.endDialog('/menu');
+    }//,
+    // function (session, results) {
+    //     // Display menu
+    //     session.beginDialog('/menu');
+    // },
+    // function (session, results) {
+    //     // Always say goodbye
+    //     session.send("See you at The Palace!");
+    // }
 ]);
 
 // function getReply(message) {
