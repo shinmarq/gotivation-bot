@@ -132,7 +132,8 @@ bot.dialog('/menu', [
         builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|exit", { maxRetries: 0, promptAfterAction: false });
     },
     function (session, results) {
-        console.log('response entity : ' + results.response.entity);
+        if (results.error) { session.beginDialog('/' + session.message); }
+        
         if (results.response) 
         {
             switch (results.response.entity)
