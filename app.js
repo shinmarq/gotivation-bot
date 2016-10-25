@@ -174,10 +174,14 @@ bot.dialog('/menu', [
                     session.endDialog();
                     break;  
                 default:
-                console.log("check default");
+                    console.log("check default");
                     session.beginDialog('/' + results.response.entity);
                     break;
             } 
+        }
+        else {
+            console.log("check default else");
+            session.beginDialog('/' + results.response.entity);
         }
     },
     function (session, results) {
