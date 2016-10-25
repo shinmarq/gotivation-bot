@@ -120,40 +120,16 @@ bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i
 //=========================================================
 
 bot.endConversationAction('goodbye', 'Goodbye :)', { matches: /^goodbye/i });
-bot.beginDialogAction('help', '/help', { matches: /^help/i });
 
 //=========================================================
 // Bots Dialogs
 //=========================================================
 
-bot.dialog('/', intentDialog);//[
-    // function (session) {
-    //     // Send a greeting and show the menu.
-    //     var card = new builder.HeroCard(session)
-    //     // todo: change to venue.model
-    //         .title("The Palace Bot")
-    //         .text("Official Bot of The Palace Manila")
-    //         .images([
-    //              builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
-    //         ]);
-    //     var msg = new builder.Message(session).attachments([card]);
-    //     session.send(msg);
-    //     session.send("Welcome to the Official The Palace Messenger Bot!");
-    //     session.beginDialog('/menu');
-    // },
-    // function (session, results) {
-    //     // Display menu
-    //     session.beginDialog('/menu');
-    // },
-    // function (session, results) {
-    //     // Always say goodbye
-    //     session.send("See you at The Palace!");
-    // }
-// ]);
+bot.dialog('/', intentDialog);
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|exit");
+        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|exit", { maxRetries: 0 });
     },
     function (session, results) {
         console.log('response entity : ' + results.response.entity);
@@ -918,28 +894,5 @@ intentDialog.onDefault([
         session.send(msg);
         session.send("Welcome to the Official The Palace Messenger Bot!");
         session.beginDialog('/menu');
-    }//,
-    // function (session, results) {
-    //     // Display menu
-    //     session.beginDialog('/menu');
-    // },
-    // function (session, results) {
-    //     // Always say goodbye
-    //     session.send("See you at The Palace!");
-    // }
+    }
 ]);
-
-// function getReply(message) {
-//     var predicate = {};
-//     if (_.has(message, intent)) predicate.intent = message.intent;
-//     // todo: change to in
-//     if (_.has(message, entities)) predicate.entities = message.entities;
-
-//     Reply.find(predicate, function(err, results) {
-//         if (results.length > 0) {
-//             return results[0];
-//         } else {
-//             return false;
-//         }
-//     });
-// }
