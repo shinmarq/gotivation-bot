@@ -2,13 +2,13 @@
 
 var restify = require('restify');
 var builder = require('botbuilder');
-
 var mongoose = require('mongoose');
 var Reply = require('./models/reply');
 
 var async = require('async');
 var _ = require('underscore');
 var partyBot = require('partybot-http-client');
+
 var request = require('request');
 var ORGANISATION_ID =  "5800471acb97300011c68cf7";
 var VENUE_ID = "5800889684555e0011585f3c";
@@ -18,7 +18,7 @@ var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW
 // Database Setup
 //=========================================================
 
-// mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI);
 
 //=========================================================
 // Bot Setup
@@ -32,10 +32,6 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
   
-var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=c68f9c94-cf14-4d3b-a338-2b425be37e5b&subscription-key=e36241e8e5584d638fefb6302a0c6c86&q=';
-var recognizer = new builder.LuisRecognizer(model);
-var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
-
 // Create chat bot
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
@@ -51,7 +47,7 @@ server.get('/api/messages', function (req, res) {
         res.send('Error, wrong validation token');    
     }
 });
-// handler receiving messages
+
 //=========================================================
 // AI Setup
 //=========================================================
@@ -59,7 +55,7 @@ server.get('/api/messages', function (req, res) {
 var model = process.env.model || '<conversational model url>';
 var recognizer = new builder.LuisRecognizer(model);
 var intentDialog = new builder.intentDialog( { recognizers: [recognizer] } );
-// bot.dialog('/', intentDialog);
+bot.dialog('/', intentDialog);
 
 //=========================================================
 // Activity Events
@@ -1033,7 +1029,16 @@ bot.dialog('/buy-tickets', [
     }
 ]);
 
-dialog.matches('IntentName', [ ] );
+//=========================================================
+// Natural Language Processing
+//=========================================================
+
+dialog.matches('Greet', [ 
+    function (session, args, next) {
+        session.send("Greet intent detected.");
+    }
+]);
+
 dialog.onDefault('/menu');
 
 function getReply(message) {
