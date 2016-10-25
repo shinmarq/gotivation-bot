@@ -1032,21 +1032,21 @@ bot.dialog('/buy-tickets', [
 // Natural Language Processing
 //=========================================================
 
-// intentDialog.matches('Greet', [ 
-//     function (session, args, next) {
-//         session.send("Greet intent detected.");
-//         next();
-//     }
-// ]);
+intentDialog.matches('Greet', [ 
+    function (session, args, next) {
+        session.send("Greet intent detected.");
+        next();
+    }
+]);
 
-// intentDialog.matches('AskSomething', [ 
-//     function (session, args, next) {
-//         session.send("AskSomething intent detected.");
-//         next();
-//     }
-// ]);
+intentDialog.matches('AskSomething', [ 
+    function (session, args, next) {
+        session.send("AskSomething intent detected.");
+        next();
+    }
+]);
 
-// intentDialog.onDefault('/menu');
+intentDialog.onDefault('/menu');
 
 function getReply(message) {
     var predicate = {};
