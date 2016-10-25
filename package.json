@@ -22,6 +22,7 @@
   "dependencies": {
     "async": "^2.1.2",
     "botbuilder": "^3.3.2",
+    "mongoose": "^4.6.5",
     "partybot-http-client": "0.0.1-beta-12",
     "request": "^2.75.0",
     "restify": "^4.1.1",

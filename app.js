@@ -2,8 +2,7 @@
 
 var restify = require('restify');
 var builder = require('botbuilder');
-var mongoose = require('mongoose');
-var Reply = require('./models/reply');
+// var mongoose = require('mongoose');
 
 var async = require('async');
 var _ = require('underscore');
@@ -18,7 +17,7 @@ var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW
 // Database Setup
 //=========================================================
 
-mongoose.connect(process.env.MONGODB_URI);
+// mongoose.connect(process.env.MONGODB_URI);
 
 //=========================================================
 // Bot Setup
@@ -52,10 +51,10 @@ server.get('/api/messages', function (req, res) {
 // AI Setup
 //=========================================================
 
-var model = process.env.model || '<conversational model url>';
+// Create LUIS recognizer that points at our model and add it as the root '/' dialog for our Cortana Bot.
+var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=6c4a0d3e-41ff-4800-9ec7-8fd206ee41e8&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
 var recognizer = new builder.LuisRecognizer(model);
-var intentDialog = new builder.intentDialog( { recognizers: [recognizer] } );
-bot.dialog('/', intentDialog);
+var intentDialog = new builder.IntentDialog({ recognizers: [recognizer] });
 
 //=========================================================
 // Activity Events
@@ -1033,21 +1032,21 @@ bot.dialog('/buy-tickets', [
 // Natural Language Processing
 //=========================================================
 
-dialog.matches('Greet', [ 
-    function (session, args, next) {
-        session.send("Greet intent detected.");
-        next();
-    }
-]);
+// intentDialog.matches('Greet', [ 
+//     function (session, args, next) {
+//         session.send("Greet intent detected.");
+//         next();
+//     }
+// ]);
 
-dialog.matches('AskSomething', [ 
-    function (session, args, next) {
-        session.send("AskSomething intent detected.");
-        next();
-    }
-]);
+// intentDialog.matches('AskSomething', [ 
+//     function (session, args, next) {
+//         session.send("AskSomething intent detected.");
+//         next();
+//     }
+// ]);
 
-dialog.onDefault('/menu');
+// intentDialog.onDefault('/menu');
 
 function getReply(message) {
     var predicate = {};
