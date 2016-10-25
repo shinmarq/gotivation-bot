@@ -53,8 +53,11 @@ server.get('/api/messages', function (req, res) {
 
 // Create LUIS recognizer that points at our model and add it as the root '/' dialog for our Cortana Bot.
 var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=6c4a0d3e-41ff-4800-9ec7-8fd206ee41e8&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
-var recognizer = new builder.LuisRecognizer(model);
-var intentDialog = new builder.IntentDialog({ recognizers: [recognizer] });
+var recognizer = new builder.LuisRecognizer(model)
+var intentDialog = new builder.IntentDialog({ 
+    recognizers: [recognizer], 
+    intentThreshold: 0.5, 
+    recognizeMode: builder.RecognizeMode.onBeginIfRoot });
 
 //=========================================================
 // Activity Events
@@ -853,7 +856,7 @@ intentDialog.matches('AskSomething', [
     }
 ]);
 
-intentDialog.onDefault(builder.DialogAction.send("Cannot understand."));
+intentDialog.onDefault('/menu');
 
 // function getReply(message) {
 //     var predicate = {};
