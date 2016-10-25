@@ -134,8 +134,6 @@ bot.dialog('/menu', [
     function (session, results) {
         var resultsJSONString = JSON.stringify(results);
         console.log(`results JSON: ${resultsJSONString}`);
-
-        if (results.error) { session.beginDialog('/' + session.message.text); }
         
         if (results.response) 
         {
@@ -155,13 +153,11 @@ bot.dialog('/menu', [
                     break;  
                 default:
                     console.log("check default");
-                    session.beginDialog('/' + results.response.entity);
                     break;
             } 
         }
         else {
-            console.log("check default else");
-            session.beginDialog('/' + session.message.text);
+            intentDialog.recognize(session);
         }
     },
     function (session, results) {
