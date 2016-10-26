@@ -246,7 +246,7 @@ bot.dialog('/guest-list', [
             sendMessage
             ],
             function(err, msg, selectString) {
-                session.send("Which venue would you like to get in the guest list for?");
+                session.send("Which Event would you like to get in the guest list for?");
                 builder.Prompts.choice(session, msg, selectString);
                 
             });
