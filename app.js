@@ -822,10 +822,15 @@ bot.dialog('/buy-tickets', [
 // Natural Language Processing
 //=========================================================
 
+//=========================================================
+// Natural Language Processing
+//=========================================================
+
 intentDialog.matches('Greet', [ 
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
-        session.send(`Greet intent detected. ${argsJSONString}.`);
+        // session.send(`Greet intent detected. ${argsJSONString}.`);
+        session.beginDialog('/menu');
         next();
     }
 ]);
@@ -833,7 +838,8 @@ intentDialog.matches('Greet', [
 intentDialog.matches('AskSomething', [ 
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
-        session.send(`AskSomething intent detected. ${argsJSONString}`);
+        // session.send(`AskSomething intent detected. ${argsJSONString}`);
+        session.send(`Getting ready for tonight's craziness at The Palace! How about you?`);
         next();
     }
 ]);
@@ -841,7 +847,8 @@ intentDialog.matches('AskSomething', [
 intentDialog.matches('Appreciate', [ 
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
-        session.send(`Appreciate intent detected. ${argsJSONString}`);
+        session.send(`No problem :)`);
+        // session.send(`Appreciate intent detected. ${argsJSONString}`);
         next();
     }
 ]);
@@ -849,7 +856,8 @@ intentDialog.matches('Appreciate', [
 intentDialog.matches('Confirm', [ 
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
-        session.send(`Confirm intent detected. ${argsJSONString}`);
+        session.send(`Cool!`);
+        // session.send(`Confirm intent detected. ${argsJSONString}`);
         next();
     }
 ]);
@@ -857,7 +865,8 @@ intentDialog.matches('Confirm', [
 intentDialog.matches('Negative', [ 
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
-        session.send(`Negative intent detected. ${argsJSONString}`);
+        session.send(`Alright!`);
+        // session.send(`Negative intent detected. ${argsJSONString}`);
         next();
     }
 ]);
@@ -865,7 +874,8 @@ intentDialog.matches('Negative', [
 intentDialog.matches('Curse', [ 
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
-        session.send(`Curse intent detected. ${argsJSONString}`);
+        session.send(`That's not a very nice thing to say :(`);
+        // session.send(`Curse intent detected. ${argsJSONString}`);
         next();
     }
 ]);
@@ -873,7 +883,8 @@ intentDialog.matches('Curse', [
 intentDialog.matches('Leave', [ 
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
-        session.send(`Leave intent detected. ${argsJSONString}`);
+        session.send(`See you at The Palace!`);
+        // session.send(`Leave intent detected. ${argsJSONString}`);
         next();
     }
 ]);
