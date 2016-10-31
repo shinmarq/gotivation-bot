@@ -162,11 +162,11 @@ function venueCards() {
 
 function eventCards() {
 
-}
+} 
 
 bot.dialog('/guest-list', [
     function (session) {
-        console.log(`session data: ${JSON.stringify(session.conversationData)}`);
+        console.log(`session data: ${JSON.stringify(session)}`);
         session.dialogData.organisationId = ORGANISATION_ID;
         // Get Venues
         var msg = new builder.Message(session);
