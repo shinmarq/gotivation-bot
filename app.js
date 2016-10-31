@@ -13,12 +13,6 @@ var VENUE_ID = "5800889684555e0011585f3c";
 var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW5xbDstkCOq8TR8ZBNsJfwHjeaUsxZBaYESyxGew1BrzkippXM8vIFHeDbvraHw59Xj4QNrrZBpreBkE7cJ1SGTIPjcBXq4e3CedZBHU6wJV3ZCfARxAZAeR438gZDZD";
 
 //=========================================================
-// Database Setup
-//=========================================================
-
-// mongoose.connect(process.env.MONGODB_URI);
-
-//=========================================================
 // Bot Setup
 //=========================================================
 
@@ -129,9 +123,7 @@ bot.dialog('/', intentDialog);
 
 bot.dialog('/menu', [
     function (session) {
-        var retryMessage = new builder.Message(session);
-        retryMessage.text = "Please select one of the choices.";
-        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|Cancel", { retryPrompt: 'Please select one of the choices.'});
+        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|Cancel", { retryPrompt: 'Please select one of the choices:'});
     },
     function (session, results) {
         var resultsJSONString = JSON.stringify(results);
@@ -174,6 +166,7 @@ function eventCards() {
 
 bot.dialog('/guest-list', [
     function (session) {
+        console.log(JSON.stringify(session.conversationData));
         session.dialogData.organisationId = ORGANISATION_ID;
         // Get Venues
         var msg = new builder.Message(session);
@@ -340,178 +333,6 @@ bot.dialog('/guest-list', [
             session.endDialog(`We have received your guest list request for ${session.dialogData.event} with ${session.dialogData.party.toString()}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
         }
     }
-
-    // function (session) {
-    //     session.send("Which venue would you like to get in the guest list for?");
-    //     // Ask the user to select an item from a carousel.
-    //     var msg = new builder.Message(session)
-    //         .textFormat(builder.TextFormat.xml)
-    //         .attachmentLayout(builder.AttachmentLayout.carousel)
-    //         .attachments([
-    //             new builder.HeroCard(session)
-    //                 .title("Valkyrie")
-    //                 .text("Description of Valkyrie.")
-    //                 .images([
-    //                     builder.CardImage.create(session, 
-    //                     "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")
-    //                         .tap(builder.CardAction.showImage(session, 
-    //                         "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "http://valkyrie.thepalacemanila.com", "Webpage"),
-    //                     builder.CardAction.imBack(session, "select:100", "Select")
-    //                 ]),
-    //             new builder.HeroCard(session)
-    //                 .title("Revel")
-    //                 .text("Description of Revel")
-    //                 .images([
-    //                     builder.CardImage.create(session, 
-    //                     "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/12936646_769083589893653_1821227043396906639_n.jpg?oh=8e6011d47c7ce9457d66a1fd5191cd6c&oe=586B47CA")
-    //                         .tap(builder.CardAction.showImage(session, 
-    //                         "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/12936646_769083589893653_1821227043396906639_n.jpg?oh=8e6011d47c7ce9457d66a1fd5191cd6c&oe=586B47CA")),
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "http://revel.thepalacemanila.com", "Webpage"),
-    //                     builder.CardAction.imBack(session, "select:101", "Select")
-    //                 ]),
-    //             new builder.HeroCard(session)
-    //                 .title("Pool Club")
-    //                 .text("Description of Pool Club")
-    //                 .images([
-    //                     builder.CardImage.create(session, 
-    //                     "http://manilaclubbing.com/wp-content/uploads/the-palace-pool-club-manila.jpg")
-    //                         .tap(builder.CardAction.showImage(session, 
-    //                         "http://manilaclubbing.com/wp-content/uploads/the-palace-pool-club-manila.jpg"))
-    //                 ])
-    //                 .buttons([
-    //                     builder.CardAction.openUrl(session, "http://poolclub.thepalacemanila.com", "Webpage"),
-    //                     builder.CardAction.imBack(session, "select:102", "Select")
-    //                 ])
-    //         ]);
-    //     builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
-    // },
-    // function (session, results) {
-
-    //     var action, item;
-    //     var kvPair = results.response.entity.split(':');
-    //     switch (kvPair[0]) {
-    //         case 'select':
-    //             action = 'selected';
-    //             break;
-    //     }
-    //     switch (kvPair[1]) {
-    //         case '100':
-    //             item = "Valkyrie";
-    //             break;
-    //         case '101':
-    //             item = "Revel";
-    //             break;
-    //         case '102':
-    //             item = "Pool Club";
-    //             break;
-    //     }
-
-    //     session.dialogData.venue = item;
-    //     session.userData[`${session.dialogData.venue}`] = session.userData[`${session.dialogData.venue}`] || {};
-    //     session.send(`Here are the events you can go to this week at ${session.dialogData.venue}`);
-    //     // Ask the user to select an item from a carousel.
-    //     var msg = new builder.Message(session)
-    //         .textFormat(builder.TextFormat.xml)
-    //         .attachmentLayout(builder.AttachmentLayout.carousel)
-    //         .attachments([
-    //             new builder.HeroCard(session)
-    //                 .title("Thursday")
-    //                 .text("Thursday Event Description")
-    //                 .images([
-    //                     builder.CardImage.create(session, 
-    //                     "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14495447_664615407032155_3623638486678869431_n.jpg?oh=de9fe103b07a1ae37771b2c129e44934&oe=589F0A91")
-    //                         .tap(builder.CardAction.showImage(session, 
-    //                         "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14495447_664615407032155_3623638486678869431_n.jpg?oh=de9fe103b07a1ae37771b2c129e44934&oe=589F0A91")),
-    //                 ])
-    //                 .buttons([
-    //                     // builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:100", "Select")
-    //                 ]),
-    //             new builder.HeroCard(session)
-    //                 .title("Friday")
-    //                 .text("Friday Event Description")
-    //                 .images([
-    //                     builder.CardImage.create(session, 
-    //                     "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=5865458E")
-    //                         .tap(builder.CardAction.showImage(session, 
-    //                         "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=5865458E")),
-    //                 ])
-    //                 .buttons([
-    //                     // builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:101", "Select")
-    //                 ]),
-    //             new builder.HeroCard(session)
-    //                 .title("Saturday")
-    //                 .text("Saturday Event Description")
-    //                 .images([
-    //                     builder.CardImage.create(session, 
-    //                     "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=5865458E")
-    //                         .tap(builder.CardAction.showImage(session, 
-    //                         "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14581387_665337240293305_7019279821657993773_n.jpg?oh=e5840a625f10589cc64b6b2716694247&oe=5865458E"))
-    //                 ])
-    //                 .buttons([
-    //                     // builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/EMP_Museum", "Wikipedia"),
-    //                     builder.CardAction.imBack(session, "select:102", "Select")
-    //                 ])
-    //         ]);
-    //     builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
-    // },
-    // function (session, results) {
-    //     var action, item;
-    //     var kvPair = results.response.entity.split(':');
-    //     switch (kvPair[0]) {
-    //         case 'select':
-    //             action = 'selected';
-    //             break;
-    //     }
-    //     switch (kvPair[1]) {
-    //         case '100':
-    //             item = "Thursday Event";
-    //             break;
-    //         case '101':
-    //             item = "Friday Event";
-    //             break;
-    //         case '102':
-    //             item = "Saturday Event";
-    //             break;
-    //     }
-    //     session.dialogData.event = item;
-    //     session.beginDialog('/ensure-party');
-    // },
-    // function (session, results) {
-    //     session.dialogData.party = results;
-    //     if (session.userData.promoCode) {
-    //         results.response = 'yes';
-    //         next(session, results.response);
-    //     } else {
-    //         builder.Prompts.confirm(session, 'Great! Do you have a promoter code?');
-    //     }
-    // }, 
-    // function (session, results, next) {
-    //     var choice = results.response ? 'yes' : 'no';
-    //     if (choice === 'yes') {
-    //         session.beginDialog('/ensure-promoter-code', session.dialogData);
-    //     } else {
-    //         next();
-    //     }
-    // },
-    // function (session, results) {
-    //     if (results.response && results.response === 'valid') {
-    //         session.endDialog(`You,${session.dialogData.party.toString()} has/have now been successfully guest listed \
-    //         for ${session.dialogData.event} at ${session.dialogData.venue}! \
-    //         Your name will be under ${session.userData[`${session.dialogData.venue}`].promoter} \
-    //         so please bring a valid ID with birth date.\n \
-    //         Remember to be there before the 12MN cutoff and follow the dress code. \
-    //         Note that the management has the right to refuse entry at all times.`);
-    //     } else {
-    //         session.endDialog(`We have received your guest list request for ${session.dialogData.event} with ${session.dialogData.party.toString()}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
-    //     }
-    // }
 ]);
 
 bot.dialog('/ensure-party', [
