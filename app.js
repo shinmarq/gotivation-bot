@@ -12,6 +12,8 @@ var ORGANISATION_ID =  "5800471acb97300011c68cf7";
 var VENUE_ID = "5800889684555e0011585f3c";
 var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW5xbDstkCOq8TR8ZBNsJfwHjeaUsxZBaYESyxGew1BrzkippXM8vIFHeDbvraHw59Xj4QNrrZBpreBkE7cJ1SGTIPjcBXq4e3CedZBHU6wJV3ZCfARxAZAeR438gZDZD";
 
+const util = require('util');
+
 //=========================================================
 // Bot Setup
 //=========================================================
@@ -166,7 +168,9 @@ function eventCards() {
 
 bot.dialog('/guest-list', [
     function (session) {
-        console.log(`session data: ${JSON.stringify(session)}`);
+        console.log(`session data: ${session}`);
+        console.log('session data: ' + util.inspect(session, {showHidden: false, depth: null}));
+        
         session.dialogData.organisationId = ORGANISATION_ID;
         // Get Venues
         var msg = new builder.Message(session);
