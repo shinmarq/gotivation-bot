@@ -166,7 +166,7 @@ function eventCards() {
 
 bot.dialog('/guest-list', [
     function (session) {
-        console.log(JSON.stringify(session.conversationData));
+        console.log(`session data: ${JSON.stringify(session.conversationData)}`);
         session.dialogData.organisationId = ORGANISATION_ID;
         // Get Venues
         var msg = new builder.Message(session);
@@ -651,7 +651,7 @@ intentDialog.matches('Greet', [
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
         // session.send(`Greet intent detected. ${argsJSONString}.`);
-        session.beginDialog('/menu');
+        session.send(`Hello.`);
         next();
     }
 ]);
