@@ -211,7 +211,6 @@ bot.dialog('/guest-list', [
                             value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
-                        builder.CardAction.openUrl(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0", "Webpage"),
                         builder.CardAction.imBack(session, "select:"+value._id, "Select")
                         ])
                     );
@@ -274,7 +273,6 @@ bot.dialog('/guest-list', [
                             value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
-                        builder.CardAction.openUrl(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0", "Webpage"),
                         builder.CardAction.imBack(session, "select:"+value._id, "Select")
                         ])
                     );
@@ -402,6 +400,11 @@ bot.dialog('/ensure-promoter-code', [
 ]);
 
 bot.dialog('/book-table', [
+    /*
+    * - Session Waterfall
+    * - Get table type in Organisation
+    * -
+    */
     function (session) {
         session.dialogData.organisationId = ORGANISATION_ID;
         // Get Venues
@@ -443,7 +446,6 @@ bot.dialog('/book-table', [
                             value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
-                        builder.CardAction.openUrl(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0", "Webpage"),
                         builder.CardAction.imBack(session, "select:"+value._id, "Select")
                         ])
                     );
@@ -512,7 +514,6 @@ bot.dialog('/book-table', [
                             value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
-                        builder.CardAction.openUrl(session, "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0", "Webpage"),
                         builder.CardAction.imBack(session, "select:"+value._id, "Select")
                         ])
                     );
@@ -625,7 +626,6 @@ bot.dialog('/buy-tickets', [
                             value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
-                        builder.CardAction.openUrl(session, value.ticket_url || "httphttps://smtickets.com/events/view/4944", "Webpage"),
                         builder.CardAction.imBack(session, "select:"+value._id, "Select")
                         ])
                     );
