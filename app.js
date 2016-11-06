@@ -21,6 +21,9 @@ const util = require('util');
 var server = restify.createServer();
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
+server.get(/\/assets\/?.*/, restify.serveStatic({
+    directory: __dirname
+}));
 server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
@@ -138,7 +141,7 @@ bot.dialog('/menu', [
             new builder.HeroCard(session)
             .title('Guest List')
             .images([
-                builder.CardImage.create(session, path.join(__dirname, 'assets/guestlist.jpg'))
+                builder.CardImage.create(session, '/assets/guestlist.jpg')
                 ])
             .buttons([
                 builder.CardAction.imBack(session, "select:Guest List", "Select")
@@ -147,7 +150,7 @@ bot.dialog('/menu', [
             new builder.HeroCard(session)
             .title('Book a Table')
             .images([
-                builder.CardImage.create(session, path.join(__dirname, 'assets/table.jpg'))
+                builder.CardImage.create(session, '/assets/table.jpg')
                 ])
             .buttons([
                 builder.CardAction.imBack(session, "select:Book a Table", "Select")
@@ -155,7 +158,7 @@ bot.dialog('/menu', [
             new builder.HeroCard(session)
             .title('Buy Tickets')
             .images([
-                builder.CardImage.create(session, path.join(__dirname, 'assets/tickets.jpg'))
+                builder.CardImage.create(session, '/assets/tickets.jpg')
                 ])
             .buttons([
                 builder.CardAction.imBack(session, "select:Buy Tickets", "Select")
