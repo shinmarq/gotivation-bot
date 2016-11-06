@@ -2,11 +2,10 @@
 
 var restify = require('restify');
 var builder = require('botbuilder');
-
+var path = require('path');
 var async = require('async');
 var _ = require('underscore');
 var partyBot = require('partybot-http-client');
-
 var request = require('request');
 var ORGANISATION_ID =  "5800471acb97300011c68cf7";
 var VENUE_ID = "5800889684555e0011585f3c";
@@ -33,13 +32,8 @@ var connector = new builder.ChatConnector({
 });
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
-server.get('/api/messages', function (req, res) {
-    if (req.params.hub.verify_token === 'partybot_rocks') {
-        res.header('Content-Type', 'text/plain');
-        res.send(req.params.hub.challenge);
-    } else {
-        res.send('Error, wrong validation token');    
-    }
+server.use(function(req, res) {
+    console.log(req);
 });
 
 //=========================================================
@@ -125,7 +119,59 @@ bot.dialog('/', intentDialog);
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|Cancel", { retryPrompt: 'Please select one of the choices:'});
+        var selectArray = [
+            "select:Guest List",
+            "select:Book a Table",
+            "select:Buy Tickets",
+            "select:Cancel"
+        ];
+
+        var cards = getCardsAttachments();
+        var reply = new builder.Message(session)
+        .attachmentLayout(builder.AttachmentLayout.carousel)
+        .attachments(cards);
+        session.send("What Can I do for you?");
+        builder.Prompts.choice(session, reply, selectArray, { retryPrompt: 'Please select one of the choices:'});
+        
+        function getCardsAttachments(session) {
+            return [
+            new builder.HeroCard(session)
+            .title('Guest List')
+            .images([
+                builder.CardImage.create(session, path.join(__dirname, 'assets/guestlist.jpg'))
+                ])
+            .buttons([
+                builder.CardAction.imBack(session, "select:Guest List", "Select")
+                ]),
+            
+            new builder.HeroCard(session)
+            .title('Book a Table')
+            .images([
+                builder.CardImage.create(session, path.join(__dirname, 'assets/table.jpg'))
+                ])
+            .buttons([
+                builder.CardAction.imBack(session, "select:Book a Table", "Select")
+                ]),
+            new builder.HeroCard(session)
+            .title('Buy Tickets')
+            .images([
+                builder.CardImage.create(session, path.join(__dirname, 'assets/tickets.jpg'))
+                ])
+            .buttons([
+                builder.CardAction.imBack(session, "select:Buy Tickets", "Select")
+                ]),
+
+            new builder.HeroCard(session)
+            .title('Cancel')
+            .images([
+                builder.CardImage.create(session, 'https://azurecomcdn.azureedge.net/cvt-8636d9bb8d979834d655a5d39d1b4e86b12956a2bcfdb8beb04730b6daac1b86/images/page/services/functions/azure-functions-screenshot.png')
+                ])
+            .buttons([
+                builder.CardAction.imBack(session, "select:Cancel", "Select")
+                ])
+            ]
+        }
+        
     },
     function (session, results) {
         var resultsJSONString = JSON.stringify(results);
@@ -168,8 +214,8 @@ function eventCards() {
 
 bot.dialog('/guest-list', [
     function (session) {
-        console.log(`session data: ${session}`);
-        console.log('session data: ' + util.inspect(session, {showHidden: false, depth: null}));
+        // console.log(`session data: ${session}`);
+        // console.log('session data: ' + util.inspect(session, {showHidden: false, depth: null}));
         
         session.dialogData.organisationId = ORGANISATION_ID;
         // Get Venues
