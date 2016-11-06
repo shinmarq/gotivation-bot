@@ -2,7 +2,7 @@
 
 var restify = require('restify');
 var builder = require('botbuilder');
-var path = require('path');
+
 var async = require('async');
 var _ = require('underscore');
 var partyBot = require('partybot-http-client');
@@ -21,9 +21,6 @@ const util = require('util');
 var server = restify.createServer();
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
-server.get(/\/assets\/?.*/, restify.serveStatic({
-    directory: __dirname
-}));
 server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
@@ -35,8 +32,13 @@ var connector = new builder.ChatConnector({
 });
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
-server.use(function(req, res) {
-    console.log(req);
+server.get('/api/messages', function (req, res) {
+    if (req.params.hub.verify_token === 'partybot_rocks') {
+        res.header('Content-Type', 'text/plain');
+        res.send(req.params.hub.challenge);
+    } else {
+        res.send('Error, wrong validation token');    
+    }
 });
 
 //=========================================================
@@ -122,66 +124,15 @@ bot.dialog('/', intentDialog);
 
 bot.dialog('/menu', [
     function (session) {
-        var selectArray = [
-            "select:Guest List",
-            "select:Book a Table",
-            "select:Buy Tickets",
-            "select:Cancel"
-        ];
-
-        var cards = getCardsAttachments();
-        var reply = new builder.Message(session)
-        .attachmentLayout(builder.AttachmentLayout.carousel)
-        .attachments(cards);
-        session.send("What Can I do for you?");
-        builder.Prompts.choice(session, reply, selectArray, { retryPrompt: 'Please select one of the choices:'});
-        
-        function getCardsAttachments(session) {
-            return [
-            new builder.HeroCard(session)
-            .title('Guest List')
-            .images([
-                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/guestlist.jpg')
-                ])
-            .buttons([
-                builder.CardAction.imBack(session, "select:Guest List", "Select")
-                ]),
-            
-            new builder.HeroCard(session)
-            .title('Book a Table')
-            .images([
-                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/table.jpg')
-                ])
-            .buttons([
-                builder.CardAction.imBack(session, "select:Book a Table", "Select")
-                ]),
-            new builder.HeroCard(session)
-            .title('Buy Tickets')
-            .images([
-                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/tickets.jpg')
-                ])
-            .buttons([
-                builder.CardAction.imBack(session, "select:Buy Tickets", "Select")
-                ]),
-
-            new builder.HeroCard(session)
-            .title('Cancel')
-            .images([
-                builder.CardImage.create(session, 'https://azurecomcdn.azureedge.net/cvt-8636d9bb8d979834d655a5d39d1b4e86b12956a2bcfdb8beb04730b6daac1b86/images/page/services/functions/azure-functions-screenshot.png')
-                ])
-            .buttons([
-                builder.CardAction.imBack(session, "select:Cancel", "Select")
-                ])
-            ]
-        }
-        
+        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|Cancel", { retryPrompt: 'Please select one of the choices:'});
     },
     function (session, results) {
+        var resultsJSONString = JSON.stringify(results);
+        console.log(`results JSON: ${resultsJSONString}`);
+        
         if (results.response) 
         {
-            var kvPair = results.response.entity.split(':');
-            var menu = session.dialogData.menu = kvPair[1];
-            switch (menu)
+            switch (results.response.entity)
             {
                 case 'Guest List':
                     session.beginDialog('/guest-list');
