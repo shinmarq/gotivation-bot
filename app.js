@@ -177,9 +177,6 @@ bot.dialog('/menu', [
         
     },
     function (session, results) {
-        var resultsJSONString = JSON.stringify(results);
-        console.log(`results JSON: ${resultsJSONString}`);
-        
         if (results.response) 
         {
             var kvPair = results.response.entity.split(':');
