@@ -141,7 +141,7 @@ bot.dialog('/menu', [
             new builder.HeroCard(session)
             .title('Guest List')
             .images([
-                builder.CardImage.create(session, 'http://partybot-rocks-palace-staging.herokuapp.com/assets/guestlist.jpg')
+                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/guestlist.jpg')
                 ])
             .buttons([
                 builder.CardAction.imBack(session, "select:Guest List", "Select")
@@ -150,7 +150,7 @@ bot.dialog('/menu', [
             new builder.HeroCard(session)
             .title('Book a Table')
             .images([
-                builder.CardImage.create(session, 'http://partybot-rocks-palace-staging.herokuapp.com/assets/table.jpg')
+                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/table.jpg')
                 ])
             .buttons([
                 builder.CardAction.imBack(session, "select:Book a Table", "Select")
@@ -158,7 +158,7 @@ bot.dialog('/menu', [
             new builder.HeroCard(session)
             .title('Buy Tickets')
             .images([
-                builder.CardImage.create(session, 'http://partybot-rocks-palace-staging.herokuapp.com/assets/tickets.jpg')
+                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/tickets.jpg')
                 ])
             .buttons([
                 builder.CardAction.imBack(session, "select:Buy Tickets", "Select")
