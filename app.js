@@ -182,7 +182,9 @@ bot.dialog('/menu', [
         
         if (results.response) 
         {
-            switch (results.response.entity)
+            var kvPair = results.response.entity.split(':');
+            var menu = session.dialogData.menu = kvPair[1];
+            switch (menu)
             {
                 case 'Guest List':
                     session.beginDialog('/guest-list');
