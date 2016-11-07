@@ -159,7 +159,7 @@ bot.dialog('/menu', [
             // var menu = session.dialogData.menu = kvPair[1];
             // console.log(menu);
             // var kvPair = results.response.entity
-            console.log(results.response.entity);
+            console.log("Begin guest-list dialog");
             switch (results.response.entity)
             {
                 case 'Guest-List':
