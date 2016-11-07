@@ -21,6 +21,9 @@ const util = require('util');
 var server = restify.createServer();
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
+server.get(/\/assets\/?.*/, restify.serveStatic({
+    directory: __dirname
+}));
 server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
@@ -124,23 +127,74 @@ bot.dialog('/', intentDialog);
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What can I do for you?", "Guest List|Book a Table|Buy Tickets|Cancel", { retryPrompt: 'Please select one of the choices:'});
+        var selectArray = [
+            "Guest-List",
+            "Book-A-Table",
+            "Buy-Tickets",
+            "Cancel"
+        ];
+
+        var cards = getCardsAttachments();
+        var reply = new builder.Message(session)
+        .attachmentLayout(builder.AttachmentLayout.carousel)
+        .attachments(cards);
+        session.send("What Can I do for you?");
+        builder.Prompts.choice(session, reply, selectArray, { retryPrompt: 'Please select one of the choices:'});
+        
+        function getCardsAttachments(session) {
+            return [
+            new builder.HeroCard(session)
+            .title('Guest List')
+            .images([
+                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/guestlist.jpg')
+                ])
+            .buttons([
+                builder.CardAction.imBack(session, "Guest-List", "Select")
+                ]),
+            
+            new builder.HeroCard(session)
+            .title('Book a Table')
+            .images([
+                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/table.jpg')
+                ])
+            .buttons([
+                builder.CardAction.imBack(session, "Book-A-Table", "Select")
+                ]),
+            new builder.HeroCard(session)
+            .title('Buy Tickets')
+            .images([
+                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/tickets.jpg')
+                ])
+            .buttons([
+                builder.CardAction.imBack(session, "Buy-Tickets", "Select")
+                ]),
+
+            new builder.HeroCard(session)
+            .title('Cancel')
+            .buttons([
+                builder.CardAction.imBack(session, "Cancel", "Select")
+                ])
+            ]
+        }
+        
     },
     function (session, results) {
-        var resultsJSONString = JSON.stringify(results);
-        console.log(`results JSON: ${resultsJSONString}`);
-        
         if (results.response) 
         {
+            // var kvPair = results.response.entity.split(':');
+            // var menu = session.dialogData.menu = kvPair[1];
+            // console.log(menu);
+            // var kvPair = results.response.entity
+            console.log(results.response.entity);
             switch (results.response.entity)
             {
-                case 'Guest List':
+                case 'Guest-List':
                     session.beginDialog('/guest-list');
                     break;
-                case 'Book a Table':
+                case 'Book-A-Table':
                     session.beginDialog('/book-table');
                     break;
-                case 'Buy Tickets':
+                case 'Buy-Tickets':
                     session.beginDialog('/buy-tickets');
                     break;
                 case 'Cancel':
