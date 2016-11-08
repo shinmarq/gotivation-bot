@@ -382,7 +382,7 @@ bot.dialog('/guest-list', [
             Remember to be there before the 12MN cutoff and follow the dress code. \
             Note that the management has the right to refuse entry at all times.`);
         } else {
-            session.endDialog(`We have received your guest list request for ${session.dialogData.event} with ${session.dialogData.party.toString()}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
+            session.endDialog(`We have received your guest list request for ${session.dialogData.event}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
         }
     }
 ]);
@@ -394,7 +394,7 @@ bot.dialog('/ensure-party', [
     function (session, results, next) {
         if (results.response) {
             session.dialogData.party = results.response.split(',');
-            builder.Prompts.confirm(session, `So ${session.dialogData.party} will join you - is this confirmed?`);
+            builder.Prompts.confirm(session, `So ${session.dialogData.party}. Is this confirmed?`);
         } 
     },
     function (session, results) {
@@ -411,7 +411,7 @@ bot.dialog('/ensure-promoter-code', [
     function (session, args, next) {
         session.dialogData = args || {};
         if (!session.dialogData.promoterCode) {
-            builder.Prompts.text(session, `Please enter your promoter code for ${session.dialogData.venueId} now:`);
+            builder.Prompts.text(session, `Please enter your promoter code for ${session.dialogData.event} now:`);
         } else {
             // validate via API
             // if promo code valid
