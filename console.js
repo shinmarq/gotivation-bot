@@ -431,11 +431,13 @@ bot.dialog('/book-table', [
     * -
     */
     function (session) {
-        session.dialogData.organisationId = ORGANISATION_ID;
+        var options = {
+            organisationId: session.dialogData.organisationId = ORGANISATION_ID
+        };
         // Get Venues
         var msg = new builder.Message(session);
         async.waterfall([
-            async.apply(getVenues, ORGANISATION_ID, msg),
+            async.apply(getVenues, options, msg),
             formatBody,
             sendMessage
             ],
@@ -446,7 +448,7 @@ bot.dialog('/book-table', [
             });
 
         function getVenues(organisationId, msg, callback) {
-            partyBot.venues.getAllInOrganisation(organisationId, function(err, res, body) {
+            partyBot.venues.getAllInOrganisation(options, function(err, res, body) {
                 if(!err && res.statusCode == 200) {
                     callback(null, body, msg);
                 } else {
