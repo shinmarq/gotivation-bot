@@ -155,11 +155,7 @@ bot.dialog('/menu', [
     function (session, results) {
         if (results.response) 
         {
-            // var kvPair = results.response.entity.split(':');
-            // var menu = session.dialogData.menu = kvPair[1];
-            // console.log(menu);
-            // var kvPair = results.response.entity
-            console.log("Begin guest-list dialog");
+            console.log(results.response.entity);
             switch (results.response.entity)
             {
                 case 'Guest-List':
@@ -361,7 +357,7 @@ bot.dialog('/guest-list', [
             Remember to be there before the 12MN cutoff and follow the dress code. \
             Note that the management has the right to refuse entry at all times.`);
         } else {
-            session.endDialog(`We have received your guest list request for ${session.dialogData.event} with ${session.dialogData.party.toString()}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
+            session.endDialog(`We have received your guest list request for ${session.dialogData.event}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
         }
     }
 ]);
@@ -373,7 +369,7 @@ bot.dialog('/ensure-party', [
     function (session, results, next) {
         if (results.response) {
             session.dialogData.party = results.response.split(',');
-            builder.Prompts.confirm(session, `So ${session.dialogData.party} will join you - is this confirmed?`);
+            builder.Prompts.confirm(session, `So ${session.dialogData.party}. Is this confirmed?`);
         } 
     },
     function (session, results) {
@@ -390,7 +386,7 @@ bot.dialog('/ensure-promoter-code', [
     function (session, args, next) {
         session.dialogData = args || {};
         if (!session.dialogData.promoterCode) {
-            builder.Prompts.text(session, `Please enter your promoter code for ${session.dialogData.venueId} now:`);
+            builder.Prompts.text(session, `Please enter your promoter code for ${session.dialogData.event} now:`);
         } else {
             // validate via API
             // if promo code valid
@@ -429,106 +425,32 @@ bot.dialog('/ensure-promoter-code', [
 ]);
 
 bot.dialog('/book-table', [
+    /*
+    * - Session Waterfall
+    * - Get table type in Organisation
+    * -
+    */
     function (session) {
-        session.sendTyping();
         session.dialogData.organisationId = ORGANISATION_ID;
         // Get Venues
-        var getParams = {
-            organisationId: ORGANISATION_ID
-        };
         var msg = new builder.Message(session);
         async.waterfall([
-            async.apply(getVenues, getParams, msg),
+            async.apply(getVenues, ORGANISATION_ID, msg),
             formatBody,
             sendMessage
             ],
             function(err, msg, selectString) {
-                if(err) {
-                    session.send(err);
-                    session.reset('/book-table');
-                } else {
-                    session.send('Which venue would you like to book a table at?');
-                    builder.Prompts.choice(session, msg, selectString);
-                }
+                session.send('Which venue would you like to book a table at?');
+                builder.Prompts.choice(session, msg, selectString);
+                
             });
 
-        function getVenues(getParams, msg, callback) {
-            partyBot.venues.getAllInOrganisation(getParams, function(err, res, body) {
+        function getVenues(organisationId, msg, callback) {
+            partyBot.venues.getAllInOrganisation(organisationId, function(err, res, body) {
                 if(!err && res.statusCode == 200) {
-                    if(body.length > 0) {
-                        callback(null, body, msg);
-                    } else {
-                        callback("No Venue Type", msg, null);
-                    }
-                } else {
-                    callback(body, msg, res.statusCode);
-                }
-            });
-        }
-
-        function formatBody(body, msg, callback) {
-            var attachments = [];
-            var selectString = [];
-            body.forEach(function(value, index) {
-                selectString.push('select:'+value._id);
-                attachments.push(
-                    new builder.HeroCard(session)
-                    .title(value.name)
-                    .text(value.description)
-                    .images([
-                        builder.CardImage.create(session, value.image || 
-                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
-                        .tap(builder.CardAction.showImage(session, 
-                            value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
-                        ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "select:"+value._id, "Select")
-                        ])
-                    );
-            });
-            callback(null, msg, attachments, selectString);
-        }
-        
-        function sendMessage(msg, attachments, selectString, callback) {
-            msg
-            .textFormat(builder.TextFormat.xml)
-            .attachmentLayout(builder.AttachmentLayout.carousel)
-            .attachments(attachments);
-            callback(null, msg, selectString);
-        }
-    },
-    function(session, results) {
-        // Get Tables Types
-        var kvPair = results.response.entity.split(':');
-        var venueId = kvPair[1];
-        session.dialogData.venueId = venueId;
-        var getTableTypesParams = {
-            organisationId: session.dialogData.organisationId,
-            venue_id: session.dialogData.venueId,
-        };
-
-        var msg = new builder.Message(session);
-        async.waterfall([
-            async.apply(getTableType, getTableTypesParams, msg),
-            formatBody,
-            sendMessage
-            ],
-            function(err, msg, selectString) {
-                if(err) {
-                    session.send(err);
-                    session.reset('/book-table');
-                } else {
-                    session.send(`Great! Which Table Type do you prefer?`);
-                    builder.Prompts.choice(session, msg, selectString);
-                }
-            });
-
-        function getTableType(getTablesParams, msg, callback) {
-            partyBot.tableTypes.getTableTypesInOrganisation(getTablesParams, function(err, res, body) {
-                if(body.length > 0) {
                     callback(null, body, msg);
                 } else {
-                    callback("No Table Type", msg, null);
+                    callback(body, res.statusCode);
                 }
             });
         }
@@ -564,19 +486,17 @@ bot.dialog('/book-table', [
             callback(null, msg, selectString);
         }
     },
-
     function(session, results) {
         // Get Tables
 
         var action, item;
         // var venue = session.dialogData.venue = item;
         var kvPair = results.response.entity.split(':');
-        var tableTypeId = kvPair[1];
-        session.dialogData.tableTypeId = tableTypeId;
+        var venueId = kvPair[1];
+        session.dialogData.venueId = venueId;
         var getTablesParams = {
-            organisationId: session.dialogData.organisationId,
-            venueId: session.dialogData.venueId,
-            table_type_id: tableTypeId,
+            organisationId: ORGANISATION_ID,
+            venueId: venueId,
             tags: 'table'
         };
 
@@ -708,11 +628,7 @@ bot.dialog('/buy-tickets', [
         function getTickets(getTicketParams, msg, callback) {
             partyBot.products.getProducts(getTicketParams, function(err, res, body) {
                 if(!err && res.statusCode == 200) {
-                    if(body.length > 0) {
-                        callback(null, body, msg);
-                    } else {
-                        callback("No Table Type", msg, null);
-                    }
+                    callback(null, body, msg);
                 } else {
                     callback(body, res.statusCode);
                 }
@@ -772,7 +688,7 @@ intentDialog.matches('Greet', [
 intentDialog.matches('AskSomething', [ 
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
-        session.send(`AskSomething intent detected. ${argsJSONString}`);
+        // session.send(`AskSomething intent detected. ${argsJSONString}`);
         session.send(`Getting ready for tonight's craziness at The Palace! How about you?`);
         next();
     }
