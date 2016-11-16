@@ -907,6 +907,24 @@ intentDialog.matches('Leave', [
 ]);
 
 intentDialog.onDefault([
+    function(session, args, next) {
+        var intent = session.message.text;
+        if(intent.length > 0) {
+            session.send(`I didnt quite understand that`);
+            var params = {
+                organisationId: ORGANISATION_ID,
+                intent: session.message.text
+            }
+            partyBot.replies.createReply(params, function(err, response, body) {
+                // console.log(err);
+                // console.log(response.statusCode);
+                // console.log(body);
+            });
+            next();
+        } else { 
+            next();
+        }
+    },
     function (session) {
         // Send a greeting and show the menu.
         var card = new builder.HeroCard(session)

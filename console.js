@@ -205,9 +205,9 @@ bot.dialog('/buy-tickets', BuyTicket);
 
 intentDialog.matches('Greet', [ 
     function (session, args, next) {
-        var argsJSONString = JSON.stringify(args);
-        // session.send(`Greet intent detected. ${argsJSONString}.`);
-        session.send(`Hello.`);
+        var argsJSONString = JSON.stringify(args, null, 2);
+        session.send(`Greet intent detected. ${argsJSONString}.`);
+        // session.send(`Hello.`);
         next();
     }
 ]);
@@ -216,7 +216,8 @@ intentDialog.matches('AskSomething', [
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
         // session.send(`AskSomething intent detected. ${argsJSONString}`);
-        session.send(`Getting ready for tonight's craziness at The Palace! How about you?`);
+        // session.send(`Getting ready for tonight's craziness at The Palace! How about you?`);
+        console.log(JSON.stringify(args, null, 2));
         next();
     }
 ]);
@@ -225,7 +226,7 @@ intentDialog.matches('Appreciate', [
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
         session.send(`No problem :)`);
-        // session.send(`Appreciate intent detected. ${argsJSONString}`);
+        session.send(`Appreciate intent detected. ${argsJSONString}`);
         next();
     }
 ]);
@@ -234,7 +235,7 @@ intentDialog.matches('Confirm', [
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
         session.send(`Cool!`);
-        // session.send(`Confirm intent detected. ${argsJSONString}`);
+        session.send(`Confirm intent detected. ${argsJSONString}`);
         next();
     }
 ]);
@@ -243,7 +244,7 @@ intentDialog.matches('Negative', [
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
         session.send(`Alright!`);
-        // session.send(`Negative intent detected. ${argsJSONString}`);
+        session.send(`Negative intent detected. ${argsJSONString}`);
         next();
     }
 ]);
@@ -252,7 +253,7 @@ intentDialog.matches('Curse', [
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
         session.send(`That's not a very nice thing to say :(`);
-        // session.send(`Curse intent detected. ${argsJSONString}`);
+        session.send(`Curse intent detected. ${argsJSONString}`);
         next();
     }
 ]);
@@ -261,13 +262,31 @@ intentDialog.matches('Leave', [
     function (session, args, next) {
         var argsJSONString = JSON.stringify(args);
         session.send(`See you at The Palace!`);
-        // session.send(`Leave intent detected. ${argsJSONString}`);
+        session.send(`Leave intent detected. ${argsJSONString}`);
         next();
     }
 ]);
 
 intentDialog.onDefault([
-    function (session) {
+    function(session, args, next) {
+        var intent = session.message.text;
+        if(intent.length > 0) {
+            session.send(`I didnt quite understand that`);
+            var params = {
+                organisationId: ORGANISATION_ID,
+                intent: session.message.text
+            }
+            partyBot.replies.createReply(params, function(err, response, body) {
+                // console.log(err);
+                // console.log(response.statusCode);
+                // console.log(body);
+            });
+            next();
+        } else { 
+            next();
+        }
+    },
+    function (session, args, next) {
         // Send a greeting and show the menu.
         var card = new builder.HeroCard(session)
         // todo: change to venue.model
