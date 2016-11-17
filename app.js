@@ -910,7 +910,7 @@ intentDialog.onDefault([
     function(session, args, next) {
         var intent = session.message.text;
         if(intent.length > 0) {
-            session.send(`I didnt quite understand that`);
+            session.send(`Sorry, I didn’t quite understand that yet since I’m still a learning bot. What would you like to do instead?`);
             var params = {
                 organisationId: ORGANISATION_ID,
                 intent: session.message.text
@@ -927,16 +927,16 @@ intentDialog.onDefault([
     },
     function (session) {
         // Send a greeting and show the menu.
-        var card = new builder.HeroCard(session)
-        // todo: change to venue.model
-            .title("The Palace Bot")
-            .text("Official Bot of The Palace Manila")
-            .images([
-                 builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
-            ]);
-        var msg = new builder.Message(session).attachments([card]);
-        session.send(msg);
-        session.send("Welcome to the Official The Palace Messenger Bot!");
+        // var card = new builder.HeroCard(session)
+        // // todo: change to venue.model
+        //     .title("The Palace Bot")
+        //     .text("Official Bot of The Palace Manila")
+        //     .images([
+        //          builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
+        //     ]);
+        // var msg = new builder.Message(session).attachments([card]);
+        // session.send(msg);
+        // session.send("Welcome to the Official The Palace Messenger Bot!");
         session.beginDialog('/menu');
     }
 ]);
