@@ -1,5 +1,6 @@
 var builder = require('botbuilder'),
-    async = require('async')
+    async = require('async'),
+    partyBot = require('partybot-http-client');
 
 const ORGANISATION_ID = require('../constants').ORGANISATION_ID;
 module.exports = [
@@ -20,7 +21,7 @@ module.exports = [
                     session.send(err);
                     session.reset();
                 } else {
-                    session.send("Which venue would you like to get in the guest list for?");
+                    session.send('Which venue would you like to book a table at?');
                     builder.Prompts.choice(session, msg, selectString);
                 }
                 
@@ -78,11 +79,11 @@ module.exports = [
         session.dialogData.venueId = venueId;
         var getEventsParams = {
             organisationId: session.dialogData.organisationId,
-            venueId: session.dialogData.venueId
+            venue_id: session.dialogData.venueId
         };
         var msg = new builder.Message(session);
         async.waterfall([
-            async.apply(getVenues, getEventsParams, msg),
+            async.apply(getEvents, getEventsParams, msg),
             formatBody,
             sendMessage
             ],
@@ -92,8 +93,8 @@ module.exports = [
                 
             });
 
-        function getVenues(getEventsParams, msg, callback) {
-            partyBot.events.getAllEventsInVenueInOrganisation(getEventsParams, function(err, res, body) {
+        function getEvents(getEventsParams, msg, callback) {
+            partyBot.events.getSorted(getEventsParams, function(err, res, body) {
                 if(!err && res.statusCode == 200) {
                     if(body.length > 0) {
                         callback(null, body, msg);
@@ -109,12 +110,26 @@ module.exports = [
         function formatBody(body, msg, callback) {
             var attachments = [];
             var selectString = [];
-            body.forEach(function(value, index) {
+
+            body.map(function(value, index) {
+                var monthNames = [
+                "January", "February", "March",
+                "April", "May", "June", "July",
+                "August", "September", "October",
+                "November", "December"
+                ];
+
+                var date = new Date(value.next_date);
+                var day = date.getDate();
+                var monthIndex = date.getMonth();
+                var year = date.getFullYear();
+
+                var description = `${monthNames[monthIndex]} ${day} ${year}`;
                 selectString.push('select:'+value._id);
                 attachments.push(
                     new builder.HeroCard(session)
                     .title(value.name)
-                    .text(value.description)
+                    .text(description)
                     .images([
                         builder.CardImage.create(session, value.image || 
                             "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
