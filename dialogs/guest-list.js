@@ -115,12 +115,25 @@ module.exports = [
             var attachments = [];
             var selectString = [];
             body.map(function(value, index) {
+                var monthNames = [
+                "January", "February", "March",
+                "April", "May", "June", "July",
+                "August", "September", "October",
+                "November", "December"
+                ];
+
+                var date = new Date(value.next_date);
+                var day = date.getDate();
+                var monthIndex = date.getMonth();
+                var year = date.getFullYear();
+
+                var description = `${monthNames[monthIndex]} ${day} ${year}`;
                 selectString.push('select:'+value._id);
                 attachments.push(
                     new builder.HeroCard(session)
                     .title(value.name)
                     .text(value.description)
-                    .text(value.next_date)
+                    .text(description)
                     .images([
                         builder.CardImage.create(session, value.image || 
                             "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
