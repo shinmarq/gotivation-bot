@@ -1,6 +1,6 @@
 var builder = require('botbuilder'),
-    async = require('async')
-
+    async = require('async'),
+    partyBot = require('partybot-http-client');
 const ORGANISATION_ID = require('../constants').ORGANISATION_ID;
 module.exports = [
     function (session) {
