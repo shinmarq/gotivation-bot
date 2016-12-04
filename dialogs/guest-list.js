@@ -196,12 +196,38 @@ module.exports = [
     function (session, results) {
         if (results.response && results.response.validCode == true) {
             session.dialogData.promoter = results.response;
-            session.endDialog(`You,${session.dialogData.party.toString()} has/have now been successfully guest listed \
-            for ${session.dialogData.event} at ${session.dialogData.venue}! \
-            Your name will be under ${session.dialogData.promoter.promoterCode} \
-            so please bring a valid ID with birth date.\n \
-            Remember to be there before the 12MN cutoff and follow the dress code. \
-            Note that the management has the right to refuse entry at all times.`);
+            var params = {
+                organisationId: session.dialogData.organisationId,
+                order_items: [{
+                    name: session.dialogData.event,
+                    price: 0,
+                    some_id: session.dialogData.eventId,
+                    some_type: 'Event'
+                }],
+                status: 'approved',
+                particulars: [{
+                    label: 'party',
+                    value: session.dialogData.party
+                }],
+                promoter_code: session.dialogData.promoter.promoterCode,
+                order_type: 'guest-list'
+
+            };
+
+            createOrder(params, function(statusCode) {
+                if(statusCode == 200) {
+                    session.endDialog(`You,${session.dialogData.party.toString()} has/have now been successfully guest listed \
+                        for ${session.dialogData.event} at ${session.dialogData.venue}! \
+                            Your name will be under ${session.dialogData.promoter.promoterCode} \
+                        so please bring a valid ID with birth date.\n \
+                        Remember to be there before the 12MN cutoff and follow the dress code. \
+                        Note that the management has the right to refuse entry at all times.`);
+                } else {
+                    session.send('Something went wrong and your order is not saved. Please try again');
+                }
+            });
+
+            
         } else {
             session.endDialog(`We have received your guest list request for ${session.dialogData.event}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
         }
@@ -210,6 +236,7 @@ module.exports = [
 
 function createOrder(params, callback) {
     partyBot.orders.createOrder(params, function(err, response, body) {
-
+        console.log(response.statusCode);
+        callback(response.statusCode)
     });
 };
