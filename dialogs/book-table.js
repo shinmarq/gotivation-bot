@@ -1,15 +1,16 @@
 var builder = require('botbuilder'),
     async = require('async'),
+    _ = require('underscore'),
     partyBot = require('partybot-http-client');
 
 const ORGANISATION_ID = require('../constants').ORGANISATION_ID;
 module.exports = [
+    // Getting Venues
     function (session) {
         var options = {
             organisationId: session.dialogData.organisationId = ORGANISATION_ID
         };
 
-        // Get Venues
         var msg = new builder.Message(session);
         async.waterfall([
             async.apply(getVenues, options, msg),
@@ -72,8 +73,9 @@ module.exports = [
             callback(null, msg, selectString);
         }
     },
+
+    // Getting Events
     function(session, results) {
-        // Get Events
         var kvPair = results.response.entity.split(':');
         var venueId = session.dialogData.eventId = kvPair[1];
         session.dialogData.venueId = venueId;
@@ -152,8 +154,9 @@ module.exports = [
             callback(null, msg, selectString);
         }
     }, // End Get Events
+
+    // Getting Tables Types
     function(session, results) {
-        // Get Tables Types
         var kvPair = results.response.entity.split(':');
         var eventId = session.dialogData.eventId = kvPair[1];
         session.dialogData.eventId = eventId;
@@ -221,8 +224,8 @@ module.exports = [
         }
     },
 
+    // Get Tables
     function(session, results) {
-        // Get Tables
 
         var action, item;
         // var venue = session.dialogData.venue = item;
@@ -298,8 +301,9 @@ module.exports = [
             callback(null, msg, selectString);
         }
     },
+
+    // Get Table
     function(session, results) {
-        // Get Table
         var kvPair = results.response.entity.split(':');
         var tableId = kvPair[1];
         session.dialogData.tableId = tableId;
@@ -330,9 +334,38 @@ module.exports = [
         }
 
         function formatBody(body, callback) {
-            var attachments = [];
-            var msgString = "You've successfully booked Table: "+body.name || '';
-            callback(null, msgString);
+            var params = {
+                organisationId: session.dialogData.organisationId,
+                order_items: [{
+                    name: body.name,
+                    price: _.find(body.prices, function(value) {
+                         return value._event._id == session.dialogData.eventId;
+                    }).price || 0,
+                    some_id: session.dialogData.tableId,
+                    some_type: 'Product'
+                }],
+                status: 'pending',
+                order_type: 'table-booking'
+            }
+
+            createOrder(params, function(statusCode) {
+                if(statusCode == 200) { 
+                    var attachments = [];
+                    var msgString = "You've successfully booked Table: "+body.name || '';
+                    callback(null, msgString);
+                } else {
+                    session.send('Something went wrong and your order is not saved. Please try again');
+                    session.beginDialog('/book-table');
+                }
+            });
+            
         }
     }
 ]
+
+function createOrder(params, callback) {
+    partyBot.orders.createOrder(params, function(err, response, body) {
+        console.log(response.statusCode);
+        callback(response.statusCode)
+    });
+};
