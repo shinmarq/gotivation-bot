@@ -229,7 +229,29 @@ module.exports = [
 
             
         } else {
-            session.endDialog(`We have received your guest list request for ${session.dialogData.event}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`)
+            var params = {
+                organisationId: session.dialogData.organisationId,
+                order_items: [{
+                    name: session.dialogData.event,
+                    price: 0,
+                    some_id: session.dialogData.eventId,
+                    some_type: 'Event'
+                }],
+                status: 'pending',
+                particulars: [{
+                    label: 'party',
+                    value: session.dialogData.party
+                }],
+                order_type: 'guest-list'
+            };
+
+            createOrder(params, function(statusCode) {
+                if(statusCode == 200) {
+                    session.endDialog(`We have received your guest list request for ${session.dialogData.event}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`);                    
+                } else {
+                    session.send('Something went wrong and your order is not saved. Please try again');
+                }
+            });
         }
     }
 ];
