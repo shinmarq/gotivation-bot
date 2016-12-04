@@ -1,5 +1,6 @@
 var builder = require('botbuilder'),
     async = require('async'),
+    _ = require('underscore'),
     partyBot = require('partybot-http-client');
 const ORGANISATION_ID = require('../constants').ORGANISATION_ID;
 module.exports = [
@@ -98,7 +99,6 @@ module.exports = [
 
         function getEvents(getEventsParams, msg, callback) {
             partyBot.events.getSorted(getEventsParams, function(err, res, body) {
-                // console.log(res.statusCode);
                 if(!err && res.statusCode == 200) {
                     if(body.length > 0) {
                         callback(null, body, msg);
@@ -164,7 +164,6 @@ module.exports = [
             async.apply(getEvent, session.dialogData)
             ],
             function(err, event) {
-                console.log(event);
                 session.dialogData.event = event.name;
                 session.dialogData.venue = event._venue_id.name;
                 session.beginDialog('/ensure-party', session.endDialog);
