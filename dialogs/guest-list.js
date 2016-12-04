@@ -163,15 +163,17 @@ module.exports = [
         async.waterfall([
             async.apply(getEvent, session.dialogData)
             ],
-            function(err, eventName) {
-                session.dialogData.event = eventName;
-                session.beginDialog('/ensure-party');
+            function(err, event) {
+                console.log(event);
+                session.dialogData.event = event.name;
+                session.dialogData.venue = event._venue_id.name;
+                session.beginDialog('/ensure-party', session.endDialog);
 
             })
 
         function getEvent(params, callback) {
             partyBot.events.getEventInVenueInOrganisation(params, function(err, res, body) {
-                callback(null, body.event.name);
+                callback(null, body.event);
             });
         }
     },
@@ -186,16 +188,18 @@ module.exports = [
         //      - if yes enter promoter code
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
+            session.dialogData.promoter = {};
             session.beginDialog('/ensure-promoter-code', session.dialogData);
         } else {
             next();
         }
     },
     function (session, results) {
-        if (results.response && results.response === 'valid') {
+        if (results.response && results.response.validCode == true) {
+            session.dialogData.promoter = results.response;
             session.endDialog(`You,${session.dialogData.party.toString()} has/have now been successfully guest listed \
-            for ${session.dialogData.eventId} at ${session.dialogData.venueId}! \
-            Your name will be under ${session.dialogData.promoterCode} \
+            for ${session.dialogData.event} at ${session.dialogData.venue}! \
+            Your name will be under ${session.dialogData.promoter.promoterCode} \
             so please bring a valid ID with birth date.\n \
             Remember to be there before the 12MN cutoff and follow the dress code. \
             Note that the management has the right to refuse entry at all times.`);
@@ -204,3 +208,9 @@ module.exports = [
         }
     }
 ];
+
+function createOrder(params, callback) {
+    partyBot.orders.createOrder(params, function(err, response, body) {
+
+    });
+};

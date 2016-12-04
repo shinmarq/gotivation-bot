@@ -13,6 +13,7 @@ var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW
 const util = require('util');
 
 var GuestList = require('./dialogs/guest-list'),
+    EnsurePromoterCode = require('./dialogs/ensure-promoter-code'),
     BookTable = require('./dialogs/book-table');
 //=========================================================
 // Bot Setup
@@ -238,47 +239,7 @@ bot.dialog('/ensure-party', [
     }
 ]);
 
-bot.dialog('/ensure-promoter-code', [
-    function (session, args, next) {
-        session.dialogData = args || {};
-        if (!session.dialogData.promoterCode) {
-            builder.Prompts.text(session, `Please enter your promoter code for ${session.dialogData.event} now:`);
-        } else {
-            // validate via API
-            // if promo code valid
-            session.endDialogWithResult(session.dialogData.promoterCode);
-            // else
-        }
-    },
-    function (session, results, next) {
-        session.dialogData.promoterCode = results.response;
-        session.replaceDialog('/ensure-promoter-code', session.dialogData);
-    }
-    // function (session, results) {
-    //     var choice = results.response ? 'yes' : 'no';
-    //     if (choice === 'yes') {
-    //         session.endDialogWithResult( session.dialogData.party );
-    //     } else {
-    //         session.replaceDialog('/ensure-promoter-code');
-    //     }
-    // }
-
-    // function (session, args, next) {
-    //     session.dialogData = args || {};
-    //     if (!session.userData[`${session.dialogData.venue}`].promoCode) {
-    //         builder.Prompts.text(session, `Please enter your promoter code for ${session.dialogData.venue} now:`);
-    //     } else {
-    //         // validate via API
-    //         // if promo code valid
-    //         session.endDialogWithResult('valid');
-    //         // else
-    //     }
-    // },
-    // function (session, results, next) {
-    //     session.userData[`${session.dialogData.venue}`].promoCode = results.response;
-    //     session.replaceDialog('/ensure-promoter-code', session.dialogData);
-    // }
-]);
+bot.dialog('/ensure-promoter-code', EnsurePromoterCode.Dialog);
 
 bot.dialog('/book-table', BookTable);
 
