@@ -326,100 +326,121 @@ bot.dialog('/buy-tickets', [
 // Natural Language Processing
 //=========================================================
 
-intentDialog.matches('Greet', [ 
-    function (session, args, next) {
-        var argsJSONString = JSON.stringify(args);
-        // session.send(`Greet intent detected. ${argsJSONString}.`);
-        session.send(`Hello.`);
-        next();
-    }
-]);
+// intentDialog.matches('Greet', [ 
+//     function (session, args, next) {
+//         var argsJSONString = JSON.stringify(args);
+//         // session.send(`Greet intent detected. ${argsJSONString}.`);
+//         session.send(`Hello.`);
+//         next();
+//     }
+// ]);
 
-intentDialog.matches('AskSomething', [ 
-    function (session, args, next) {
-        var argsJSONString = JSON.stringify(args);
-        // session.send(`AskSomething intent detected. ${argsJSONString}`);
-        session.send(`Getting ready for tonight's craziness at The Palace! How about you?`);
-        next();
-    }
-]);
+// intentDialog.matches('AskSomething', [ 
+//     function (session, args, next) {
+//         var argsJSONString = JSON.stringify(args);
+//         // session.send(`AskSomething intent detected. ${argsJSONString}`);
+//         session.send(`Getting ready for tonight's craziness at The Palace! How about you?`);
+//         next();
+//     }
+// ]);
 
-intentDialog.matches('Appreciate', [ 
-    function (session, args, next) {
-        var argsJSONString = JSON.stringify(args);
-        session.send(`No problem :)`);
-        // session.send(`Appreciate intent detected. ${argsJSONString}`);
-        next();
-    }
-]);
+// intentDialog.matches('Appreciate', [ 
+//     function (session, args, next) {
+//         var argsJSONString = JSON.stringify(args);
+//         session.send(`No problem :)`);
+//         // session.send(`Appreciate intent detected. ${argsJSONString}`);
+//         next();
+//     }
+// ]);
 
-intentDialog.matches('Confirm', [ 
-    function (session, args, next) {
-        var argsJSONString = JSON.stringify(args);
-        session.send(`Cool!`);
-        // session.send(`Confirm intent detected. ${argsJSONString}`);
-        next();
-    }
-]);
+// intentDialog.matches('Confirm', [ 
+//     function (session, args, next) {
+//         var argsJSONString = JSON.stringify(args);
+//         session.send(`Cool!`);
+//         // session.send(`Confirm intent detected. ${argsJSONString}`);
+//         next();
+//     }
+// ]);
 
-intentDialog.matches('Negative', [ 
-    function (session, args, next) {
-        var argsJSONString = JSON.stringify(args);
-        session.send(`Alright!`);
-        // session.send(`Negative intent detected. ${argsJSONString}`);
-        next();
-    }
-]);
+// intentDialog.matches('Negative', [ 
+//     function (session, args, next) {
+//         var argsJSONString = JSON.stringify(args);
+//         session.send(`Alright!`);
+//         // session.send(`Negative intent detected. ${argsJSONString}`);
+//         next();
+//     }
+// ]);
 
-intentDialog.matches('Curse', [ 
-    function (session, args, next) {
-        var argsJSONString = JSON.stringify(args);
-        session.send(`That's not a very nice thing to say :(`);
-        // session.send(`Curse intent detected. ${argsJSONString}`);
-        next();
-    }
-]);
+// intentDialog.matches('Curse', [ 
+//     function (session, args, next) {
+//         var argsJSONString = JSON.stringify(args);
+//         session.send(`That's not a very nice thing to say :(`);
+//         // session.send(`Curse intent detected. ${argsJSONString}`);
+//         next();
+//     }
+// ]);
 
-intentDialog.matches('Leave', [ 
-    function (session, args, next) {
-        var argsJSONString = JSON.stringify(args);
-        session.send(`See you at The Palace!`);
-        // session.send(`Leave intent detected. ${argsJSONString}`);
-        next();
-    }
-]);
+// intentDialog.matches('Leave', [ 
+//     function (session, args, next) {
+//         var argsJSONString = JSON.stringify(args);
+//         session.send(`See you at The Palace!`);
+//         // session.send(`Leave intent detected. ${argsJSONString}`);
+//         next();
+//     }
+// ]);
 
 intentDialog.onDefault([
+    function(session, next) {
+        session.replaceDialog('/default', session.message.text);
+    }
+    // function (session, args, next) {
+    //     // Send a greeting and show the menu.
+    //     var card = new builder.HeroCard(session)
+    //     // todo: change to venue.model
+    //         .title("The Palace Bot")
+    //         .text("Official Bot of The Palace Manila")
+    //         .images([
+    //              builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
+    //         ]);
+    //     var msg = new builder.Message(session).attachments([card]);
+    //     session.send(msg);
+    //     session.send("Welcome to the Official The Palace Messenger Bot!");
+    //     session.beginDialog('/menu');
+    // }
+//
+]);
+
+bot.dialog('/default', [
     function(session, args, next) {
-        var intent = session.message.text;
-        if(intent.length > 0) {
-            session.send(`Sorry, I didn’t quite understand that yet since I’m still a learning bot. What would you like to do instead?`);
+        var entity = args || session.message.text;
+        if(entity && entity.length > 0) {
             var params = {
                 organisationId: ORGANISATION_ID,
-                intent: session.message.text
-            }
-            partyBot.replies.createReply(params, function(err, response, body) {
-                // console.log(err);
-                // console.log(response.statusCode);
-                // console.log(body);
+                entity: entity
+            };
+
+            partyBot.queries.getQueryForBot(params, function(err, response, body) {
+                if(err) {
+                    var createParams = {
+                        organisationId: ORGANISATION_ID,
+                        entity: entity
+                    };
+
+                    partyBot.queries.createQuery(createParams, function(err, response, body) {
+                        console.log(err);
+                        console.log(response);
+                        console.log(body);
+                    }); 
+                    session.send(`Sorry, I didn’t quite understand that yet since I’m still a learning bot. What would you like to do instead?`);
+                    session.replaceDialog('/menu');
+                } else {
+                    session.send(body.reply);
+                }
             });
-            next();
-        } else { 
-            next();
+
+        } else {
+            session.replaceDialog('/menu');
         }
-    },
-    function (session) {
-        // Send a greeting and show the menu.
-        // var card = new builder.HeroCard(session)
-        // // todo: change to venue.model
-        //     .title("The Palace Bot")
-        //     .text("Official Bot of The Palace Manila")
-        //     .images([
-        //          builder.CardImage.create(session, "https://pbs.twimg.com/profile_images/522713296315486208/kZFy9pGU.jpeg")
-        //     ]);
-        // var msg = new builder.Message(session).attachments([card]);
-        // session.send(msg);
-        // session.send("Welcome to the Official The Palace Messenger Bot!");
-        session.beginDialog('/menu');
     }
+//
 ]);
