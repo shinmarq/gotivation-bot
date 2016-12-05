@@ -117,11 +117,11 @@ bot.dialog('/guest-list', GuestList);
 
 bot.dialog('/ensure-party', [
     function (session, args, next) {
-        builder.Prompts.text(session, 'Please enter the names you would like to add in the guest list (separated by a comma):');
+        builder.Prompts.text(session, 'Please enter the names you would like to add in the guest list (one name per line or comma separated):');
     },
     function (session, results, next) {
         if (results.response) {
-            session.dialogData.party = results.response.split(',');
+            session.dialogData.party = results.response.split(/[\s,\n]+/);
             builder.Prompts.confirm(session, `So ${session.dialogData.party}. Is this confirmed?`);
         } 
     },

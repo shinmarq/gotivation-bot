@@ -180,6 +180,8 @@ module.exports = [
         // Confirm Party
         var newResult = _.map(results, function(val) { return val; });
         session.dialogData.party = newResult;
+        console.log(session.dialogData);
+
         builder.Prompts.confirm(session, 'Great! Do you have a promoter code?');
     },
     function(session, results, next) {
@@ -213,15 +215,10 @@ module.exports = [
                 order_type: 'guest-list'
 
             };
-
             createOrder(params, function(statusCode) {
                 if(statusCode == 200) {
-                    session.endDialog(`You,${session.dialogData.party.toString()} has/have now been successfully guest listed \
-                        for ${session.dialogData.event} at ${session.dialogData.venue}! \
-                            Your name will be under ${session.dialogData.promoter.promoterCode} \
-                        so please bring a valid ID with birth date.\n \
-                        Remember to be there before the 12MN cutoff and follow the dress code. \
-                        Note that the management has the right to refuse entry at all times.`);
+                    session.endDialog(`You,${session.dialogData.party.toString()} has/have now been successfully guest listed for ${session.dialogData.event} at ${session.dialogData.venue}! Your name will be under ${session.dialogData.promoter.promoterCode} so please bring a valid ID with birth date.\n
+Remember to be there before the 12MN cutoff and follow the dress code.\nNote that the management has the right to refuse entry at all times.`);
                 } else {
                     session.send('Something went wrong and your order is not saved. Please try again');
                 }
