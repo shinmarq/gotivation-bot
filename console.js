@@ -121,8 +121,8 @@ bot.dialog('/ensure-party', [
     },
     function (session, results, next) {
         if (results.response) {
-            session.dialogData.party = results.response.split(/[\s,\n]+/);
-            builder.Prompts.confirm(session, `So ${session.dialogData.party}. Is this confirmed?`);
+            session.dialogData.party = results.response.split(/[\s,\n]+/) || [];
+            builder.Prompts.confirm(session, `${session.dialogData.party.join('\n')}\n\nIs this confirmed?`);
         } 
     },
     function (session, results) {
