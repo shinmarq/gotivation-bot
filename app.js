@@ -130,13 +130,6 @@ bot.endConversationAction('goodbye', 'See you at The Palace!', { matches: /^good
 
 bot.dialog('/', intentDialog);
 bot.dialog('/menu', Menu).reloadAction('reloadMenu', null, { matches: /^menu|show menu/i });
-function venueCards() {
-    
-}
-
-function eventCards() {
-
-} 
 
 bot.dialog('/guest-list', GuestList); // End guest-list
 
@@ -337,6 +330,7 @@ bot.dialog('/firstRun', [
         // session.send('Welcome');
     },
     function(session, args) {
+        console.log(args);
         session.beginDialog('/default', args.response);
     }
 ]);
