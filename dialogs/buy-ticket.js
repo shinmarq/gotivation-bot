@@ -57,7 +57,7 @@ module.exports = [
                             value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
-                        builder.CardAction.imBack(session, "select:"+value._id, "Select")
+                        builder.CardAction.imBack(session, "select:"+value._id, value.name)
                         ])
                     );
             });
