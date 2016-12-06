@@ -255,7 +255,7 @@ bot.dialog('/default', [
             if(/^menu|show menu/i.test(entity)) {
                 // console.log(entity);
                 session.beginDialog('/menu');
-                next();
+                return next();
             }
             var params = {
                 organisationId: ORGANISATION_ID,
