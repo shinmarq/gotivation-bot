@@ -13,8 +13,9 @@ var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW
 const util = require('util');
 
 var GuestList = require('./dialogs/guest-list'),
-    EnsurePromoterCode = require('./dialogs/ensure-promoter-code'),
-    BookTable = require('./dialogs/book-table');
+    BuyTicket = require('./dialogs/buy-ticket'),
+    BookTable = require('./dialogs/book-table'),
+    EnsurePromoterCode = require('./dialogs/ensure-promoter-code');
 //=========================================================
 // Bot Setup
 //=========================================================
@@ -114,6 +115,7 @@ bot.on('deleteUserData', function (message) {
 
 // Anytime the major version is incremented any existing conversations will be restarted.
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
+bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
 
 //=========================================================
 // Bots Global Actions
@@ -256,67 +258,7 @@ bot.dialog('/ensure-table', [
     }
 ]);
 
-bot.dialog('/buy-tickets', [
-    function (session) {
-        var getTicketParams = {
-            organisationId: ORGANISATION_ID,
-            venueId: VENUE_ID,
-            tags: 'ticket'
-        };
-
-        var msg = new builder.Message(session);
-        async.waterfall([
-            async.apply(getTickets, getTicketParams, msg),
-            formatBody,
-            sendMessage
-            ],
-            function(err, msg, selectString) {
-                session.send("Pick a Ticket");
-                builder.Prompts.choice(session, msg, selectString);
-                
-            });
-        function getTickets(getTicketParams, msg, callback) {
-            partyBot.products.getProducts(getTicketParams, function(err, res, body) {
-                if(!err && res.statusCode == 200) {
-                    callback(null, body, msg);
-                } else {
-                    callback(body, res.statusCode);
-                }
-            });
-        }
-
-        function formatBody(body, msg, callback) {
-            var attachments = [];
-            var selectString = [];
-            body.forEach(function(value, index) {
-                selectString.push('select:'+value._id);
-                attachments.push(
-                    new builder.HeroCard(session)
-                    .title(value.name)
-                    .text(value.description)
-                    .images([
-                        builder.CardImage.create(session, value.image || 
-                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
-                        .tap(builder.CardAction.showImage(session, 
-                            value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
-                        ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "select:"+value._id, "Select")
-                        ])
-                    );
-            });
-            callback(null, msg, attachments, selectString);
-        }
-        
-        function sendMessage(msg, attachments, selectString, callback) {
-            msg
-            .textFormat(builder.TextFormat.xml)
-            .attachmentLayout(builder.AttachmentLayout.carousel)
-            .attachments(attachments);
-            callback(null, msg, selectString);
-        }        
-    }
-]);
+bot.dialog('/buy-tickets', BuyTicket);
 
 //=========================================================
 // Natural Language Processing
@@ -443,4 +385,35 @@ bot.dialog('/default', [
         }
     }
 //
+]);
+
+bot.dialog('/firstRun', [
+    // Get Started
+    function (session) {
+        console.log(session);
+        var params = {
+            "setting_type":"call_to_actions",
+            "thread_state":"new_thread",
+            "call_to_actions":[{
+                "payload":"USER_DEFINED_PAYLOAD"
+            }]
+        };
+
+        request({
+            url: 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAANW2ZALpyZAABANrZAuKgOkZC69lsLkziaA6wsNEMOZAqRgBzguyGvJEkCa7mfA7nw6ewlJq5cHdUytcBqz5YwhcZCDmPPdI12hTh48yjhwOULtIm9yokJ8bm7BUbmZAPALIwXlev1g6mcmWveWZCCjO7bXgFOA5hqtOvjZBPWtSZCwZDZD',
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            form: params
+        },
+
+        function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+            // Print out the response body
+            console.log(body);
+        } else { 
+            // TODO: Handle errors
+            console.log(body);
+        }
+    });
+    },
 ]);

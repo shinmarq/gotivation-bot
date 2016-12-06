@@ -5,6 +5,7 @@ var restify = require('restify'),
     partyBot = require('partybot-http-client'),
     fs = require('fs'),
     util = require('util'),
+    request = require('request'),
     path = require('path');
 
 var Menu = require('./dialogs/menu'),
@@ -90,7 +91,7 @@ bot.on('deleteUserData', function (message) {
 
 // Anytime the major version is incremented any existing conversations will be restarted.
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
-
+bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
 //=========================================================
 // Bots Global Actions
 //=========================================================
@@ -254,7 +255,7 @@ bot.dialog('/default', [
                 organisationId: ORGANISATION_ID,
                 entity: entity
             };
-
+            console.log(params);
             partyBot.queries.getQueryForBot(params, function(err, response, body) {
                 if(err) {
                     session.send(`Sorry, I didn’t quite understand that yet since I’m still a learning bot. What would you like to do instead?`);
@@ -269,3 +270,34 @@ bot.dialog('/default', [
         }
     }
     ]);
+
+bot.dialog('/firstRun', [
+    // Get Started
+    function (session) {
+        console.log(session);
+        var params = {
+            "setting_type":"call_to_actions",
+            "thread_state":"new_thread",
+            "call_to_actions":[{
+                "payload":"USER_DEFINED_PAYLOAD"
+            }]
+        };
+
+        request({
+            url: 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAANW2ZALpyZAABANrZAuKgOkZC69lsLkziaA6wsNEMOZAqRgBzguyGvJEkCa7mfA7nw6ewlJq5cHdUytcBqz5YwhcZCDmPPdI12hTh48yjhwOULtIm9yokJ8bm7BUbmZAPALIwXlev1g6mcmWveWZCCjO7bXgFOA5hqtOvjZBPWtSZCwZDZD',
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            form: params
+        },
+
+        function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+            // Print out the response body
+            console.log(body);
+        } else { 
+            // TODO: Handle errors
+            console.log(body);
+        }
+    });
+    },
+]);
