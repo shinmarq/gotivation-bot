@@ -116,7 +116,8 @@ bot.on('deleteUserData', function (message) {
 
 // Anytime the major version is incremented any existing conversations will be restarted.
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
-bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
+
+// bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
 
 //=========================================================
 // Bots Global Actions
@@ -296,40 +297,40 @@ bot.dialog('/default', [
 //
 ]);
 
-bot.dialog('/firstRun', [
-    // Get Started
-    // function (session) {
-    //     var params = {
-    //         "setting_type":"call_to_actions",
-    //         "thread_state":"new_thread",
-    //         "call_to_actions":[{
-    //             "payload":"Welcome to PartyBot Singapore"
-    //         }]
-    //     };
+// bot.dialog('/firstRun', [
+//     // Get Started
+//     // function (session) {
+//     //     var params = {
+//     //         "setting_type":"call_to_actions",
+//     //         "thread_state":"new_thread",
+//     //         "call_to_actions":[{
+//     //             "payload":"Welcome to PartyBot Singapore"
+//     //         }]
+//     //     };
 
-    //     request({
-    //         url: 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAANW2ZALpyZAABANrZAuKgOkZC69lsLkziaA6wsNEMOZAqRgBzguyGvJEkCa7mfA7nw6ewlJq5cHdUytcBqz5YwhcZCDmPPdI12hTh48yjhwOULtIm9yokJ8bm7BUbmZAPALIwXlev1g6mcmWveWZCCjO7bXgFOA5hqtOvjZBPWtSZCwZDZD',
-    //         method: 'POST',
-    //         headers: {'Content-Type': 'application/json'},
-    //         form: params
-    //     },
+//     //     request({
+//     //         url: 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAANW2ZALpyZAABANrZAuKgOkZC69lsLkziaA6wsNEMOZAqRgBzguyGvJEkCa7mfA7nw6ewlJq5cHdUytcBqz5YwhcZCDmPPdI12hTh48yjhwOULtIm9yokJ8bm7BUbmZAPALIwXlev1g6mcmWveWZCCjO7bXgFOA5hqtOvjZBPWtSZCwZDZD',
+//     //         method: 'POST',
+//     //         headers: {'Content-Type': 'application/json'},
+//     //         form: params
+//     //     },
 
-    //     function (error, response, body) {
-    //         if (!error && response.statusCode == 200) {
-    //             console.log(body);
-    //             session.endDialog();
-    //         } else { 
-    //             console.log(body);
-    //             session.endDialog();
-    //         }
-    //     });
-    // },
-    function(session, args, next) {
-        builder.Prompts.text(session, 'Welcome!');
-        // session.send('Welcome');
-    },
-    function(session, args) {
-        console.log(args);
-        session.beginDialog('/default', args.response);
-    }
-]);
+//     //     function (error, response, body) {
+//     //         if (!error && response.statusCode == 200) {
+//     //             console.log(body);
+//     //             session.endDialog();
+//     //         } else { 
+//     //             console.log(body);
+//     //             session.endDialog();
+//     //         }
+//     //     });
+//     // },
+//     function(session, args, next) {
+//         builder.Prompts.text(session, 'Welcome!');
+//         // session.send('Welcome');
+//     },
+//     function(session, args) {
+//         console.log(args);
+//         session.beginDialog('/default', args.response);
+//     }
+// ]);
