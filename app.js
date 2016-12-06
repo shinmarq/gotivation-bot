@@ -390,12 +390,11 @@ bot.dialog('/default', [
 bot.dialog('/firstRun', [
     // Get Started
     function (session) {
-        console.log(session);
         var params = {
             "setting_type":"call_to_actions",
             "thread_state":"new_thread",
             "call_to_actions":[{
-                "payload":"USER_DEFINED_PAYLOAD"
+                "payload":"Welcome to PartyBot Singapore"
             }]
         };
 
@@ -408,12 +407,12 @@ bot.dialog('/firstRun', [
 
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
-            // Print out the response body
-            console.log(body);
-        } else { 
-            // TODO: Handle errors
-            console.log(body);
-        }
-    });
-    },
+                console.log(body);
+                session.endDialog();
+            } else { 
+                console.log(body);
+                session.endDialog();
+            }
+        });
+    }
 ]);
