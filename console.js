@@ -268,6 +268,13 @@ bot.dialog('/default', [
                             'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
                             'In the mean time, type “Menu” if you want to find out the cool things I can do for you!');
                         // session.replaceDialog('/menu');
+                        var createParams = {
+                            organisationId: ORGANISATION_ID,
+                            entity: entity
+                        };
+                        partyBot.queries.createQuery(createParams, function(err, response, body) {
+                            console.log(body);
+                        });
                     } else {
                         session.send(body.reply);
                     }
