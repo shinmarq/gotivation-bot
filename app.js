@@ -185,7 +185,6 @@ bot.dialog('/menu', [
     function (session, results) {
         if (results.response) 
         {
-            console.log(results.response.entity);
             switch (results.response.entity)
             {
                 case 'Guest-List':
@@ -369,9 +368,7 @@ bot.dialog('/default', [
                     };
 
                     partyBot.queries.createQuery(createParams, function(err, response, body) {
-                        console.log(err);
-                        console.log(response);
-                        console.log(body);
+
                     }); 
                     session.send(`Sorry, I didn’t quite understand that yet since I’m still a learning bot. What would you like to do instead?`);
                     session.replaceDialog('/menu');

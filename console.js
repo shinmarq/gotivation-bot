@@ -249,7 +249,6 @@ intentDialog.onDefault([
 
 bot.dialog('/default', [
     function(session, args, next) {
-        console.log(args);
         var entity = args || session.message.text;
         if(entity && entity.length > 0) {
             var params = {
