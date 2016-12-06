@@ -250,6 +250,11 @@ intentDialog.onDefault([
 bot.dialog('/default', [
     function(session, args, next) {
         var entity = args || session.message.text;
+        if(/^menu|show menu/i.test(entity)) {
+            session.replaceDialog('/menu');
+            return next();
+        }
+
         if(entity && entity.length > 0) {
             var params = {
                 organisationId: ORGANISATION_ID,
@@ -257,8 +262,10 @@ bot.dialog('/default', [
             };
             partyBot.queries.getQueryForBot(params, function(err, response, body) {
                 if(err) {
-                    session.send(`Sorry, I didn’t quite understand that yet since I’m still a learning bot. What would you like to do instead?`);
-                    session.replaceDialog('/menu');
+                    session.send(
+                        'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
+                        'In the mean time, type “Menu” if you want to find out the cool things I can do for you!');
+                    // session.replaceDialog('/menu');
                 } else {
                     session.send(body.reply);
                 }
