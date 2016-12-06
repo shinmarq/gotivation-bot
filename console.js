@@ -250,12 +250,13 @@ intentDialog.onDefault([
 bot.dialog('/default', [
     function(session, args, next) {
         var entity = args || session.message.text;
-        if(/^menu|show menu/i.test(entity)) {
-            session.replaceDialog('/menu');
-            return next();
-        }
 
         if(entity && entity.length > 0) {
+            if(/^menu|show menu/i.test(entity)) {
+                // console.log(entity);
+                session.beginDialog('/menu');
+                next();
+            }
             var params = {
                 organisationId: ORGANISATION_ID,
                 entity: entity
@@ -272,7 +273,7 @@ bot.dialog('/default', [
             });
 
         } else {
-            session.replaceDialog('/menu');
+            session.beginDialog('/menu');
         }
     }
 //

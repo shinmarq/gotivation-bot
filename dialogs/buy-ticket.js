@@ -21,7 +21,7 @@ module.exports = [
                     session.send(err);
                     session.reset();
                 } else {
-                    session.send("Which venue would you like to get in the guest list for?");
+                    session.send("Which venue would you like to buy a ticket");
                     builder.Prompts.choice(session, msg, selectString);
                 }
                 

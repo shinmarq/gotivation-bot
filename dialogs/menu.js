@@ -24,7 +24,7 @@ module.exports = [
                 builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/guestlist.jpg')
                 ])
             .buttons([
-                builder.CardAction.imBack(session, "Guest-List", "Select")
+                builder.CardAction.imBack(session, "Guest-List", "Guest List")
                 ]),
             
             new builder.HeroCard(session)
@@ -33,7 +33,7 @@ module.exports = [
                 builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/table.jpg')
                 ])
             .buttons([
-                builder.CardAction.imBack(session, "Book-A-Table", "Select")
+                builder.CardAction.imBack(session, "Book-A-Table", "Book a Table")
                 ]),
             new builder.HeroCard(session)
             .title('Buy Tickets')
@@ -41,7 +41,7 @@ module.exports = [
                 builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/tickets.jpg')
                 ])
             .buttons([
-                builder.CardAction.imBack(session, "Buy-Tickets", "Select")
+                builder.CardAction.imBack(session, "Buy-Tickets", "Buy Tickets")
                 ]),
 
             new builder.HeroCard(session)
@@ -50,13 +50,16 @@ module.exports = [
                 builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/cancel.jpg')
                 ])
             .buttons([
-                builder.CardAction.imBack(session, "Cancel", "Select")
+                builder.CardAction.imBack(session, "Cancel", "Cancel")
                 ])
             ]
         }
         
     },
     function (session, results) {
+        // console.log(session.message.text);
+        // console.log(results.response.entity);
+        // console.log(results);
         if (results.response) 
         {
             switch (results.response.entity)
