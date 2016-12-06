@@ -46,6 +46,9 @@ module.exports = [
 
             new builder.HeroCard(session)
             .title('Cancel')
+            .images([
+                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/cancel.jpg')
+                ])
             .buttons([
                 builder.CardAction.imBack(session, "Cancel", "Select")
                 ])
@@ -56,7 +59,6 @@ module.exports = [
     function (session, results) {
         if (results.response) 
         {
-            console.log(results.response.entity);
             switch (results.response.entity)
             {
                 case 'Guest-List':
