@@ -268,30 +268,30 @@ intentDialog.onDefault([
 bot.dialog('/default', [
     function(session, args, next) {
         var entity = args || session.message.text;
-
+        console.log(entity);
         if(entity && entity.length > 0) {
-            if(/^menu|show menu/i.test(entity)) {
-                // console.log(entity);
-                session.beginDialog('/menu');
-                return next();
-            }
-            var params = {
-                organisationId: ORGANISATION_ID,
-                entity: entity
-            };
-            partyBot.queries.getQueryForBot(params, function(err, response, body) {
-                if(err) {
-                    session.send(
-                        'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
-                        'In the mean time, type “Menu” if you want to find out the cool things I can do for you!');
-                    // session.replaceDialog('/menu');
-                } else {
-                    session.send(body.reply);
-                }
-            });
+            if(!(/^menu|show menu/i.test(entity))) {
+                var params = {
+                    organisationId: ORGANISATION_ID,
+                    entity: entity
+                };
+                partyBot.queries.getQueryForBot(params, function(err, response, body) {
+                    console.log(err);
+                    console.log(response.statusCode);
+                    console.log(body);
+                    if(err) {
+                        session.send(
+                            'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
+                            'In the mean time, type “Menu” if you want to find out the cool things I can do for you!');
+                        // session.replaceDialog('/menu');
+                    } else {
+                        session.send(body.reply);
+                    }
+                });
 
-        } else {
-            session.beginDialog('/menu');
+            } else {
+                session.beginDialog('/menu');
+            }
         }
     }
 //
