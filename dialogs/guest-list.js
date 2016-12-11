@@ -128,7 +128,7 @@ module.exports = [
                 var year = date.getFullYear();
 
                 var description = `${monthNames[monthIndex]} ${day} ${year}`;
-                selectString.push('select:'+value._id);
+                selectString.push(`select:${value._id},date:${value.next_date}`);
                 attachments.push(
                     new builder.HeroCard(session)
                     .title(value.name)
@@ -141,7 +141,7 @@ module.exports = [
                             value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
-                        builder.CardAction.imBack(session, "select:"+value._id, value.name)
+                        builder.CardAction.imBack(session, `select:${value._id},date:${value.next_date}`, value.name)
                         ])
                     );
             });
@@ -158,8 +158,12 @@ module.exports = [
     },
     function(session, results) {
         // Enter Names
-        var kvPair = results.response.entity.split(':');
+        var fullResult = results.response.entity.split(',');
+        var kvPair = fullResult[0].split(':');
         var eventId = session.dialogData.eventId = kvPair[1];
+
+        var dateResult = fullResult[1].split('date:');
+        var selectedDate = session.dialogData.eventDate = dateResult[1];
         async.waterfall([
             async.apply(getEvent, session.dialogData)
             ],
@@ -180,7 +184,6 @@ module.exports = [
         // Confirm Party
         var newResult = _.map(results, function(val) { return val; });
         session.dialogData.party = newResult;
-        console.log(session.dialogData);
 
         builder.Prompts.confirm(session, 'Great! Do you have a promoter code?');
     },
@@ -204,17 +207,19 @@ module.exports = [
                     name: session.dialogData.event,
                     price: 0,
                     some_id: session.dialogData.eventId,
-                    some_type: 'Event'
+                    some_type: 'Event',
+                    event_date: session.dialogData.eventDate
                 }],
                 status: 'approved',
                 particulars: [{
                     label: 'party',
-                    value: session.dialogData.party
+                    value: session.dialogData.party,
                 }],
                 promoter_code: session.dialogData.promoter.promoterCode,
                 order_type: 'guest-list'
 
             };
+
             createOrder(params, function(statusCode) {
                 if(statusCode == 200) {
                     session.endDialog(`You have now been successfully guest listed for ${session.dialogData.event} at ${session.dialogData.venue}! Your name will be under ${session.dialogData.promoter.promoterCode} so please bring a valid ID with birth date.\n
@@ -232,12 +237,13 @@ Remember to be there before the 12MN cutoff and follow the dress code.\nNote tha
                     name: session.dialogData.event,
                     price: 0,
                     some_id: session.dialogData.eventId,
-                    some_type: 'Event'
+                    some_type: 'Event',
+                    event_date: session.dialogData.eventDate
                 }],
                 status: 'pending',
                 particulars: [{
                     label: 'party',
-                    value: session.dialogData.party
+                    value: session.dialogData.party,
                 }],
                 order_type: 'guest-list'
             };
@@ -255,7 +261,6 @@ Remember to be there before the 12MN cutoff and follow the dress code.\nNote tha
 
 function createOrder(params, callback) {
     partyBot.orders.createOrder(params, function(err, response, body) {
-        console.log(response.statusCode);
         callback(response.statusCode)
     });
 };
