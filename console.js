@@ -12,6 +12,7 @@ var Menu = require('./dialogs/menu'),
     GuestList = require('./dialogs/guest-list'),
     BookTable = require('./dialogs/book-table'),
     BuyTicket = require('./dialogs/buy-ticket'),
+    FirstRun = require('./dialogs/first-run'),
     EnsurePromoterCode = require('./dialogs/ensure-promoter-code');
 
 var server = restify.createServer();
@@ -91,8 +92,7 @@ bot.on('deleteUserData', function (message) {
 
 // Anytime the major version is incremented any existing conversations will be restarted.
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
-
-// bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
+bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
 
 //=========================================================
 // Bots Global Actions
@@ -288,6 +288,7 @@ bot.dialog('/default', [
 //
 ]);
 
+bot.dialog('/firstRun', FirstRun);
 // bot.dialog('/firstRun', [
 //     // Get Started
 //     // function (session) {
