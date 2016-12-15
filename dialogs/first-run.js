@@ -6,11 +6,13 @@ module.exports = [
     function (session) {
         CL(session.message.address);
         var params = {
-        	organisationId: Constants.ORGANISATION_ID
+        	organisationId: Constants.ORGANISATION_ID,
+        	sender: session.message.address.user.id
         }
         partyBot.sender.getSender(params, function(error, response, body) {
         	CL("Getting User");
-        	if(!error && body.length > 0) {
+        	CL(params);
+        	if(!error && response.statusCode == 200) {
         		CL("Sender found");
         		CL(error);
         		CL(response.statusCode);
