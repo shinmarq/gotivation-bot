@@ -65,7 +65,6 @@ var intentDialog = new builder.IntentDialog({
 //=========================================================
 // Activity Events
 //=========================================================
-
 bot.on('conversationUpdate', function (message) {
    // Check for group conversations
     if (message.address.conversation.isGroup) {
@@ -117,7 +116,7 @@ bot.on('deleteUserData', function (message) {
 
 // Anytime the major version is incremented any existing conversations will be restarted.
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
-bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
+// bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
 
 //=========================================================
 // Bots Global Actions
@@ -128,7 +127,7 @@ bot.endConversationAction('goodbye', 'See you at The Palace!', { matches: /^good
 //=========================================================
 // Bots Dialogs
 //=========================================================
-
+bot.dialog('firstRun', FirstRun);
 bot.dialog('/', intentDialog);
 bot.dialog('/menu', Menu).reloadAction('reloadMenu', null, { matches: /^menu|show menu/i });
 
@@ -301,7 +300,7 @@ bot.dialog('/default', [
 //
 ]);
 
-bot.dialog('/firstRun', FirstRun);
+
 // bot.dialog('/firstRun', [
 //     // Get Started
 //     // function (session) {
