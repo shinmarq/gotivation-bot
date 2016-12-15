@@ -136,7 +136,7 @@ bot.use({
             next();
         }
     }
-};
+});
 bot.dialog('/firstRun', FirstRun);
 bot.dialog('/', intentDialog);
 bot.dialog('/menu', Menu).reloadAction('reloadMenu', null, { matches: /^menu|show menu/i });
