@@ -203,6 +203,7 @@ module.exports = [
             session.dialogData.promoter = results.response;
             var params = {
                 organisationId: session.dialogData.organisationId,
+                _user_name: session.message.address.user.name,
                 order_items: [{
                     name: session.dialogData.event,
                     price: 0,
@@ -233,6 +234,7 @@ Remember to be there before the 12MN cutoff and follow the dress code.\nNote tha
         } else {
             var params = {
                 organisationId: session.dialogData.organisationId,
+                _user_name: session.message.address.user.name,
                 order_items: [{
                     name: session.dialogData.event,
                     price: 0,

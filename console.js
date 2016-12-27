@@ -252,7 +252,6 @@ intentDialog.onDefault([
 bot.dialog('/default', [
     function(session, args, next) {
         var entity = args || session.message.text;
-        console.log(entity);
         if(entity && entity.length > 0) {
             if(!(/^menu|show menu/i.test(entity))) {
                 var params = {
@@ -260,9 +259,6 @@ bot.dialog('/default', [
                     entity: entity
                 };
                 partyBot.queries.getQueryForBot(params, function(err, response, body) {
-                    console.log(err);
-                    console.log(response.statusCode);
-                    console.log(body);
                     if(err) {
                         session.send(
                             'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
