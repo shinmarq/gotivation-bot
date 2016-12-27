@@ -223,7 +223,7 @@ module.exports = [
 
             createOrder(params, function(statusCode) {
                 if(statusCode == 200) {
-                    session.endDialog(`You have now been successfully guest listed for ${session.dialogData.event} at ${session.dialogData.venue}! Your name will be under ${session.dialogData.promoter.promoterCode} so please bring a valid ID with birth date.\n
+                    session.endDialog(`You have now been successfully guest listed for ${session.dialogData.event} at ${session.dialogData.venue}! Your name will be under ${session.dialogData.promoter.name.first} ${session.dialogData.promoter.name.last} so please bring a valid ID with birth date.\n
 Remember to be there before the 12MN cutoff and follow the dress code.\nNote that the management has the right to refuse entry at all times.`);
                 } else {
                     session.send('Something went wrong and your order is not saved. Please try again');
