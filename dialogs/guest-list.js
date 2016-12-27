@@ -216,11 +216,10 @@ module.exports = [
                     label: 'party',
                     value: session.dialogData.party,
                 }],
-                promoter_code: session.dialogData.promoter.promoterCode,
+                promoter_id: session.dialogData.promoter._id,
                 order_type: 'guest-list'
-
             };
-
+            console.log(params);
             createOrder(params, function(statusCode) {
                 if(statusCode == 200) {
                     session.endDialog(`You have now been successfully guest listed for ${session.dialogData.event} at ${session.dialogData.venue}! Your name will be under ${session.dialogData.promoter.name.first} ${session.dialogData.promoter.name.last} so please bring a valid ID with birth date.\n

@@ -24,6 +24,7 @@ module.exports = {
             };
             getPromoterCode(params, function(error, statusCode, body) {
                 if(statusCode == 200) {
+                    session.dialogData.promoter._id = body._id;
                     session.dialogData.promoter.name = body.name;
                     session.dialogData.promoter.promoterCode = body.promoter_code;
                     session.dialogData.promoter.validCode = true;
