@@ -216,7 +216,7 @@ module.exports = [
                     label: 'party',
                     value: session.dialogData.party,
                 }],
-                promoter_id: session.dialogData.promoter._id,
+                promoter: session.dialogData.promoter._id,
                 order_type: 'guest-list'
             };
             console.log(params);
