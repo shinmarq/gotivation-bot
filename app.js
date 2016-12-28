@@ -304,7 +304,7 @@ bot.dialog('/default', [
         var entity = args || session.message.text;
         console.log(entity);
         if(entity && entity.length > 0) {
-            if(!(/^menu|show menu/i.test(entity) || !entity === "GET_STARTED")) {
+            if(!(/^menu|show menu/i.test(entity))) {
                 var params = {
                     organisationId: ORGANISATION_ID,
                     entity: entity
