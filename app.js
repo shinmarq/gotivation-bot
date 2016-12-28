@@ -336,5 +336,3 @@ bot.dialog('/default', [
     }
 //
 ]);
-
-bot.dialog('/firstRun', FirstRun);
