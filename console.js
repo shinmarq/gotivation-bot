@@ -92,7 +92,7 @@ bot.on('deleteUserData', function (message) {
 
 // Anytime the major version is incremented any existing conversations will be restarted.
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
-bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
+// bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
 
 //=========================================================
 // Bots Global Actions
@@ -103,6 +103,40 @@ bot.endConversationAction('goodbye', 'See you at The Palace!', { matches: /^good
 //=========================================================
 // Bots Dialogs
 //=========================================================
+bot.use({
+    botbuilder: function (session, next) {
+        if (!session.userData.firstRun) {
+            var params = {
+                setting_type:"call_to_actions",
+                thread_state:"new_thread",
+                call_to_actions:[{
+                    payload:"GET_STARTED"
+                }]
+            };
+
+            request({
+                url: 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAANW2ZALpyZAABANrZAuKgOkZC69lsLkziaA6wsNEMOZAqRgBzguyGvJEkCa7mfA7nw6ewlJq5cHdUytcBqz5YwhcZCDmPPdI12hTh48yjhwOULtIm9yokJ8bm7BUbmZAPALIwXlev1g6mcmWveWZCCjO7bXgFOA5hqtOvjZBPWtSZCwZDZD',
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                form: params
+            },
+
+            function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log(body);
+                    session.endDialog();
+                } else { 
+                    console.log(body);
+                    session.endDialog();
+                }
+            });
+            session.userData.firstRun = true;
+            session.beginDialog('/firstRun');
+        } else {
+            next();
+        }
+    }
+});
 
 bot.dialog('/', intentDialog);
 
@@ -253,7 +287,7 @@ bot.dialog('/default', [
     function(session, args, next) {
         var entity = args || session.message.text;
         if(entity && entity.length > 0) {
-            if(!(/^menu|show menu/i.test(entity))) {
+            if(!(/^menu|show menu/i.test(entity) || entity === "GET_STARTED")) {
                 var params = {
                     organisationId: ORGANISATION_ID,
                     entity: entity
