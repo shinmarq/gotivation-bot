@@ -289,7 +289,11 @@ intentDialog.onDefault([
 bot.dialog('/default', [
     function(session, args, next) {
         var entity = args || session.message.text;
-        if(entity && entity.length > 0) {
+        console.log(entity);
+        if (entity === "GET_STARTED") {
+            session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
+        }
+        else if(entity && entity.length > 0) {
             if(!(/^menu|show menu/i.test(entity))) {
                 var params = {
                     organisationId: ORGANISATION_ID,
@@ -306,16 +310,14 @@ bot.dialog('/default', [
                             entity: entity
                         };
                         partyBot.queries.createQuery(createParams, function(err, response, body) {
-                            console.log(body);
+
                         });
                     } else {
                         session.send(body.reply);
                     }
                 });
 
-            } else if (entity === "GET_STARTED") {
-                session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
-            } else {
+            }  else {
                 session.beginDialog('/menu');
             }
         }

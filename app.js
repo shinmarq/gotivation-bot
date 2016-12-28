@@ -303,7 +303,10 @@ bot.dialog('/default', [
     function(session, args, next) {
         var entity = args || session.message.text;
         console.log(entity);
-        if(entity && entity.length > 0) {
+        if (entity === "GET_STARTED") {
+            session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
+        }
+        else if(entity && entity.length > 0) {
             if(!(/^menu|show menu/i.test(entity))) {
                 var params = {
                     organisationId: ORGANISATION_ID,
@@ -327,9 +330,7 @@ bot.dialog('/default', [
                     }
                 });
 
-            } else if (entity === "GET_STARTED") {
-                session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
-            } else {
+            }  else {
                 session.beginDialog('/menu');
             }
         }
