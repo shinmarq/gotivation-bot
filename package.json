@@ -23,7 +23,7 @@
     "async": "^2.1.2",
     "botbuilder": "^3.4.4",
     "mongoose": "^4.6.5",
-    "partybot-http-client": "0.0.1-beta-64",
+    "partybot-http-client": "0.0.1-beta-65",
     "request": "^2.79.0",
     "restify": "^4.1.1",
     "underscore": "^1.8.3"
