@@ -289,7 +289,6 @@ intentDialog.onDefault([
 bot.dialog('/default', [
     function(session, args, next) {
         var entity = args || session.message.text;
-        console.log(entity);
         if (entity === "GET_STARTED") {
             session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
         }
