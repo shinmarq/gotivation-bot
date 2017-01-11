@@ -319,8 +319,8 @@ module.exports = [
             formatBody
             ],
             function(err, msgString) { // Send Message
-                session.send(msgString);
-                session.beginDialog('/ensure-table', session.dialogData.tableId);
+                session.endDialog(msgString);
+                // session.beginDialog('/ensure-table', session.dialogData.tableId);
             });
 
         function getTable(getTableParams, callback) {
