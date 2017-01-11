@@ -298,6 +298,7 @@ bot.dialog('/default', [
                     organisationId: ORGANISATION_ID,
                     entity: entity
                 };
+
                 partyBot.queries.getQueryForBot(params, function(err, response, body) {
                     if(err) {
                         session.send(

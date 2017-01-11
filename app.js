@@ -310,7 +310,8 @@ bot.dialog('/default', [
             if(!(/^menu|show menu/i.test(entity))) {
                 var params = {
                     organisationId: ORGANISATION_ID,
-                    entity: entity
+                    entity: entity,
+                    _venue_id: null
                 };
                 partyBot.queries.getQueryForBot(params, function(err, response, body) {
                     if(err) {
