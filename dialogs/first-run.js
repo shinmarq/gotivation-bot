@@ -8,6 +8,9 @@ module.exports = [
         	sender: session.message.address.user.id
         }
         partyBot.sender.getSender(params, function(error, response, body) {
+            console.log(error);
+            console.log(response.statusCode);
+            console.log(body);
         	if(!error && response.statusCode == 200) {
 
         		session.beginDialog('/');
@@ -18,6 +21,9 @@ module.exports = [
         			channel: session.message.address.channelId
         		};
         		partyBot.sender.createSender(createParams, function(err, res, bod){
+                    console.log(err);
+                    console.log(res.statusCode);
+                    console.log(bod);
         		});
         		session.beginDialog('/');
         	}
