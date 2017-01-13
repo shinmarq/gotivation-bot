@@ -8,9 +8,7 @@ module.exports = [
         	sender: session.message.address.user.id
         }
         partyBot.sender.getSender(params, function(error, response, body) {
-            console.log(error);
-            console.log(response.statusCode);
-            console.log(body);
+
         	if(!error && response.statusCode == 200) {
 
         		session.beginDialog('/');

@@ -40,14 +40,7 @@ var connector = new builder.ChatConnector({
 });
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
-server.get('/api/messages', function (req, res) {
-    if (req.params.hub.verify_token === 'partybot_rocks') {
-        res.header('Content-Type', 'text/plain');
-        res.send(req.params.hub.challenge);
-    } else {
-        res.send('Error, wrong validation token');    
-    }
-});
+
 
 //=========================================================
 // AI Setup
@@ -129,7 +122,12 @@ bot.endConversationAction('goodbye', 'See you at The Palace!', { matches: /^good
 //=========================================================
 bot.use({
     botbuilder: function (session, next) {
-        console.log(session.userData.firstRun);
+        if (session.message.text === "GET_STARTED") {
+            session.perUserInConversationData = {};
+            session.userData = {};
+            session.conversationData = {};
+        }
+
         if (!session.userData.firstRun) {
             var params = {
                 setting_type:"call_to_actions",

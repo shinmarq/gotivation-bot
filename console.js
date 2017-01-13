@@ -105,6 +105,12 @@ bot.endConversationAction('goodbye', 'See you at The Palace!', { matches: /^good
 //=========================================================
 bot.use({
     botbuilder: function (session, next) {
+        if (session.message.text === "GET_STARTED") {
+            session.perUserInConversationData = {};
+            session.userData = {};
+            session.conversationData = {};
+        }
+
         if (!session.userData.firstRun) {
             var params = {
                 setting_type:"call_to_actions",
