@@ -2,7 +2,9 @@ var builder = require('botbuilder'),
     async = require('async'),
     _ = require('underscore'),
     partyBot = require('partybot-http-client');
-const ORGANISATION_ID = require('../constants').ORGANISATION_ID;
+const Constants = require('../constants')
+const ORGANISATION_ID = Constants.ORGANISATION_ID;
+const FB_PAGE_ACCESS_TOKEN = Constants.FB_PAGE_ACCESS_TOKEN;
 module.exports = [
     function (session) {
         var options = {
@@ -204,6 +206,7 @@ module.exports = [
             var params = {
                 organisationId: session.dialogData.organisationId,
                 _user_name: session.message.address.user.name,
+                fb_page_access_token: FB_PAGE_ACCESS_TOKEN,
                 order_items: [{
                     name: session.dialogData.event,
                     price: 0,
@@ -234,6 +237,7 @@ Remember to be there before the 12MN cutoff and follow the dress code.\nNote tha
             var params = {
                 organisationId: session.dialogData.organisationId,
                 _user_name: session.message.address.user.name,
+                fb_page_access_token: FB_PAGE_ACCESS_TOKEN,
                 order_items: [{
                     name: session.dialogData.event,
                     price: 0,
