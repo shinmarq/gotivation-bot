@@ -205,6 +205,7 @@ module.exports = [
             session.dialogData.promoter = results.response;
             var params = {
                 organisationId: session.dialogData.organisationId,
+                _user_id: session.message.address.user.id,
                 _user_name: session.message.address.user.name,
                 fb_page_access_token: FB_PAGE_ACCESS_TOKEN,
                 order_items: [{
@@ -236,6 +237,7 @@ Remember to be there before the 12MN cutoff and follow the dress code.\nNote tha
         } else {
             var params = {
                 organisationId: session.dialogData.organisationId,
+                _user_id: session.message.address.user.id,
                 _user_name: session.message.address.user.name,
                 fb_page_access_token: FB_PAGE_ACCESS_TOKEN,
                 order_items: [{
