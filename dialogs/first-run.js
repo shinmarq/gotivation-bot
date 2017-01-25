@@ -16,7 +16,8 @@ module.exports = [
         		var createParams = {
         			organisationId: Constants.ORGANISATION_ID,
         			sender: session.message.address.user.id,
-        			channel: session.message.address.channelId
+        			channel: session.message.address.channelId,
+                    facebook_page_access_token: [Constants.FB_PAGE_ACCESS_TOKEN]
         		};
         		partyBot.sender.createSender(createParams, function(err, res, bod){
                     console.log(err);
@@ -25,9 +26,6 @@ module.exports = [
         		});
         		session.beginDialog('/');
         	}
-        })
-        
-
-        
+        });        
     }
 ]
