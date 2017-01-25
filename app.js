@@ -147,10 +147,12 @@ bot.use({
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     session.userData.firstRun = true;
+                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
                     session.beginDialog('/firstRun');
                     next();
                 } else { 
                     session.userData.firstRun = true;
+                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
                     session.beginDialog('/firstRun');
                     next();
                 }
