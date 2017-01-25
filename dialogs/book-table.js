@@ -127,7 +127,7 @@ module.exports = [
                 var year = date.getFullYear();
 
                 var description = `${monthNames[monthIndex]} ${day} ${year}`;
-                selectString.push('select:'+value._id);
+                selectString.push(`select:${value._id},date:${value.next_date}`);
                 attachments.push(
                     new builder.HeroCard(session)
                     .title(value.name)
@@ -139,7 +139,7 @@ module.exports = [
                             value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
-                        builder.CardAction.imBack(session, "select:"+value._id, value.name)
+                        builder.CardAction.imBack(session, `select:${value._id},date:${value.next_date}`, value.name)
                         ])
                     );
             });
@@ -157,9 +157,12 @@ module.exports = [
 
     // Getting Tables Types
     function(session, results) {
-        var kvPair = results.response.entity.split(':');
+        var fullResult = results.response.entity.split(',');
+        var kvPair = fullResult[0].split(':');
         var eventId = session.dialogData.eventId = kvPair[1];
-        session.dialogData.eventId = eventId;
+
+        var dateResult = fullResult[1].split('date:');
+        var selectedDate = session.dialogData.eventDate = dateResult[1];
 
         var getTableTypesParams = {
             organisationId: ORGANISATION_ID,
@@ -334,15 +337,26 @@ module.exports = [
         }
 
         function formatBody(body, callback) {
+
+            
+            var x = {};
+            var y = 0; 
+            
+            if(body.prices.length > 0) {
+                x = _.find(body.prices, function(value) {
+                    return value._event._id == session.dialogData.eventId;
+                }) || 0;
+
+            }
+            // console.log(JSON.stringify(x, null, 2));
             var params = {
                 organisationId: session.dialogData.organisationId,
                 order_items: [{
                     name: body.name,
-                    price: body.prices.length > 0 ? _.find(body.prices, function(value) {
-                         return value._event._id == session.dialogData.eventId;
-                    }).price: 0,
+                    price: 0,
                     some_id: session.dialogData.tableId,
-                    some_type: 'Product'
+                    some_type: 'Product',
+                    event_date: session.dialogData.eventDate
                 }],
                 status: 'pending',
                 order_type: 'table-booking'
