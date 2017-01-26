@@ -211,7 +211,7 @@ module.exports = [
                 order_items: [{
                     name: session.dialogData.event,
                     price: 0,
-                    some_id: session.dialogData.eventId,
+                    event_id: session.dialogData.eventId,
                     some_type: 'Event',
                     event_date: session.dialogData.eventDate
                 }],
@@ -243,7 +243,7 @@ Remember to be there before the 12MN cutoff and follow the dress code.\nNote tha
                 order_items: [{
                     name: session.dialogData.event,
                     price: 0,
-                    some_id: session.dialogData.eventId,
+                    event_id: session.dialogData.eventId,
                     some_type: 'Event',
                     event_date: session.dialogData.eventDate
                 }],

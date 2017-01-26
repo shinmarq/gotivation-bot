@@ -367,7 +367,8 @@ module.exports = [
                 order_items: [{
                     name: body.name,
                     price: 0,
-                    some_id: session.dialogData.tableId,
+                    product_id: session.dialogData.tableId,
+                    event_id: ssion.dialogData.eventId,
                     some_type: 'Product',
                     event_date: session.dialogData.eventDate
                 }],
