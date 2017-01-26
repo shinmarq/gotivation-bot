@@ -2,8 +2,9 @@ var builder = require('botbuilder'),
     async = require('async'),
     _ = require('underscore'),
     partyBot = require('partybot-http-client');
-
-const ORGANISATION_ID = require('../constants').ORGANISATION_ID;
+const Constants = require('../constants');
+const ORGANISATION_ID = Constants.ORGANISATION_ID;
+const FB_PAGE_ACCESS_TOKEN = Constants.FB_PAGE_ACCESS_TOKEN;
 module.exports = [
     // Getting Venues
     function (session) {
@@ -310,6 +311,14 @@ module.exports = [
         var kvPair = results.response.entity.split(':');
         var tableId = kvPair[1];
         session.dialogData.tableId = tableId;
+        
+        builder.Prompts.text(session, `Got it! Please enter your mobile number now to continue.`);
+    },
+
+    // Create Order
+    function(session, results, next) {
+
+        session.dialogData.contact_no = results.response;
         var getTableParams = {
             organisationId: session.dialogData.organisationId,
             venueId: session.dialogData.venueId,
@@ -351,6 +360,10 @@ module.exports = [
             // console.log(JSON.stringify(x, null, 2));
             var params = {
                 organisationId: session.dialogData.organisationId,
+                _user_id: session.message.address.user.id,
+                _user_name: session.message.address.user.name,
+                fb_page_access_token: FB_PAGE_ACCESS_TOKEN,
+                contact_no: session.dialogData.contact_no,
                 order_items: [{
                     name: body.name,
                     price: 0,
