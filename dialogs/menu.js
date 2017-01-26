@@ -45,6 +45,15 @@ module.exports = [
                 ]),
 
             new builder.HeroCard(session)
+            .title(' DJ MAG TOP 100 CLUBS')
+            .images([
+                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/djmag.jpg')
+                ])
+            .buttons([
+                 builder.CardAction.openUrl(session, "https://top100clubsvote.djmag.com/", "VOTE NOW"),
+                ]),
+
+            new builder.HeroCard(session)
             .title('Cancel')
             .images([
                 builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/cancel.jpg')
