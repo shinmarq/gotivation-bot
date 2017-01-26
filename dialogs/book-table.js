@@ -368,7 +368,7 @@ module.exports = [
                     name: body.name,
                     price: 0,
                     product_id: session.dialogData.tableId,
-                    event_id: ssion.dialogData.eventId,
+                    event_id: session.dialogData.eventId,
                     some_type: 'Product',
                     event_date: session.dialogData.eventDate
                 }],
