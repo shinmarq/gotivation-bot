@@ -378,7 +378,7 @@ module.exports = [
             createOrder(params, function(statusCode) {
                 if(statusCode == 200) { 
                     var attachments = [];
-                    var msgString = "Please wait patiently while someone from our end checks the availability of this table. I’ll get back to you asap!";
+                    var msgString = `Thanks ${session.message.address.user.name}! Someone will contact you soon to confirm your table`;
                     callback(null, msgString);
                 } else {
                     session.send('Something went wrong and your order is not saved. Please try again');
