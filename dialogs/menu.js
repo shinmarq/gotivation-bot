@@ -41,7 +41,7 @@ module.exports = [
                 builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/tickets.jpg')
                 ])
             .buttons([
-                builder.CardAction.imBack(session, "Buy-Tickets", "Buy Tickets")
+                builder.CardAction.openUrl(session, "https://tickets.thepalacemanila.com/", "Buy Tickets"),
                 ]),
 
             new builder.HeroCard(session)
