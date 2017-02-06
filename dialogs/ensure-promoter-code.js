@@ -1,5 +1,6 @@
 var builder = require('botbuilder'),
-    partyBot = require('partybot-http-client');
+    partyBot = require('partybot-http-client'),
+    _ = require('underscore');
 module.exports = {
     Label: 'EnsurePromoterCode',
     Dialog: [
@@ -20,13 +21,16 @@ module.exports = {
             // session.dialogData.profile.name = results.response;
             var params = {
                 organisationId: session.dialogData.organisationId,
-                promoterCode: results.response
-            };
-            getPromoterCode(params, function(error, statusCode, body) {
-                if(statusCode == 200) {
-                    session.dialogData.promoter._id = body._id;
-                    session.dialogData.promoter.name = body.name;
-                    session.dialogData.promoter.promoterCode = body.promoter_code;
+                promoter_code: results.response,
+                event_id: session.dialogData.eventId
+            }
+
+            getPromoter(params, function(error, statusCode, body) {
+                if(statusCode == 200 && body.length > 0) {
+                    var result = _.findWhere(body, {promoter_code: params.promoter_code});
+                    session.dialogData.promoter._id = result._id;
+                    session.dialogData.promoter.name = result.name;
+                    session.dialogData.promoter.promoterCode = result.promoter_code;
                     session.dialogData.promoter.validCode = true;
                     next();
                 } else {
@@ -40,6 +44,7 @@ module.exports = {
     },
     function (session, results) {
         if(!session.dialogData.promoter.promoterCode) {
+            session.send("Invalid Code!");
             session.replaceDialog('/ensure-promoter-code', session.dialogData);
         } else {
             session.endDialogWithResult({ response: session.dialogData.promoter });
@@ -47,8 +52,8 @@ module.exports = {
     }]
 }
 
-function getPromoterCode(promoterCode, callback) {
-    partyBot.promoters.getPromoterByCode(promoterCode, function(error, response, body) {
+function getPromoter(promoterCode, callback) {
+    partyBot.promoters.getPromoters(promoterCode, function(error, response, body) {
         callback(error, response.statusCode, body);
     });
 } 
