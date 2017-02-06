@@ -115,7 +115,7 @@ bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i
 // Bots Global Actions
 //=========================================================
 
-bot.endConversationAction('goodbye', 'See you at The Palace!', { matches: /^goodbye/i });
+// bot.endConversationAction('goodbye', 'See you at The Palace!', { matches: /^goodbye/i });
 
 //=========================================================
 // Bots Dialogs
