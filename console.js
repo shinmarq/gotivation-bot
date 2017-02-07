@@ -130,28 +130,49 @@ bot.use({
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     session.userData.firstRun = true;
-                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
-                    var msg = new builder.Message(session)
-                    .addAttachment({
-                        contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
-                        contentType: 'image/jpeg',
-                        name: 'BotFrameworkOverview.png'
-                    });
+                    // var msg = new builder.Message(session)
+                    // .addAttachment({
+                    //     contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
+                    //     contentType: 'image/jpeg',
+                    //     name: 'BotFrameworkOverview.png'
+                    // });
 
-                    session.send(msg);
+                    // session.send(msg);
+                    // session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
+                    var welcomeCard = new builder.HeroCard(session)
+                    .title('Palace Messenger bot')
+                    .subtitle(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`)
+                    .images([
+                        new builder.CardImage(session)
+                        .url(`${CONSTANTS.BASE_URL}/assets/logo.jpg`)
+                        .alt('Logo')
+                        ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "menu", "Main Menu"),
+                        ]);
+
+                    session.send(new builder.Message(session)
+                        .addAttachment(welcomeCard));
+
                     session.beginDialog('/firstRun');
                     next();
                 } else { 
                     session.userData.firstRun = true;
-                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
-                    var msg = new builder.Message(session)
-                    .addAttachment({
-                        contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
-                        contentType: 'image/jpeg',
-                        name: 'BotFrameworkOverview.png'
-                    });
+                    var welcomeCard = new builder.HeroCard(session)
+                    .title('Palace Messenger bot')
+                    .subtitle(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`)
+                    .images([
+                        new builder.CardImage(session)
+                        .url(`${CONSTANTS.BASE_URL}/assets/logo.jpg`)
+                        .alt('Logo')
+                        ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "menu", "Main Menu"),
+                        ]);
 
-                    session.send(msg);
+                    session.send(new builder.Message(session)
+                        .addAttachment(welcomeCard));
+
                     session.beginDialog('/firstRun');
                     next();
                 }
