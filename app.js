@@ -11,7 +11,7 @@ var ORGANISATION_ID =  "5800471acb97300011c68cf7";
 var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW5xbDstkCOq8TR8ZBNsJfwHjeaUsxZBaYESyxGew1BrzkippXM8vIFHeDbvraHw59Xj4QNrrZBpreBkE7cJ1SGTIPjcBXq4e3CedZBHU6wJV3ZCfARxAZAeR438gZDZD";
 
 const util = require('util');
-
+const CONSTANTS = require('./constants');
 var Menu = require('./dialogs/menu'),
     GuestList = require('./dialogs/guest-list'),
     BuyTicket = require('./dialogs/buy-ticket'),
