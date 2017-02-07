@@ -149,6 +149,7 @@ bot.use({
                     session.userData.firstRun = true;
                     session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
                     var card = new builder.HeroCard(session)
+                    .title(null)
                     .images([
                         builder.CardImage.create(session, `${CONSTANTS.BASE_URL}/logo.jpg`)
                         ])
@@ -163,6 +164,7 @@ bot.use({
                     session.userData.firstRun = true;
                     session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
                     var card = new builder.HeroCard(session)
+                    .title(null)
                     .images([
                         builder.CardImage.create(session, `${CONSTANTS.BASE_URL}/logo.jpg`)
                         ])
@@ -171,7 +173,6 @@ bot.use({
                         ]);
                     var msg = new builder.Message(session).addAttachment(card);
                     session.send(msg);
-
                     session.beginDialog('/firstRun');
                     next();
                 }
