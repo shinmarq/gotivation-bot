@@ -134,7 +134,7 @@ bot.use({
                 if (!error && response.statusCode == 200) {
                     session.userData.firstRun = true;
                     session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
-                    var card = new builder.HeroCard(session)
+                    var card = new builder.ThumbnailCard(session)
                     .title(null)
                     .images([
                         builder.CardImage.create(session, `${CONSTANTS.BASE_URL}/logo.jpg`)
@@ -142,14 +142,16 @@ bot.use({
                     .buttons([
                         builder.CardAction.imBack(session, 'menu', 'Main Menu')
                         ]);
-                    var msg = new builder.Message(session).addAttachment(card);
+                    var msg = new builder.Message(session)
+                    .attachmentLayout(builder.AttachmentLayout.carousel)
+                    .addAttachment(card);
                     session.send(msg);
                     session.beginDialog('/firstRun');
                     next();
                 } else {
                     session.userData.firstRun = true;
                     session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
-                    var card = new builder.HeroCard(session)
+                    var card = new builder.ThumbnailCard(session)
                     .title(null)
                     .images([
                         builder.CardImage.create(session, `${CONSTANTS.BASE_URL}/logo.jpg`)
@@ -157,7 +159,9 @@ bot.use({
                     .buttons([
                         builder.CardAction.imBack(session, 'menu', 'Main Menu')
                         ]);
-                    var msg = new builder.Message(session).addAttachment(card);
+                    var msg = new builder.Message(session)
+                    .attachmentLayout(builder.AttachmentLayout.carousel)
+                    .addAttachment(card);
                     session.send(msg);
                     session.beginDialog('/firstRun');
                     next();
