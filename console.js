@@ -7,7 +7,7 @@ var restify = require('restify'),
     util = require('util'),
     request = require('request'),
     path = require('path');
-
+const CONSTANTS = require('./constants');
 var Menu = require('./dialogs/menu'),
     GuestList = require('./dialogs/guest-list'),
     BookTable = require('./dialogs/book-table'),
@@ -19,6 +19,9 @@ var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3979, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
+server.get(/\/assets\/?.*/, restify.serveStatic({
+    directory: __dirname
+}));
 
 // var model = process.env.model || 
 // 'https://api.projectoxford.ai/luis/v1/application?id=6c4a0d3e-41ff-4800-9ec7-8fd206ee41e8&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
@@ -130,12 +133,43 @@ bot.use({
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     session.userData.firstRun = true;
-                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
+                    var img = new builder.Message(session)
+                    .addAttachment({
+                        contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
+                        contentType: 'images'
+                    });
+                    session.send(img);
+                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
+                    var card = new builder.HeroCard(session)
+                    .buttons([
+                        builder.CardAction.imBack(session, 'menu', 'Main Menu')
+                        ]);
+                    var msg = new builder.Message(session).addAttachment(card);
+                    session.send(msg);
+
                     session.beginDialog('/firstRun');
                     next();
-                } else { 
+                } else {
                     session.userData.firstRun = true;
-                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
+                    var img = new builder.Message(session)
+                    .addAttachment({
+                        contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
+                        contentType: 'images'
+                    });
+                    var img = new builder.Message(session)
+                    .addAttachment({
+                        contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
+                        contentType: 'images'
+                    });
+                    session.send(img);
+                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
+                    var card = new builder.HeroCard(session)
+                    .buttons([
+                        builder.CardAction.imBack(session, 'menu', 'Main Menu')
+                        ]);
+                    var msg = new builder.Message(session).addAttachment(card);
+                    session.send(msg);
+
                     session.beginDialog('/firstRun');
                     next();
                 }
