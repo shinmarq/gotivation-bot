@@ -133,13 +133,12 @@ bot.use({
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     session.userData.firstRun = true;
-                    var img = new builder.HeroCard(session)
-                    .images([
-                        builder.CardImage.create(session, `${CONSTANTS.BASE_URL}/logo.jpg`)
-                        ]);
-                    var imsg = new builder.Message(session).addAttachment(img);
-                    session.send(imsg);
-
+                    var img = new builder.Message(session)
+                    .addAttachment({
+                        contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
+                        contentType: 'images/jpg'
+                    });
+                    session.send(img);
                     session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
                     var card = new builder.HeroCard(session)
                     .buttons([
@@ -152,13 +151,12 @@ bot.use({
                     next();
                 } else {
                     session.userData.firstRun = true;
-                    var img = new builder.HeroCard(session)
-                    .images([
-                        builder.CardImage.create(session, `${CONSTANTS.BASE_URL}/logo.jpg`)
-                        ]);
-                    var imsg = new builder.Message(session).addAttachment(img);
-                    session.send(imsg);
-
+                    var img = new builder.Message(session)
+                    .addAttachment({
+                        contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
+                        contentType: 'images/jpg'
+                    });
+                    session.send(img);
                     session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
                     var card = new builder.HeroCard(session)
                     .buttons([
