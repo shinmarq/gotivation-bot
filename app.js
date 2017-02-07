@@ -147,28 +147,28 @@ bot.use({
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     session.userData.firstRun = true;
+                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
                     var msg = new builder.Message(session)
                     .addAttachment({
-                        contentUrl: 'https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png',
+                        contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
                         contentType: 'image/jpeg',
                         name: 'BotFrameworkOverview.png'
                     });
 
                     session.send(msg);
-                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
                     session.beginDialog('/firstRun');
                     next();
                 } else { 
                     session.userData.firstRun = true;
+                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
                     var msg = new builder.Message(session)
                     .addAttachment({
-                        contentUrl: 'https://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png',
+                        contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
                         contentType: 'image/jpeg',
                         name: 'BotFrameworkOverview.png'
                     });
 
                     session.send(msg);
-                    session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
                     session.beginDialog('/firstRun');
                     next();
                 }
