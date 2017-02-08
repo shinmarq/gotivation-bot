@@ -204,8 +204,8 @@ bot.dialog('/ensure-party', [
     },
     function (session, results, next) {
         if (results.response) {
-            session.dialogData.party = results.response.split(/[,\n]+/) || [];
-            builder.Prompts.confirm(session, `${session.dialogData.party.join('\n')}\n\nIs this confirmed?`);
+            session.dialogData.party = results.response.split(/[,\n]+/).map(function(x) { return x.trim(); }) || [];
+            builder.Prompts.confirm(session, `${session.dialogData.party.join('\n\n')}\n\nIs this confirmed?`);
         } 
     },
     function (session, results) {
