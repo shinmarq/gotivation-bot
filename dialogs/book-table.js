@@ -238,8 +238,9 @@ module.exports = [
         session.dialogData.tableTypeId = tableTypeId;
         var getTablesParams = {
             organisationId: session.dialogData.organisationId,
-            venueId: session.dialogData.venueId,
-            table_type_id: tableTypeId,
+            venues: session.dialogData.venueId,
+            events: session.dialogData.eventId,
+            table_type: tableTypeId,
             tags: 'table'
         };
 
@@ -261,7 +262,7 @@ module.exports = [
             });
 
         function getTables(getTablesParams, msg, callback) {
-            partyBot.products.getProducts(getTablesParams, function(err, res, body) {
+            partyBot.products.getProductsInOrganisation(getTablesParams, function(err, res, body) {
                 if(!err && res.statusCode == 200) {
                     if(body.length > 0) {
                         callback(null, body, msg);
