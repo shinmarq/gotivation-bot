@@ -257,7 +257,7 @@ Remember to be there before the 12MN cutoff and follow the dress code.\nNote tha
 
             createOrder(params, function(statusCode) {
                 if(statusCode == 200) {
-                    session.endDialog(`We have received your guest list request for ${session.dialogData.event}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`);                    
+                    session.endConversation(`We have received your guest list request for ${session.dialogData.event}. Kindly wait for approval from us soon. Note that we have the right to decline guests that do not pass our standards.`, { continue: false });
                 } else {
                     session.send('Something went wrong and your order is not saved. Please try again');
                 }
