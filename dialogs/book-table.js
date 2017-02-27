@@ -332,7 +332,8 @@ module.exports = [
             formatBody
             ],
             function(err, msgString) { // Send Message
-                session.endDialog(msgString);
+                session.endConversation(msgString);
+                // session.endDialog(msgString);
                 // session.beginDialog('/ensure-table', session.dialogData.tableId);
             });
 
