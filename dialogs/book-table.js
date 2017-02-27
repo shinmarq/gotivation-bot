@@ -278,17 +278,24 @@ module.exports = [
         function formatBody(body, msg, callback) {
             var attachments = [];
             var selectString = [];
-            body.forEach(function(value, index) {
+            body.map(function(value, index) {
+                var tableImage = value._events.filter(function(value){
+                    return value._event_id.includes(session.dialogData.eventId)
+                })
+                .reduce(function(curr, result){
+                    return result.image;
+                }, { })
+
                 selectString.push('select:'+value._id);
                 attachments.push(
                     new builder.HeroCard(session)
                     .title(value.name)
                     .text(value.description)
                     .images([
-                        builder.CardImage.create(session, value.image || 
+                        builder.CardImage.create(session, tableImage || 
                             "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
                         .tap(builder.CardAction.showImage(session, 
-                            value.image || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
+                            tableImage || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
                         builder.CardAction.imBack(session, "select:"+value._id, value.name)
@@ -307,7 +314,6 @@ module.exports = [
         }
     },
 
-    // Get Table
     function(session, results) {
         var kvPair = results.response.entity.split(':');
         var tableId = kvPair[1];
@@ -359,7 +365,7 @@ module.exports = [
                 }) || 0;
 
             }
-            // console.log(JSON.stringify(x, null, 2));
+
             var params = {
                 organisationId: session.dialogData.organisationId,
                 _user_id: session.message.address.user.id,
@@ -395,7 +401,6 @@ module.exports = [
 
 function createOrder(params, callback) {
     partyBot.orders.createOrder(params, function(err, response, body) {
-        console.log(response.statusCode);
         callback(response.statusCode)
     });
 };
