@@ -1,46 +1,63 @@
-var restify = require('restify'),
-    builder = require('botbuilder'),
-    async = require('async')
-    _ = require('underscore'),
-    partyBot = require('partybot-http-client'),
-    fs = require('fs'),
-    util = require('util'),
-    request = require('request'),
-    path = require('path');
+'use strict';
+
+var restify = require('restify');
+var builder = require('botbuilder');
+
+var async = require('async');
+var _ = require('underscore');
+var partyBot = require('partybot-http-client');
+var request = require('request');
+var ORGANISATION_ID =  "5800471acb97300011c68cf7";
+var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW5xbDstkCOq8TR8ZBNsJfwHjeaUsxZBaYESyxGew1BrzkippXM8vIFHeDbvraHw59Xj4QNrrZBpreBkE7cJ1SGTIPjcBXq4e3CedZBHU6wJV3ZCfARxAZAeR438gZDZD";
+
+const util = require('util');
 const CONSTANTS = require('./constants');
 var Menu = require('./dialogs/menu'),
     GuestList = require('./dialogs/guest-list'),
-    BookTable = require('./dialogs/book-table'),
     BuyTicket = require('./dialogs/buy-ticket'),
+    BookTable = require('./dialogs/book-table'),
     FirstRun = require('./dialogs/first-run'),
     EnsurePromoterCode = require('./dialogs/ensure-promoter-code');
+//=========================================================
+// Bot Setup
+//=========================================================
 
+// Setup Restify Server
 var server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3979, function () {
+server.use(restify.queryParser());
+server.use(restify.bodyParser());
+server.get(/\/assets\/?.*/, restify.serveStatic({
+    directory: __dirname
+}));
+server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
-
-// var model = process.env.model || 
-// 'https://api.projectoxford.ai/luis/v1/application?id=6c4a0d3e-41ff-4800-9ec7-8fd206ee41e8&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
-// var recognizer = new builder.LuisRecognizer(model)
-var intentDialog = new builder.IntentDialog({ 
-    // recognizers: [recognizer], 
-    intentThreshold: 0.5, 
-    recognizeMode: builder.RecognizeMode.onBegin });
-
-var consoleConnector = new builder.ConsoleConnector({
+  
+// Create chat bot
+var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
-}).listen();
-var bot = new builder.UniversalBot(consoleConnector);
+});
+var bot = new builder.UniversalBot(connector);
+server.post('/api/messages', connector.listen());
 
-const ORGANISATION_ID =  "5800471acb97300011c68cf7";
-const VENUE_ID = "5800889684555e0011585f3c";
+
+//=========================================================
+// AI Setup
+//=========================================================
+
+// Create LUIS recognizer that points at our model and add it as the root '/' dialog for our Cortana Bot.
+var model = process.env.model || 
+'https://api.projectoxford.ai/luis/v1/application?id=6c4a0d3e-41ff-4800-9ec7-8fd206ee41e8&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
+var recognizer = new builder.LuisRecognizer(model)
+var intentDialog = new builder.IntentDialog({ 
+    recognizers: [recognizer], 
+    intentThreshold: 0.5, 
+    recognizeMode: builder.RecognizeMode.onBegin });
 
 //=========================================================
 // Activity Events
 //=========================================================
-
 bot.on('conversationUpdate', function (message) {
    // Check for group conversations
     if (message.address.conversation.isGroup) {
@@ -92,7 +109,7 @@ bot.on('deleteUserData', function (message) {
 
 // Anytime the major version is incremented any existing conversations will be restarted.
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
-// bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
+// bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '/firstRun' }));
 
 //=========================================================
 // Bots Global Actions
@@ -130,15 +147,6 @@ bot.use({
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     session.userData.firstRun = true;
-                    // var msg = new builder.Message(session)
-                    // .addAttachment({
-                    //     contentUrl: `${CONSTANTS.BASE_URL}/assets/logo.jpg`,
-                    //     contentType: 'image/jpeg',
-                    //     name: 'BotFrameworkOverview.png'
-                    // });
-
-                    // session.send(msg);
-                    // session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! Click the button below to start!`);
                     var welcomeCard = new builder.HeroCard(session)
                     .title('Palace Messenger bot')
                     .subtitle(`Wanna party tonight? Click Main Menu so I can help!`)
@@ -183,20 +191,11 @@ bot.use({
         }
     }
 });
-
+bot.dialog('/firstRun', FirstRun);
 bot.dialog('/', intentDialog);
-
 bot.dialog('/menu', Menu).reloadAction('reloadMenu', null, { matches: /^menu|show menu/i });
 
-function venueCards() {
-    
-}
-
-function eventCards() {
-
-} 
-
-bot.dialog('/guest-list', GuestList);
+bot.dialog('/guest-list', GuestList); // End guest-list
 
 bot.dialog('/ensure-party', [
     function (session, args, next) {
@@ -247,9 +246,9 @@ bot.dialog('/buy-tickets', BuyTicket);
 
 // intentDialog.matches('Greet', [ 
 //     function (session, args, next) {
-//         var argsJSONString = JSON.stringify(args, null, 2);
-//         session.send(`Greet intent detected. ${argsJSONString}.`);
-//         // session.send(`Hello.`);
+//         var argsJSONString = JSON.stringify(args);
+//         // session.send(`Greet intent detected. ${argsJSONString}.`);
+//         session.send(`Hello.`);
 //         next();
 //     }
 // ]);
@@ -258,8 +257,7 @@ bot.dialog('/buy-tickets', BuyTicket);
 //     function (session, args, next) {
 //         var argsJSONString = JSON.stringify(args);
 //         // session.send(`AskSomething intent detected. ${argsJSONString}`);
-//         // session.send(`Getting ready for tonight's craziness at The Palace! How about you?`);
-//         console.log(JSON.stringify(args, null, 2));
+//         session.send(`Getting ready for tonight's craziness at The Palace! How about you?`);
 //         next();
 //     }
 // ]);
@@ -268,7 +266,7 @@ bot.dialog('/buy-tickets', BuyTicket);
 //     function (session, args, next) {
 //         var argsJSONString = JSON.stringify(args);
 //         session.send(`No problem :)`);
-//         session.send(`Appreciate intent detected. ${argsJSONString}`);
+//         // session.send(`Appreciate intent detected. ${argsJSONString}`);
 //         next();
 //     }
 // ]);
@@ -277,7 +275,7 @@ bot.dialog('/buy-tickets', BuyTicket);
 //     function (session, args, next) {
 //         var argsJSONString = JSON.stringify(args);
 //         session.send(`Cool!`);
-//         session.send(`Confirm intent detected. ${argsJSONString}`);
+//         // session.send(`Confirm intent detected. ${argsJSONString}`);
 //         next();
 //     }
 // ]);
@@ -286,7 +284,7 @@ bot.dialog('/buy-tickets', BuyTicket);
 //     function (session, args, next) {
 //         var argsJSONString = JSON.stringify(args);
 //         session.send(`Alright!`);
-//         session.send(`Negative intent detected. ${argsJSONString}`);
+//         // session.send(`Negative intent detected. ${argsJSONString}`);
 //         next();
 //     }
 // ]);
@@ -295,7 +293,7 @@ bot.dialog('/buy-tickets', BuyTicket);
 //     function (session, args, next) {
 //         var argsJSONString = JSON.stringify(args);
 //         session.send(`That's not a very nice thing to say :(`);
-//         session.send(`Curse intent detected. ${argsJSONString}`);
+//         // session.send(`Curse intent detected. ${argsJSONString}`);
 //         next();
 //     }
 // ]);
@@ -304,7 +302,7 @@ bot.dialog('/buy-tickets', BuyTicket);
 //     function (session, args, next) {
 //         var argsJSONString = JSON.stringify(args);
 //         session.send(`See you at The Palace!`);
-//         session.send(`Leave intent detected. ${argsJSONString}`);
+//         // session.send(`Leave intent detected. ${argsJSONString}`);
 //         next();
 //     }
 // ]);
@@ -327,11 +325,13 @@ intentDialog.onDefault([
     //     session.send("Welcome to the Official The Palace Messenger Bot!");
     //     session.beginDialog('/menu');
     // }
+//
 ]);
 
 bot.dialog('/default', [
     function(session, args, next) {
         var entity = args || session.message.text;
+        console.log(entity);
         if (entity === "GET_STARTED") {
             // session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
         }
@@ -341,7 +341,6 @@ bot.dialog('/default', [
                     organisationId: ORGANISATION_ID,
                     entity: entity
                 };
-
                 partyBot.queries.getQueryForBot(params, function(err, response, body) {
                     if(err) {
                         session.send(
@@ -350,7 +349,8 @@ bot.dialog('/default', [
                         // session.replaceDialog('/menu');
                         var createParams = {
                             organisationId: ORGANISATION_ID,
-                            entity: entity
+                            entity: entity,
+                            _venue_id: null
                         };
                         partyBot.queries.createQuery(createParams, function(err, response, body) {
 
@@ -367,5 +367,3 @@ bot.dialog('/default', [
     }
 //
 ]);
-
-bot.dialog('/firstRun', FirstRun);
