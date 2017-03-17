@@ -44,14 +44,14 @@ module.exports = [
                 builder.CardAction.openUrl(session, "https://tickets.thepalacemanila.com/", "Buy Tickets"),
                 ]),
 
-            new builder.HeroCard(session)
-            .title(' DJ MAG TOP 100 CLUBS')
-            .images([
-                builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/djmag.jpg')
-                ])
-            .buttons([
-                 builder.CardAction.openUrl(session, "https://top100clubsvote.djmag.com/", "VOTE NOW"),
-                ]),
+            // new builder.HeroCard(session)
+            // .title(' DJ MAG TOP 100 CLUBS')
+            // .images([
+            //     builder.CardImage.create(session, 'https://partybot-rocks-palace-staging.herokuapp.com/assets/djmag.jpg')
+            //     ])  
+            // .buttons([
+            //      builder.CardAction.openUrl(session, "https://top100clubsvote.djmag.com/", "VOTE NOW"),
+            //     ]),
 
             new builder.HeroCard(session)
             .title('Cancel')
@@ -85,13 +85,14 @@ module.exports = [
                 case 'Cancel':
                     session.endDialog();
                     break;
-            } 
+            
+            }   
         } else {
             session.endDialog();
         }
     },
     function (session, results) {
         // The menu runs a loop until the user chooses to exit.
-        session.replaceDialog('/menu');
+        session.replaceDialog('/');
     }
 ]
