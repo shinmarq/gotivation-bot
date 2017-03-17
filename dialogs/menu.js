@@ -85,7 +85,6 @@ module.exports = [
                 case 'Cancel':
                     session.endDialog();
                     break;
-            
             }   
         } else {
             session.endDialog();
@@ -93,6 +92,6 @@ module.exports = [
     },
     function (session, results) {
         // The menu runs a loop until the user chooses to exit.
-        session.replaceDialog('/');
+        session.replaceDialog('/menu');
     }
 ]
