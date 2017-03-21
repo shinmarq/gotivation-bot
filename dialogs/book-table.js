@@ -311,13 +311,13 @@ module.exports = [
                 //     return result.image;
                 // }, { })
 
-                  var arrayImage = [];
+                  var tableImage;
                 value._events.map(function(v, i) {
                     var filteredEvents = v._event_id.filter(function(filteredValue){
                         var containsID = filteredValue._id.includes(session.dialogData.eventId);
                         if(containsID === true) {
                             //add v.image to array;
-                            arrayImage.push(v.image);
+                           var tableImage = v.image;
                         }
                     });
                 
@@ -330,10 +330,10 @@ module.exports = [
                     .title(value.name)
                     .text(value.description)
                     .images([
-                        builder.CardImage.create(session, arrayImage || 
+                        builder.CardImage.create(session, tableImage || 
                             "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
                         .tap(builder.CardAction.showImage(session, 
-                            arrayImage || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
+                            tableImage || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
                         builder.CardAction.imBack(session, "select:"+value._id, value.name)
