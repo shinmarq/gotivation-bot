@@ -208,13 +208,13 @@ module.exports = [
                 //after getting object, compare event_id._id using .includes
                 //event_id._id.includes("");
                 //if return true, do something
-                var arrayImage = [];
+                var tableImage;
                 value._events.map(function(v, i) {
                     var filteredEvents = v._event_id.filter(function(filteredValue){
                         var containsID = filteredValue._id.includes(session.dialogData.eventId);
                         if(containsID === true) {
                             //add v.image to array;
-                            arrayImage.push(v.image);
+                           tableImage = v.image;
                         }
                     });
                 
@@ -233,8 +233,8 @@ module.exports = [
                     .title(value.name)
                     .text(value.description)
                     .images([
-                        builder.CardImage.create(session, 'https://res.cloudinary.com/hobwovvya/image/upload/v1490088025/tyqgd5lyxpiphqjr6n5g.jpg' )
-                        .tap(builder.CardAction.showImage(session,'https://res.cloudinary.com/hobwovvya/image/upload/v1490088025/tyqgd5lyxpiphqjr6n5g.jpg')),
+                        builder.CardImage.create(session, tableImage )
+                        .tap(builder.CardAction.showImage(session,tableImage)),
                         ])
                     .buttons([
                         builder.CardAction.imBack(session, "select:"+value._id, value.name)
