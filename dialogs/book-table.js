@@ -199,33 +199,50 @@ module.exports = [
         function formatBody(body, msg, callback) {
             var attachments = []; 
             var selectString = [];
+            
             body.map(function(value, index) {
-                var tableTypeImage = value._events.filter(function(value){
-                    console.log(value._event_id.includes(session.dialogData.eventId));
-                    return value._event_id.includes(session.dialogData.eventId)
-                })
-                .reduce(function(curr, result){
-                    console.log(result.image);
-                    return result.image;
-                }, { })
+                //console.log(value._events);
+                //idea
+                //value._events = array
+                //loop under events to get object 
+                //after getting object, compare event_id._id using .includes
+                //event_id._id.includes("");
+                //if return true, do something
+                var arrayImage = [];
+                value._events.map(function(v, i) {
+                    var filteredEvents = v._event_id.filter(function(filteredValue){
+                        var containsID = filteredValue._id.includes(session.dialogData.eventId);
+                        console.log(containsID);
+                        if(containsID === true) {
+                            //add v.image to array;
+                            arrayImage.push(v.image);
+                        }
+                    });
                 
-
+                });
+                console.log(arrayImage);
+                // var tableTypeImage = value._events.filter(function(avalue){
+                //     return avalue._event_id.includes(session.dialogData.eventId)
+                // })
+                // .reduce(function(curr, result){
+                //     console.log(result.image);
+                //     return result.image;
+                // }, { }) 
+                // return;
                 selectString.push('select:'+value._id);
                 attachments.push(
                     new builder.HeroCard(session)
                     .title(value.name)
                     .text(value.description)
                     .images([
-                        builder.CardImage.create(session,  
-                            "https://res.cloudinary.com/hobwovvya/image/upload/v1486710029/qrhxggtouiivgu66d97w.jpg" )
-                        .tap(builder.CardAction.showImage(session, 
-                             "https://res.cloudinary.com/hobwovvya/image/upload/v1486710029/qrhxggtouiivgu66d97w.jpg")),
+                        builder.CardImage.create(session, arrayImage )
+                        .tap(builder.CardAction.showImage(session,arrayImage)),
                         ])
                     .buttons([
                         builder.CardAction.imBack(session, "select:"+value._id, value.name)
                         ])
                     );
-            });
+            });  
             callback(null, msg, attachments, selectString);
         }
         
