@@ -181,7 +181,7 @@ module.exports = [
                     session.send(err);
                     session.reset('/book-table');
                 } else {
-                    session.send(`Great! Which Table Type do you prefer?`);
+                    session.send(`Great! Select table type`);
                     builder.Prompts.choice(session, msg, selectString);
                 }
             });
