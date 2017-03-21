@@ -197,25 +197,29 @@ module.exports = [
         }
 
         function formatBody(body, msg, callback) {
-            var attachments = [];
+            var attachments = []; 
             var selectString = [];
             body.map(function(value, index) {
                 var tableTypeImage = value._events.filter(function(value){
+                    console.log(value._event_id.includes(session.dialogData.eventId));
                     return value._event_id.includes(session.dialogData.eventId)
                 })
                 .reduce(function(curr, result){
+                    console.log(result.image);
                     return result.image;
                 }, { })
+                
+
                 selectString.push('select:'+value._id);
                 attachments.push(
                     new builder.HeroCard(session)
                     .title(value.name)
                     .text(value.description)
                     .images([
-                        builder.CardImage.create(session, tableTypeImage || 
-                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
+                        builder.CardImage.create(session,  
+                            "https://res.cloudinary.com/hobwovvya/image/upload/v1486710029/qrhxggtouiivgu66d97w.jpg" )
                         .tap(builder.CardAction.showImage(session, 
-                            tableTypeImage || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
+                             "https://res.cloudinary.com/hobwovvya/image/upload/v1486710029/qrhxggtouiivgu66d97w.jpg")),
                         ])
                     .buttons([
                         builder.CardAction.imBack(session, "select:"+value._id, value.name)
