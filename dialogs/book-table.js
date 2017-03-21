@@ -212,7 +212,6 @@ module.exports = [
                 value._events.map(function(v, i) {
                     var filteredEvents = v._event_id.filter(function(filteredValue){
                         var containsID = filteredValue._id.includes(session.dialogData.eventId);
-                        console.log(containsID);
                         if(containsID === true) {
                             //add v.image to array;
                             arrayImage.push(v.image);
