@@ -233,8 +233,8 @@ module.exports = [
                     .title(value.name)
                     .text(value.description)
                     .images([
-                        builder.CardImage.create(session, arrayImage )
-                        .tap(builder.CardAction.showImage(session,arrayImage)),
+                        builder.CardImage.create(session, 'https://res.cloudinary.com/hobwovvya/image/upload/v1490088025/tyqgd5lyxpiphqjr6n5g.jpg' )
+                        .tap(builder.CardAction.showImage(session,'https://res.cloudinary.com/hobwovvya/image/upload/v1490088025/tyqgd5lyxpiphqjr6n5g.jpg')),
                         ])
                     .buttons([
                         builder.CardAction.imBack(session, "select:"+value._id, value.name)
