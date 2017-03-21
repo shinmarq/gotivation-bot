@@ -181,7 +181,7 @@ module.exports = [
                     session.send(err);
                     session.reset('/book-table');
                 } else {
-                    session.send(`Great! Select table type`);
+                    session.send(`Great! Which Table Type do you prefer?`);
                     builder.Prompts.choice(session, msg, selectString);
                 }
             });
@@ -219,7 +219,6 @@ module.exports = [
                     });
                 
                 });
-                console.log(arrayImage);
                 // var tableTypeImage = value._events.filter(function(avalue){
                 //     return avalue._event_id.includes(session.dialogData.eventId)
                 // })
@@ -305,12 +304,25 @@ module.exports = [
             var attachments = [];
             var selectString = [];
             body.map(function(value, index) {
-                var tableImage = value._events.filter(function(value){
-                    return value._event_id.includes(session.dialogData.eventId)
-                })
-                .reduce(function(curr, result){
-                    return result.image;
-                }, { })
+                // var tableImage = value._events.filter(function(value){
+                //     return value._event_id.includes(session.dialogData.eventId)
+                // })
+                // .reduce(function(curr, result){
+                //     return result.image;
+                // }, { })
+
+                  var arrayImage = [];
+                value._events.map(function(v, i) {
+                    var filteredEvents = v._event_id.filter(function(filteredValue){
+                        var containsID = filteredValue._id.includes(session.dialogData.eventId);
+                        if(containsID === true) {
+                            //add v.image to array;
+                            arrayImage.push(v.image);
+                        }
+                    });
+                
+                });
+
 
                 selectString.push('select:'+value._id);
                 attachments.push(
@@ -318,10 +330,10 @@ module.exports = [
                     .title(value.name)
                     .text(value.description)
                     .images([
-                        builder.CardImage.create(session, tableImage || 
+                        builder.CardImage.create(session, arrayImage || 
                             "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
                         .tap(builder.CardAction.showImage(session, 
-                            tableImage || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
+                            arrayImage || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
                         ])
                     .buttons([
                         builder.CardAction.imBack(session, "select:"+value._id, value.name)
