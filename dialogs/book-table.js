@@ -199,7 +199,6 @@ module.exports = [
         function formatBody(body, msg, callback) {
             var attachments = []; 
             var selectString = [];
-            
             body.map(function(value, index) {
                 //console.log(value._events);
                 //idea
@@ -208,42 +207,37 @@ module.exports = [
                 //after getting object, compare event_id._id using .includes
                 //event_id._id.includes("");
                 //if return true, do something
+                var containsID;
                 var tableImage;
                 value._events.map(function(v, i) {
                     var filteredEvents = v._event_id.filter(function(filteredValue){
-                        var containsID = filteredValue._id.includes(session.dialogData.eventId);
+                        containsID = filteredValue._id.includes(session.dialogData.eventId);
                         if(containsID === true) {
                             //add v.image to array;
                            value.tableImage = v.image;
                            value.description = v.description;
-                           
+                           selectString.push('select:'+value._id);
+                            attachments.push(
+                                new builder.HeroCard(session)
+                                .title(value.name)
+                                .text(value.description)
+                                .images([
+                                    builder.CardImage.create(session, value.tableImage )
+                                    .tap(builder.CardAction.showImage(session, value.tableImage)),
+                                    ])
+                                .buttons([
+                                    builder.CardAction.imBack(session, "select:"+value._id, value.name)
+                                    ])
+                                );
                         }
                     });
-                
                 });
-                // var tableTypeImage = value._events.filter(function(avalue){
-                //     return avalue._event_id.includes(session.dialogData.eventId)
-                // })
-                // .reduce(function(curr, result){
-                //     console.log(result.image);
-                //     return result.image;
-                // }, { }) 
-                // return;
-                selectString.push('select:'+value._id);
-                attachments.push(
-                    new builder.HeroCard(session)
-                    .title(value.name)
-                    .text(value.description)
-                    .images([
-                        builder.CardImage.create(session, value.tableImage )
-                        .tap(builder.CardAction.showImage(session, value.tableImage)),
-                        ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "select:"+value._id, value.name)
-                        ])
-                    );
-            });  
+
+                
+                }
+            );  
             callback(null, msg, attachments, selectString);
+            
         }
         
         function sendMessage(msg, attachments, selectString, callback) {
@@ -267,9 +261,10 @@ module.exports = [
             organisationId: session.dialogData.organisationId,
             venues: session.dialogData.venueId,
             events: session.dialogData.eventId,
-            table_type: tableTypeId,
+            table_type_id: tableTypeId,
             tags: 'table'
         };
+        console.log(getTablesParams);
 
         var msg = new builder.Message(session);
 
@@ -297,6 +292,7 @@ module.exports = [
                         callback("No Tables yet", msg, null);
                     }
                 } else {
+                    console.log(body);
                     callback(body, res.statusCode, null);
                 }
             });
@@ -321,27 +317,28 @@ module.exports = [
                             //add v.image to array;
                            value.tableImage = v.image;
                            value.description = v.description;
-                        }
-                    });
+                            selectString.push('select:'+value._id);
+                            attachments.push(
+                                new builder.HeroCard(session)
+                                .title(value.name)
+                                .text(value.description)
+                                .images([
+                                    builder.CardImage.create(session, value.tableImage || 
+                                        "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
+                                    .tap(builder.CardAction.showImage(session, 
+                                        value.tableImage || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
+                                    ])
+                                .buttons([
+                                    builder.CardAction.imBack(session, "select:"+value._id, value.name)
+                                    ])
+                                );
+                                }
+                                });
                 
                 });
 
 
-                selectString.push('select:'+value._id);
-                attachments.push(
-                    new builder.HeroCard(session)
-                    .title(value.name)
-                    .text(value.description)
-                    .images([
-                        builder.CardImage.create(session, value.tableImage || 
-                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
-                        .tap(builder.CardAction.showImage(session, 
-                            value.tableImage || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
-                        ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "select:"+value._id, value.name)
-                        ])
-                    );
+               
             });
             callback(null, msg, attachments, selectString);
         }
