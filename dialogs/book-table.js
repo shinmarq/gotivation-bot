@@ -284,7 +284,7 @@ module.exports = [
             });
 
         function getTables(getTablesParams, msg, callback) {
-            partyBot.products.getProductsInOrganisation(getTablesParams, function(err, res, body) {
+            partyBot.products.getProducts(getTablesParams, function(err, res, body) {
                 if(!err && res.statusCode == 200) {
                     if(body.length > 0) {
                         callback(null, body, msg);
@@ -292,10 +292,10 @@ module.exports = [
                         callback("No Tables yet", msg, null);
                     }
                 } else {
-                    console.log(body);
                     callback(body, res.statusCode, null);
                 }
             });
+            
         }
 
         function formatBody(body, msg, callback) {
@@ -308,37 +308,39 @@ module.exports = [
                 // .reduce(function(curr, result){
                 //     return result.image;
                 // }, { })
-
-                  var tableImage;
+                var tableImage;
                 value._events.map(function(v, i) {
                     var filteredEvents = v._event_id.filter(function(filteredValue){
                         var containsID = filteredValue._id.includes(session.dialogData.eventId);
                         if(containsID === true) {
                             //add v.image to array;
-                           value.tableImage = v.image;
-                           value.description = v.description;
-                            selectString.push('select:'+value._id);
-                            attachments.push(
-                                new builder.HeroCard(session)
-                                .title(value.name)
-                                .text(value.description)
-                                .images([
-                                    builder.CardImage.create(session, value.tableImage || 
-                                        "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
-                                    .tap(builder.CardAction.showImage(session, 
-                                        value.tableImage || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
-                                    ])
-                                .buttons([
-                                    builder.CardAction.imBack(session, "select:"+value._id, value.name)
-                                    ])
-                                );
-                                }
-                                });
-                
-                });
+                            if(value.table_type._id != null && value.table_type._id === session.dialogData.tableTypeId)
+                            {
+                                value.tableImage = v.image;
+                                value.description = v.description;
+                                selectString.push('select:'+value._id);
+                                attachments.push(
+                                    new builder.HeroCard(session)
+                                    .title(value.name)
+                                    .text(value.description)
+                                    .images([
+                                        builder.CardImage.create(session, value.tableImage || 
+                                            "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0" )
+                                        .tap(builder.CardAction.showImage(session, 
+                                            value.tableImage || "https://scontent.fmnl3-1.fna.fbcdn.net/v/t1.0-9/14199279_649096945250668_8615768951946316221_n.jpg?oh=2d151c75875e36da050783f91d1b259a&oe=585FC3B0")),
+                                        ])
+                                    .buttons([
+                                        builder.CardAction.imBack(session, "select:"+value._id, value.name)
+                                        ])
+                                    );
 
+                            }
+                        }
 
-               
+                        });
+                    
+                    });
+
             });
             callback(null, msg, attachments, selectString);
         }
