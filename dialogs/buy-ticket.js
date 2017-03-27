@@ -22,7 +22,7 @@ module.exports = [
                     session.reset();
                 } else {
                     session.send("Which venue would you like to buy a ticket");
-                    builder.Prompts.choice(session, msg, selectString);
+                    builder.Prompts.choice(session, msg, selectString,{maxRetries:0});
                 }
                 
             });
@@ -73,6 +73,13 @@ module.exports = [
         }
     },
     function (session, results) {
+         if(!results.response)
+            {
+                session.beginDialog('/default');
+            }
+            else
+            {
+
     	var kvPair = results.response.entity.split(':');
         var venueId = session.dialogData.eventId = kvPair[1];
         session.dialogData.venueId = venueId;
@@ -95,7 +102,7 @@ module.exports = [
                     session.reset();
                 } else {
                 	session.send("Here are the ticketed events that you can go to at The Palace.");
-                	builder.Prompts.choice(session, msg, selectString);
+                	builder.Prompts.choice(session, msg, selectString,{maxRetries:0});
                 }
             });
         function getTickets(getTicketParams, msg, callback) {
@@ -142,9 +149,16 @@ module.exports = [
             .attachments(attachments);
             callback(null, msg, selectString);
         }
+       }
     },
 
     function(session, results) {
+         if(!results.response)
+            {
+                session.beginDialog('/default');
+            }
+            else
+            {
         var kvPair = results.response.entity.split(':');
         var ticketId = session.dialogData.ticketId = kvPair[1];
         var getTicketParams = {
@@ -180,5 +194,6 @@ module.exports = [
                 }
             });
         }
+      }
     }
 ]

@@ -14,7 +14,7 @@ module.exports = [
         .attachmentLayout(builder.AttachmentLayout.carousel)
         .attachments(cards);
         session.send("What Can I do for you?");
-        builder.Prompts.choice(session, reply, selectArray, { retryPrompt: 'Please select one of the choices:'});
+        builder.Prompts.choice(session, reply, selectArray,{maxRetries:0,promptAfterAction:false});
         
         function getCardsAttachments(session) {
             return [
@@ -71,27 +71,21 @@ module.exports = [
         // console.log(results);
         if (results.response) 
         {
-            switch (results.response.entity)
+            var reply = results.response.entity;
+            if(reply =='Guest-List'){
+                session.beginDialog('/guest-list');
+            }
+            else if(reply =='Book-A-Table'){
+                session.beginDialog('/book-table');
+            }
+            else if(reply == 'Buy-Tickets')
             {
-                case 'Guest-List':
-                    session.beginDialog('/guest-list');
-                    break;
-                case 'Book-A-Table':
-                    session.beginDialog('/book-table');
-                    break;
-                case 'Buy-Tickets':
-                    session.beginDialog('/buy-tickets');
-                    break;
-                case 'Cancel':
-                    session.endDialog();
-                    break;
-            }   
-        } else {
-            session.endDialog();
+                session.beginDialog('/buy-tickets');
+            }
+
+        } 
+        else {
+                session.beginDialog('/default');
         }
-    },
-    function (session, results) {
-        // The menu runs a loop until the user chooses to exit.
-        session.replaceDialog('/menu');
     }
 ]

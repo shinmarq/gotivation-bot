@@ -24,7 +24,7 @@ module.exports = [
                     session.reset();
                 } else {
                     session.send("Which venue would you like to get in the guest list for?");
-                    builder.Prompts.choice(session, msg, selectString);
+                    builder.Prompts.choice(session, msg, selectString,{maxRetries:0});
                 }
                 
             });
@@ -75,6 +75,12 @@ module.exports = [
         }
     },
     function(session, results) {
+         if(!results.response)
+            {
+                session.beginDialog('/default');
+            }
+            else
+            {
         // Get Events
         var action, item;
         var kvPair = results.response.entity.split(':');
@@ -95,7 +101,7 @@ module.exports = [
                     session.reset('/guest-list');
                 } else {
                     session.send("Which Event would you like to get in the guest list for?");
-                    builder.Prompts.choice(session, msg, selectString);                    
+                    builder.Prompts.choice(session, msg, selectString,{maxRetries:0});                    
                 }
             });
 
@@ -157,8 +163,15 @@ module.exports = [
             .attachments(attachments);
             callback(null, msg, selectString);
         }
+      }
     },
     function(session, results) {
+         if(!results.response)
+            {
+                session.beginDialog('/default');
+            }
+            else
+            {
         // Enter Names
         var fullResult = results.response.entity.split(',');
         var kvPair = fullResult[0].split(':');
@@ -181,6 +194,7 @@ module.exports = [
                 callback(null, body.event);
             });
         }
+     }
     },
     function(session, results) {
         // Confirm Party
