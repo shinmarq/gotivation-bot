@@ -82,10 +82,10 @@ module.exports = [
             {
                 session.beginDialog('/buy-tickets');
             }
-
         } 
         else {
-                session.beginDialog('/default');
+            if(session.response.entity)
+               session.replaceDialog('/default');
         }
     }
 ]

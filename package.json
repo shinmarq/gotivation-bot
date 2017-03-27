@@ -16,6 +16,7 @@
   "author": "JC Velasquez",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^3.18.0",
     "jslint": "*",
     "nodemon": "*"
   },

@@ -8,6 +8,8 @@
     module.exports = [
         // Getting Venues
         function (session) {
+            
+            console.log(session.sessionstate);
             var options = {
                 organisationId: session.dialogData.organisationId = ORGANISATION_ID
             };
@@ -78,15 +80,21 @@
         },//End of get venues
 
         // Getting Events
-        function(session, results) {
+        function getevents(session, results, next) {
             console.log(results);
             if(!results.response){
                 session.beginDialog('/default');
             }
             else{
-               
+               if(!results.response.includes(':'))
+               {
+                   session.beginDialog('/default');
+               }
+               else{
+                   next();
+               }
             var kvPair = results.response.entity.split(':');
-            var venueId = session.dialogData.eventId = kvPair[1];
+            var venueId = session.dialogData.venueId = kvPair[1];
             console.log(venueId);
             session.dialogData.venueId = venueId;
             var getEventsParams = {
@@ -167,7 +175,8 @@
 
         // Getting Tables Types
         function(session, results) {
-            if(!results.response)
+            console.log(results.response.entity);
+            if(!results.response.entity.includes(':'))
             {
                 session.beginDialog('/default');
             }

@@ -7,6 +7,10 @@ const ORGANISATION_ID = Constants.ORGANISATION_ID;
 const FB_PAGE_ACCESS_TOKEN = Constants.FB_PAGE_ACCESS_TOKEN;
 module.exports = [
     function (session) {
+        if(session.dialogData.venueId)
+        {
+            next();
+        }
         var options = {
             organisationId: session.dialogData.organisationId = ORGANISATION_ID
         };

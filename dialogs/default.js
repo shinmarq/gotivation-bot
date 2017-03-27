@@ -12,7 +12,7 @@ var builder = require('botbuilder');
 const ORGANISATION_ID =  "5800471acb97300011c68cf7";
 const VENUE_ID = "5800889684555e0011585f3c";
 module.exports = [
-    function(session, args, next) {
+    function(session, args, callback) {
         var entity = args || session.message.text;
        if(entity && entity.length > 0) {
             if((/^menu|show menu/i.test(entity))) {
@@ -37,7 +37,9 @@ module.exports = [
                     if(err) {
                         session.send(
                             'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
-                            'In the mean time, type “Menu” if you want to find out the cool things I can do for you!');
+                            'In the mean time, type “Menu” if you want to find out the cool things I can do for you!',err.statusCode,[]);
+                        
+                            
                         // session.replaceDialog('/menu');
                         var createParams = {
                             organisationId: ORGANISATION_ID,
@@ -46,8 +48,11 @@ module.exports = [
                         partyBot.queries.createQuery(createParams, function(err, response, body) {
 
                         });
+                        session.endDialog();
                     } else {
+                        //callback(body.reply, [], null);
                         session.send(body.reply);
+                        session.endDialog();
                     }
                 });
             }
