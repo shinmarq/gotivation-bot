@@ -90,7 +90,7 @@ module.exports = [
     // Getting Events
     function getevents(session, results, next) {
         if (!results.response) {
-            session.beginDialog('/default');
+            session.replaceDialog('/default');
         }
         else {
             var kvPair = results.response.entity.split(':');
@@ -173,101 +173,105 @@ module.exports = [
 
     // Getting Tables Types
     function (session, results) {
-
-        var fullResult = results.response.entity.split(',');
-        var kvPair = fullResult[0].split(':');
-        var eventId = session.dialogData.eventId = kvPair[1];
-
-        var dateResult = fullResult[1].split('date:');
-        var selectedDate = session.dialogData.eventDate = dateResult[1];
-
-        var getTableTypesParams = {
-            organisationId: ORGANISATION_ID,
-            venue_id: session.dialogData.venueId
-        };
-
-        var msg = new builder.Message(session);
-        async.waterfall([
-            async.apply(getTableType, getTableTypesParams, msg),
-            formatBody,
-            sendMessage
-        ],
-            function (err, msg, selectString) {
-                if (err) {
-                    session.send(err);
-                    session.reset('/book-table');
-                } else {
-                    session.send(`Great! Which Table Type do you prefer?`);
-                    builder.Prompts.choice(session, msg, selectString, { maxRetries: 0 });
-                }
-            });
-
-        function getTableType(getTableTypesParams, msg, callback) {
-            partyBot.tableTypes.getTableTypesInOrganisation(getTableTypesParams, function (err, res, body) {
-                if (body.length > 0) {
-                    callback(null, body, msg);
-                } else {
-                    callback("No Table Type", msg, null);
-                }
-            });
+        if (!results.response) {
+            session.replaceDialog('/default');
         }
+        else {
+            var fullResult = results.response.entity.split(',');
+            var kvPair = fullResult[0].split(':');
+            var eventId = session.dialogData.eventId = kvPair[1];
 
-        function formatBody(body, msg, callback) {
-            var attachments = [];
-            var selectString = [];
-            body.map(function (value, index) {
-                //console.log(value._events);
-                //idea
-                //value._events = array
-                //loop under events to get object 
-                //after getting object, compare event_id._id using .includes
-                //event_id._id.includes("");
-                //if return true, do something
-                var containsID;
-                var tableImage;
-                value._events.map(function (v, i) {
-                    var filteredEvents = v._event_id.filter(function (filteredValue) {
-                        containsID = filteredValue._id.includes(session.dialogData.eventId);
-                        if (containsID === true) {
-                            //add v.image to array;
-                            value.tableImage = v.image;
-                            value.description = v.description;
-                            selectString.push('select:' + value._id);
-                            attachments.push(
-                                new builder.HeroCard(session)
-                                    .title(value.name)
-                                    .text(value.description)
-                                    .images([
-                                        builder.CardImage.create(session, value.tableImage)
-                                            .tap(builder.CardAction.showImage(session, value.tableImage)),
-                                    ])
-                                    .buttons([
-                                        builder.CardAction.imBack(session, "select:" + value._id, value.name)
-                                    ])
-                            );
-                        }
-                    });
+            var dateResult = fullResult[1].split('date:');
+            var selectedDate = session.dialogData.eventDate = dateResult[1];
+
+            var getTableTypesParams = {
+                organisationId: ORGANISATION_ID,
+                venue_id: session.dialogData.venueId
+            };
+
+            var msg = new builder.Message(session);
+            async.waterfall([
+                async.apply(getTableType, getTableTypesParams, msg),
+                formatBody,
+                sendMessage
+            ],
+                function (err, msg, selectString) {
+                    if (err) {
+                        session.send(err);
+                        session.reset('/book-table');
+                    } else {
+                        session.send(`Great! Which Table Type do you prefer?`);
+                        builder.Prompts.choice(session, msg, selectString, { maxRetries: 0 });
+                    }
+                });
+
+            function getTableType(getTableTypesParams, msg, callback) {
+                partyBot.tableTypes.getTableTypesInOrganisation(getTableTypesParams, function (err, res, body) {
+                    if (body.length > 0) {
+                        callback(null, body, msg);
+                    } else {
+                        callback("No Table Type", msg, null);
+                    }
                 });
             }
-            );
-            callback(null, msg, attachments, selectString);
 
-        }
+            function formatBody(body, msg, callback) {
+                var attachments = [];
+                var selectString = [];
+                body.map(function (value, index) {
+                    //console.log(value._events);
+                    //idea
+                    //value._events = array
+                    //loop under events to get object 
+                    //after getting object, compare event_id._id using .includes
+                    //event_id._id.includes("");
+                    //if return true, do something
+                    var containsID;
+                    var tableImage;
+                    value._events.map(function (v, i) {
+                        var filteredEvents = v._event_id.filter(function (filteredValue) {
+                            containsID = filteredValue._id.includes(session.dialogData.eventId);
+                            if (containsID === true) {
+                                //add v.image to array;
+                                value.tableImage = v.image;
+                                value.description = v.description;
+                                selectString.push('select:' + value._id);
+                                attachments.push(
+                                    new builder.HeroCard(session)
+                                        .title(value.name)
+                                        .text(value.description)
+                                        .images([
+                                            builder.CardImage.create(session, value.tableImage)
+                                                .tap(builder.CardAction.showImage(session, value.tableImage)),
+                                        ])
+                                        .buttons([
+                                            builder.CardAction.imBack(session, "select:" + value._id, value.name)
+                                        ])
+                                );
+                            }
+                        });
+                    });
+                }
+                );
+                callback(null, msg, attachments, selectString);
 
-        function sendMessage(msg, attachments, selectString, callback) {
-            msg
-                .textFormat(builder.TextFormat.xml)
-                .attachmentLayout(builder.AttachmentLayout.carousel)
-                .attachments(attachments);
-            callback(null, msg, selectString);
+            }
 
+            function sendMessage(msg, attachments, selectString, callback) {
+                msg
+                    .textFormat(builder.TextFormat.xml)
+                    .attachmentLayout(builder.AttachmentLayout.carousel)
+                    .attachments(attachments);
+                callback(null, msg, selectString);
+
+            }
         }
     },
 
     // Get Tables
     function (session, results) {
         if (!results.response) {
-            session.beginDialog('/default');
+            session.replaceDialog('/default');
         }
         else {
             var action, item;
@@ -374,7 +378,7 @@ module.exports = [
 
     function (session, results) {
         if (!results.response) {
-            session.beginDialog('/default');
+            session.replaceDialog('/default');
         }
         else {
             var kvPair = results.response.entity.split(':');
