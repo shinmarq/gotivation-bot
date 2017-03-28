@@ -12,16 +12,17 @@ var builder = require('botbuilder');
 const ORGANISATION_ID =  "5800471acb97300011c68cf7";
 const VENUE_ID = "5800889684555e0011585f3c";
 module.exports = [
-    function(session, args, callback) {
-        var entity = args || session.message.text;
+    function(session,args,next) {
+        session.dialogData.Message = args || {};
+        var entity =  session.message.text;
        if(entity && entity.length > 0) {
             if((/^menu|show menu/i.test(entity))) {
                  session.beginDialog('/menu');
              }  
-            else if((/^guest list|guest|show guest list/i.test(entity))){
+            else if((/^guest list|guest|show guest list|gl/i.test(entity))){
                 session.beginDialog('/guest-list');
             }
-            else if((/^book table|book a table|table book|table booking/i.test(entity))){
+            else if((/^book table|book a table|table book|table booking|table|couch/i.test(entity))){
                 session.beginDialog('/book-table');
             }
             else if((/^buy tickets|ticket|buy ticket|tickets/i.test(entity))){
@@ -35,7 +36,7 @@ module.exports = [
 
                 partyBot.queries.getQueryForBot(params, function(err, response, body) {
                     if(err) {
-                        session.send(
+                        builder.Prompts.text(session,
                             'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
                             'In the mean time, type “Menu” if you want to find out the cool things I can do for you!',err.statusCode,[]);
                         
@@ -51,11 +52,12 @@ module.exports = [
                         session.endDialog();
                     } else {
                         //callback(body.reply, [], null);
-                        session.send(body.reply);
+                        builder.Prompts.text(session,body.reply);
                         session.endDialog();
                     }
                 });
             }
         }
-    }
+    },
+    
 ]
