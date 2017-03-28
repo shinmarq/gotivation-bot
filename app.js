@@ -7,7 +7,7 @@ var async = require('async');
 var _ = require('underscore');
 var partyBot = require('partybot-http-client');
 var request = require('request');
-var ORGANISATION_ID =  "5800471acb97300011c68cf7";
+var ORGANISATION_ID = "5800471acb97300011c68cf7";
 var FBPAGE_ACCESS_TOKEN = "EAANW2ZALpyZAABALnAf7FTmhOgrciIkZBBvLjH8o8gpC5m1NzBWW5xbDstkCOq8TR8ZBNsJfwHjeaUsxZBaYESyxGew1BrzkippXM8vIFHeDbvraHw59Xj4QNrrZBpreBkE7cJ1SGTIPjcBXq4e3CedZBHU6wJV3ZCfARxAZAeR438gZDZD";
 
 const util = require('util');
@@ -30,9 +30,9 @@ server.get(/\/assets\/?.*/, restify.serveStatic({
     directory: __dirname
 }));
 server.listen(process.env.port || process.env.PORT || 3978, function () {
-   console.log('%s listening to %s', server.name, server.url); 
+    console.log('%s listening to %s', server.name, server.url);
 });
-  
+
 // Create chat bot
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
@@ -47,27 +47,28 @@ server.post('/api/messages', connector.listen());
 //=========================================================
 
 // Create LUIS recognizer that points at our model and add it as the root '/' dialog for our Cortana Bot.
-var model = process.env.model || 
-'https://api.projectoxford.ai/luis/v1/application?id=6c4a0d3e-41ff-4800-9ec7-8fd206ee41e8&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
+var model = process.env.model ||
+    'https://api.projectoxford.ai/luis/v1/application?id=6c4a0d3e-41ff-4800-9ec7-8fd206ee41e8&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
 var recognizer = new builder.LuisRecognizer(model)
-var intentDialog = new builder.IntentDialog({ 
-    recognizers: [recognizer], 
-    intentThreshold: 0.5, 
-    recognizeMode: builder.RecognizeMode.onBegin });
+var intentDialog = new builder.IntentDialog({
+    recognizers: [recognizer],
+    intentThreshold: 0.5,
+    recognizeMode: builder.RecognizeMode.onBegin
+});
 
 //=========================================================
 // Activity Events
 //=========================================================
 bot.on('conversationUpdate', function (message) {
-   // Check for group conversations
+    // Check for group conversations
     if (message.address.conversation.isGroup) {
         // Send a hello message when bot is added
         if (message.membersAdded) {
             message.membersAdded.forEach(function (identity) {
                 if (identity.id === message.address.bot.id) {
                     var reply = new builder.Message()
-                            .address(message.address)
-                            .text("Hello everyone!");
+                        .address(message.address)
+                        .text("Hello everyone!");
                     bot.send(reply);
                 }
             });
@@ -91,8 +92,8 @@ bot.on('contactRelationUpdate', function (message) {
     if (message.action === 'add') {
         var name = message.user ? message.user.name : null;
         var reply = new builder.Message()
-                .address(message.address)
-                .text("Hello %s... Welcome to the Official The Palace Messenger Bot! What can I do for you?", name || 'there');
+            .address(message.address)
+            .text("Hello %s... Welcome to the Official The Palace Messenger Bot! What can I do for you?", name || 'there');
         bot.send(reply);
     } else {
         // delete their data
@@ -130,62 +131,62 @@ bot.use({
 
         if (!session.userData.firstRun) {
             var params = {
-                setting_type:"call_to_actions",
-                thread_state:"new_thread",
-                call_to_actions:[{
-                    payload:"GET_STARTED"
+                setting_type: "call_to_actions",
+                thread_state: "new_thread",
+                call_to_actions: [{
+                    payload: "GET_STARTED"
                 }]
             };
 
             request({
                 url: 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAANW2ZALpyZAABANrZAuKgOkZC69lsLkziaA6wsNEMOZAqRgBzguyGvJEkCa7mfA7nw6ewlJq5cHdUytcBqz5YwhcZCDmPPdI12hTh48yjhwOULtIm9yokJ8bm7BUbmZAPALIwXlev1g6mcmWveWZCCjO7bXgFOA5hqtOvjZBPWtSZCwZDZD',
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 form: params
             },
 
-            function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    session.userData.firstRun = true;
-                    var welcomeCard = new builder.HeroCard(session)
-                    .title('Palace Messenger bot')
-                    .subtitle(`Wanna party tonight? Click Main Menu so I can help!`)
-                    .images([
-                        new builder.CardImage(session)
-                        .url(`${CONSTANTS.BASE_URL}/assets/logo.jpg`)
-                        .alt('Logo')
-                        ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "menu", "Main Menu"),
-                        ]);
+                function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        session.userData.firstRun = true;
+                        var welcomeCard = new builder.HeroCard(session)
+                            .title('Palace Messenger bot')
+                            .subtitle(`Wanna party tonight? Click Main Menu so I can help!`)
+                            .images([
+                                new builder.CardImage(session)
+                                    .url(`${CONSTANTS.BASE_URL}/assets/logo.jpg`)
+                                    .alt('Logo')
+                            ])
+                            .buttons([
+                                builder.CardAction.imBack(session, "menu", "Main Menu"),
+                            ]);
 
-                    session.send(new builder.Message(session)
-                        .addAttachment(welcomeCard));
+                        session.send(new builder.Message(session)
+                            .addAttachment(welcomeCard));
 
-                    session.beginDialog('/firstRun');
-                    next();
-                } else { 
-                    session.userData.firstRun = true;
-                    var welcomeCard = new builder.HeroCard(session)
-                    .title('Palace Messenger bot')
-                    .subtitle(`Wanna party tonight? Click Main Menu so I can help!`)
-                    .images([
-                        new builder.CardImage(session)
-                        .url(`${CONSTANTS.BASE_URL}/assets/logo.jpg`)
-                        .alt('Logo')
-                        ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "menu", "Main Menu"),
-                        ]);
+                        session.beginDialog('/firstRun');
+                        next();
+                    } else {
+                        session.userData.firstRun = true;
+                        var welcomeCard = new builder.HeroCard(session)
+                            .title('Palace Messenger bot')
+                            .subtitle(`Wanna party tonight? Click Main Menu so I can help!`)
+                            .images([
+                                new builder.CardImage(session)
+                                    .url(`${CONSTANTS.BASE_URL}/assets/logo.jpg`)
+                                    .alt('Logo')
+                            ])
+                            .buttons([
+                                builder.CardAction.imBack(session, "menu", "Main Menu"),
+                            ]);
 
-                    session.send(new builder.Message(session)
-                        .addAttachment(welcomeCard));
+                        session.send(new builder.Message(session)
+                            .addAttachment(welcomeCard));
 
-                    session.beginDialog('/firstRun');
-                    next();
-                }
-            });
-            
+                        session.beginDialog('/firstRun');
+                        next();
+                    }
+                });
+
         } else {
             next();
         }
@@ -203,14 +204,14 @@ bot.dialog('/ensure-party', [
     },
     function (session, results, next) {
         if (results.response) {
-            session.dialogData.party = results.response.split(/[,\n]+/).map(function(x) { return x.trim(); }) || [];
+            session.dialogData.party = results.response.split(/[,\n]+/).map(function (x) { return x.trim(); }) || [];
             builder.Prompts.confirm(session, `${session.dialogData.party.join('<br/>')}<br/>Is this confirmed?`);
-        } 
+        }
     },
     function (session, results) {
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
-            session.endDialogWithResult( session.dialogData.party );
+            session.endDialogWithResult(session.dialogData.party);
         } else {
             session.replaceDialog('/ensure-party');
         }
@@ -226,7 +227,7 @@ bot.dialog('/ensure-table', [
         // todo : verify table availability ("add to cart")
         var verified = true;
         if (verified) {
-            
+
         }
     },
     function (session, results, next) {
@@ -308,7 +309,7 @@ bot.dialog('/buy-tickets', BuyTicket);
 // ]);
 
 intentDialog.onDefault([
-    function(session, next) {
+    function (session, next) {
         session.replaceDialog('/default', session.message.text);
     }
     // function (session, args, next) {
@@ -325,26 +326,38 @@ intentDialog.onDefault([
     //     session.send("Welcome to the Official The Palace Messenger Bot!");
     //     session.beginDialog('/menu');
     // }
-//
+    //
 ]);
 
 bot.dialog('/default', [
-    function(session, args, next) {
+    function (session, args, next) {
         var entity = args || session.message.text;
         console.log(entity);
         if (entity === "GET_STARTED") {
             // session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
         }
-        else if(entity && entity.length > 0) {
-            if(!(/^menu|show menu/i.test(entity))) {
+        else if (entity && entity.length > 0) {
+            if ((/^menu|show menu/i.test(entity))) {
+                session.beginDialog('/menu');
+            }
+            else if ((/^guest list|guest|show guest list|gl/i.test(entity))) {
+                session.beginDialog('/guest-list');
+            }
+            else if ((/^book table|book a table|table book|table booking|table|couch/i.test(entity))) {
+                session.beginDialog('/book-table');
+            }
+            else if ((/^buy tickets|ticket|buy ticket|tickets/i.test(entity))) {
+                session.beginDialog('/buy-tickets');
+            }
+            else {
                 var params = {
                     organisationId: ORGANISATION_ID,
                     entity: entity
                 };
-                partyBot.queries.getQueryForBot(params, function(err, response, body) {
-                    if(err) {
+                partyBot.queries.getQueryForBot(params, function (err, response, body) {
+                    if (err) {
                         session.send(
-                            'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
+                            'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n' +
                             'In the mean time, type “Menu” if you want to find out the cool things I can do for you!');
                         // session.replaceDialog('/menu');
                         var createParams = {
@@ -352,7 +365,7 @@ bot.dialog('/default', [
                             entity: entity,
                             _venue_id: null
                         };
-                        partyBot.queries.createQuery(createParams, function(err, response, body) {
+                        partyBot.queries.createQuery(createParams, function (err, response, body) {
 
                         });
                     } else {
@@ -360,10 +373,8 @@ bot.dialog('/default', [
                     }
                 });
 
-            }  else {
-                session.beginDialog('/menu');
             }
         }
     }
-//
+    //
 ]);
