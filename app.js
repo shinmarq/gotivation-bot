@@ -17,7 +17,6 @@ var Menu = require('./dialogs/menu'),
     BuyTicket = require('./dialogs/buy-ticket'),
     BookTable = require('./dialogs/book-table'),
     FirstRun = require('./dialogs/first-run'),
-    DefaultDiag = require('./dialogs/default'),
     EnsurePromoterCode = require('./dialogs/ensure-promoter-code');
 //=========================================================
 // Bot Setup
@@ -329,4 +328,42 @@ intentDialog.onDefault([
 //
 ]);
 
-bot.dialog('/default', DefaultDiag);
+bot.dialog('/default', [
+    function(session, args, next) {
+        var entity = args || session.message.text;
+        console.log(entity);
+        if (entity === "GET_STARTED") {
+            // session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
+        }
+        else if(entity && entity.length > 0) {
+            if(!(/^menu|show menu/i.test(entity))) {
+                var params = {
+                    organisationId: ORGANISATION_ID,
+                    entity: entity
+                };
+                partyBot.queries.getQueryForBot(params, function(err, response, body) {
+                    if(err) {
+                        session.send(
+                            'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
+                            'In the mean time, type “Menu” if you want to find out the cool things I can do for you!');
+                        // session.replaceDialog('/menu');
+                        var createParams = {
+                            organisationId: ORGANISATION_ID,
+                            entity: entity,
+                            _venue_id: null
+                        };
+                        partyBot.queries.createQuery(createParams, function(err, response, body) {
+
+                        });
+                    } else {
+                        session.send(body.reply);
+                    }
+                });
+
+            }  else {
+                session.beginDialog('/menu');
+            }
+        }
+    }
+//
+]);
