@@ -94,7 +94,7 @@ module.exports = [
         }
         else {
             var kvPair = results.response.entity.split(':');
-            var venueId = session.dialogData.venueId;
+            var venueId = session.dialogData.venueId = kvPair[1];
             var getEventsParams = {
                 organisationId: session.dialogData.organisationId,
                 venue_id: session.dialogData.venueId
