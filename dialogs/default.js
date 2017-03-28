@@ -37,7 +37,7 @@ module.exports = [
                     if(err) {
                         builder.Prompts.text(session,
                             'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
-                            'In the mean time, type “Menu” if you want to find out the cool things I can do for you!',err.statusCode,[]);
+                            'In the mean time, type “Menu” if you want to find out the cool things I can do for you!');
                         
                             
                         // session.replaceDialog('/menu');
