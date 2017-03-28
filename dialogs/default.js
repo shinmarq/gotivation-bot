@@ -13,7 +13,6 @@ const ORGANISATION_ID =  "5800471acb97300011c68cf7";
 const VENUE_ID = "5800889684555e0011585f3c";
 module.exports = [
     function(session,args,next) {
-        session.dialogData.Message = args || {};
         var entity =  session.message.text;
        if(entity && entity.length > 0) {
             if((/^menu|show menu/i.test(entity))) {
