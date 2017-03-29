@@ -207,12 +207,12 @@ function addPersistentMenu(){
             },
             {
               type:"postback",
-              title:"Joke",
-              payload:"joke"
+              title:"Restart Bot",
+              payload:"GET_STARTED"
             },
             {
               type:"web_url",
-              title:"DMS Software Website",
+              title:"Powered by ChatbotPH",
               url:"http://www.dynamic-memory.com/"
             }
           ]
