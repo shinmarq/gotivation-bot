@@ -213,7 +213,7 @@ function addPersistentMenu(){
             {
               type:"web_url",
               title:"Powered by ChatbotPH",
-              url:"http://www.dynamic-memory.com/"
+              url:"http://www.partybot.rocks/"
             }
           ]
     }
