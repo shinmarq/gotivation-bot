@@ -202,8 +202,8 @@ function addPersistentMenu(){
         call_to_actions:[
             {
               type:"postback",
-              title:"Home",
-              payload:"home"
+              title:"Menu",
+              payload:"menu"
             },
             {
               type:"postback",
@@ -213,7 +213,7 @@ function addPersistentMenu(){
             {
               type:"web_url",
               title:"Powered by ChatbotPH",
-              url:"http://www.partybot.rocks/"
+              url:"http://partybot.rocks/"
             }
           ]
     }
