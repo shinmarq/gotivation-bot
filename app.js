@@ -200,18 +200,18 @@ function addPersistentMenu(){
         setting_type : "call_to_actions",
         thread_state : "existing_thread",
         call_to_actions:[
-            {
-              type:"postback",
-              title:"Menu",
-              payload:"menu"
-            },
+            // {
+            //   type:"postback",
+            //   title:"Menu",
+            //   payload:"menu"
+            // },
             {
               type:"postback",
               title:"Restart Bot",
               payload:"GET_STARTED"
             },
             {
-              type:"web_url",
+              type:"web_url",    
               title:"Powered by ChatbotPH",
               url:"http://partybot.rocks/"
             }
