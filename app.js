@@ -208,7 +208,7 @@ function addPersistentMenu(){
             {
               type:"postback",
               title:"Restart Bot",
-              payload:"action?POSTBACKHERE"
+              payload:"GET_STARTED"
             },
             {
               type:"web_url",    
@@ -405,7 +405,7 @@ bot.dialog('/default', [
                             organisationId: ORGANISATION_ID,
                             entity: entity,
                             _venue_id: null 
-
+                            
                         };
                         partyBot.queries.createQuery(createParams, function (err, response, body) {
 
