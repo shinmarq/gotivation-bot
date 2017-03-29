@@ -30,6 +30,7 @@ module.exports = [
             else if((/:/i.test(entity)))
             {
                 session.send("Let's start from the menu again.")
+                session.beginDialog('/menu');
             }
             else {
                var params = {
