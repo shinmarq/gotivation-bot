@@ -27,6 +27,10 @@ module.exports = [
             else if((/^buy tickets|ticket|buy ticket|tickets/i.test(entity))){
                 session.beginDialog('/buy-tickets');
             }
+            else if((/:/i.test(entity)))
+            {
+                session.send("Let's start from the menu again.")
+            }
             else {
                var params = {
                     organisationId: ORGANISATION_ID,
