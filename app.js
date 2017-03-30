@@ -41,7 +41,7 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
-
+var fburl ='https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAANW2ZALpyZAABANrZAuKgOkZC69lsLkziaA6wsNEMOZAqRgBzguyGvJEkCa7mfA7nw6ewlJq5cHdUytcBqz5YwhcZCDmPPdI12hTh48yjhwOULtIm9yokJ8bm7BUbmZAPALIwXlev1g6mcmWveWZCCjO7bXgFOA5hqtOvjZBPWtSZCwZDZD'
 //=========================================================
 // AI Setup
 //=========================================================
@@ -120,7 +120,9 @@ bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i
 
 //=========================================================
 // Bots Dialogs
-//=========================================================
+//=========================================================// Set FB bot greeting text
+
+
 bot.use({
     botbuilder: function (session, next) {
         if (session.message.text === "GET_STARTED") {
@@ -128,7 +130,8 @@ bot.use({
             session.userData = {};
             session.conversationData = {};
         }
-
+        
+            
         if (!session.userData.firstRun) {
             var params = {
                 setting_type: "call_to_actions",
@@ -139,7 +142,7 @@ bot.use({
             };
             addPersistentMenu();
             request({
-                url: 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAANW2ZALpyZAABANrZAuKgOkZC69lsLkziaA6wsNEMOZAqRgBzguyGvJEkCa7mfA7nw6ewlJq5cHdUytcBqz5YwhcZCDmPPdI12hTh48yjhwOULtIm9yokJ8bm7BUbmZAPALIwXlev1g6mcmWveWZCCjO7bXgFOA5hqtOvjZBPWtSZCwZDZD',
+                url: fburl,
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 form: params
@@ -194,10 +197,10 @@ bot.use({
 });
 function addPersistentMenu(){
  request({
-    url: 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAANW2ZALpyZAABANrZAuKgOkZC69lsLkziaA6wsNEMOZAqRgBzguyGvJEkCa7mfA7nw6ewlJq5cHdUytcBqz5YwhcZCDmPPdI12hTh48yjhwOULtIm9yokJ8bm7BUbmZAPALIwXlev1g6mcmWveWZCCjO7bXgFOA5hqtOvjZBPWtSZCwZDZD',
+    url: fburl,
     method: 'POST',
     json:{
-        setting_type : "call_to_actions",
+        setting_type : "call_to_actiouns",
         thread_state : "existing_thread",
         call_to_actions:[
             {
