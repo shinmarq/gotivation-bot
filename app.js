@@ -140,7 +140,6 @@ bot.use({
                     payload: "GET_STARTED"
                 }]
             };
-            addPersistentMenu();
             request({
                 url: fburl,
                 method: 'POST',
@@ -195,42 +194,7 @@ bot.use({
         }
     }
 });
-function addPersistentMenu(){
- request({
-    url: fburl,
-    method: 'POST',
-    json:{
-        setting_type : "call_to_actiouns",
-        thread_state : "existing_thread",
-        call_to_actions:[
-            {
-              type:"postback",
-              title:"Menu",
-              payload:"menu"
-            },
-            {
-              type:"postback",
-              title:"Restart Bot",
-              payload:"GET_STARTED"
-            },
-            {
-              type:"web_url",    
-              title:"Powered by Partybot",
-              url:"http://partybot.rocks/"
-            }
-          ]
-    }
 
-}, function(error, response, body) {
-    console.log(response)
-    if (error) {
-        console.log('Error sending messages: ', error)
-    } else if (response.body.error) {
-        console.log('Error: ', response.body.error)
-    }
-})
-
-}
 bot.dialog('/firstRun', FirstRun);
 bot.dialog('/', intentDialog);
 bot.dialog('/menu', Menu).reloadAction('reloadMenu', null, { matches: /^menu|show menu/i });
