@@ -68,7 +68,7 @@ module.exports = [
             {
                 session.send("You're welcome!")
             }
-            else if((/^tawesome|cool|wow/i.test(entity)))
+            else if((/^awesome|cool|wow/i.test(entity)))
             {
                 session.send("I know right? :D")
             }
