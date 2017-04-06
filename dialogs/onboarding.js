@@ -46,7 +46,6 @@ module.exports = [
                     session.send(`${prefix} . Pick the fitness category I can help you with.`);
                     builder.Prompts.choice(session, msg, selectString, { maxRetries: 0 });
                 }
-
             });
         function getCategories(getParams, msg, callback) {
             parser.category.getCategory(, function (err, res, body) {
@@ -238,18 +237,18 @@ module.exports = [
             }
 
             session.dialogData.ffa = ffa;
-            builder.Prompts.text(session, `In 1-2 sentences, write WHY you want to achieve your healthy eating and fitness goals with ${session.dialogData.coach.name}? ` )
+            builder.Prompts.text(session, `In 1-2 sentences, write WHY you want to achieve your healthy eating and fitness goals with ${session.dialogData.coach.name}? `)
 
         }
         else {
             session.beginDialog('/default');
         }
     },
-     function (session, results, next){
-         if(results.response){
+    function (session, results, next) {
+        if (results.response) {
             session.construals = results.response.entity
-         }
-     }
+        }
+    }
 
 
 

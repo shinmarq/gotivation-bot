@@ -11,7 +11,7 @@ const CONSTANTS = require('./constants');
 var parser = require('./parser');
 
 
-var Default =require('./dialogs/default');
+var Default = require('./dialogs/default');
 //=========================================================
 // Bot Setup
 //=========================================================
@@ -44,8 +44,8 @@ bot.use({
             session.userData = {};
             session.conversationData = {};
         }
-        
-            
+
+
         if (!session.userData.firstRun) {
             var params = {
                 setting_type: "call_to_actions",
