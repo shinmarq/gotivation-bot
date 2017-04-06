@@ -14,9 +14,8 @@ module.exports = [
         var entity =  session.message.text;
        if(entity && entity.length > 0) {
             if((/^category|categories/i.test(entity))) {
-                 session.beginDialog('/categories');
+                 session.beginDialog('/onboarding');
              }  
-  
             else {
                var params = {
                     entity: entity
