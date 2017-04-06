@@ -29,6 +29,7 @@ var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
+console.log(connector);
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
@@ -62,38 +63,30 @@ bot.use({
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
                             .title('Gotivation bot')
-                            .subtitle(`Wanna party tonight? Click Main Menu so I can help!`)
+                            .subtitle(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
                             .images([
                                 new builder.CardImage(session)
-                                    .url(`${CONSTANTS.BASE_URL}/assets/logo.jpg`)
+                                    .url(`${CONSTANTS.BASE_URL}/assets/GOtivation+Logo.jpg`)
                                     .alt('Logo')
-                            ])
-                            .buttons([
-                                builder.CardAction.imBack(session, "menu", "Main Menu"),
                             ]);
 
                         session.send(new builder.Message(session)
                             .addAttachment(welcomeCard));
-                        session.beginDialog('/firstRun');
                         next();
                     } else {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
-                            .title('Palace Messenger bot')
-                            .subtitle(`Wanna party tonight? Click Main Menu so I can help!`)
+                            .title('Gotivation bot')
+                            .subtitle(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
                             .images([
                                 new builder.CardImage(session)
-                                    .url(`${CONSTANTS.BASE_URL}/assets/logo.jpg`)
+                                    .url(`${CONSTANTS.BASE_URL}/assets/GOtivation+Logo.jpg`)
                                     .alt('Logo')
-                            ])
-                            .buttons([
-                                builder.CardAction.imBack(session, "menu", "Main Menu"),
                             ]);
 
                         session.send(new builder.Message(session)
                             .addAttachment(welcomeCard));
 
-                        session.beginDialog('/firstRun');
                         next();
                     }
                 });
@@ -104,22 +97,17 @@ bot.use({
     }
 });
 
-bot.dialog('/firstRun', FirstRun);
 
 bot.dialog('/default', [
     function (session, args, next) {
         var entity = args || session.message.text;
         console.log(entity);
-        if (entity === "GET_STARTED") {
-            // session.send(`Hi ${session.message.address.user.name} Welcome to the official The Palace Messenger Bot! I’m here to make your partying easier! If you want to find out all the things I can do for you, type “Menu”`);
-        }
-        else if (entity && entity.length > 0) {
+        if (entity && entity.length > 0) {
            if((/^menu|show menu/i.test(entity))) {
                  session.beginDialog('/menu');
              }  
             else {
                 var params = {
-                    organisationId: ORGANISATION_ID,
                     entity: entity
                 };
                 partyBot.queries.getQueryForBot(params, function (err, response, body) {

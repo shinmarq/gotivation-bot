@@ -1,13 +1,12 @@
 {
   "name": "gotivation-bot",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "console": "./node_modules/.bin/nodemon console.js",
-    "dev": "./node_modules/.bin/nodemon app.js",
-    "test": "./node_modules/.bin/jslint ./app.js"
+    "console": "nodemon console.js",
+    "dev": "nodemon app.js",
+    "test": "jslint ./app.js"
   },
   "repository": {
     "type": "git",
@@ -28,5 +27,6 @@
     "request": "*",
     "restify": "*",
     "underscore": "*"
-  }
+  },
+  "description": ""
 }

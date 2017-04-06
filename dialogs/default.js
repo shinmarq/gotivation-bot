@@ -9,8 +9,6 @@ var restify = require('restify'),
 var builder = require('botbuilder');
 //var defaultDialog = require('./defaultDialog.js');
 
-const ORGANISATION_ID =  "5800471acb97300011c68cf7";
-const VENUE_ID = "5800889684555e0011585f3c";
 module.exports = [
     function(session,args,next) {
         var entity =  session.message.text;
@@ -78,7 +76,6 @@ module.exports = [
             }
             else {
                var params = {
-                    organisationId: ORGANISATION_ID,
                     entity: entity
                 };
 
@@ -91,7 +88,6 @@ module.exports = [
                             
                         // session.replaceDialog('/menu');
                         var createParams = {
-                            organisationId: ORGANISATION_ID,
                             entity: entity
                         };
                         partyBot.queries.createQuery(createParams, function(err, response, body) {
