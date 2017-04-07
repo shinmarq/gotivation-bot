@@ -249,7 +249,10 @@ module.exports = [
             session.dialogData.construals = results.response.entity
             let params = {
                 memberfbid: session.message.address.user.id,
-                coaches: [session.dialogData.coach._id],
+                name:  session.message.address.use.name,
+                channel : session.message.address.channelId,
+                facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
+                coaches: [{coach_id: session.dialogData.coach._id}],
                 category: session.dialogData.category,
                 recurrence : {timeofday: session.dialogData.recurrence,timezone:""},
                 conscientiousness: session.dialogData.conscientiousness,
