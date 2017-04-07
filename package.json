@@ -22,6 +22,7 @@
   "dependencies": {
     "async": "*",
     "botbuilder": "*",
+    "mongodb": "^2.2.25",
     "mongoose": "*",
     "request": "*",
     "restify": "*",
