@@ -47,7 +47,8 @@ module.exports = {
 }
 
 function getcoach(coachCode, callback) {
-    partyBot.coach.getcoachs(coachCode, function(error, response, body) {
+    request.get(options, r)
+    parser.coach.getcoachs(coachCode, function(error, response, body) {
         callback(error, response.statusCode, body);
     });
 } 

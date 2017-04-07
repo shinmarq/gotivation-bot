@@ -4,8 +4,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "console": "nodemon console.js",
-    "dev": "nodemon app.js",
+    "console": "./node_modules/.bin/nodemon console.js",
+    "dev": "./node_modules/.bin/nodemon app.js",
     "test": "jslint ./app.js"
   },
   "repository": {
@@ -22,8 +22,8 @@
   "dependencies": {
     "async": "*",
     "botbuilder": "*",
-    "mongodb": "^2.2.25",
     "mongoose": "*",
+    "mongodb": "*",
     "request": "*",
     "restify": "*",
     "underscore": "*"
