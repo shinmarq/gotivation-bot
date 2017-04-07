@@ -247,7 +247,12 @@ module.exports = [
     function (session, results, next) {
         if (results.response) {
             session.construals = results.response.entity
+            createmember()
+
+
+
         }
+
     }
 
 
