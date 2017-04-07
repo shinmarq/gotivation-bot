@@ -8,16 +8,16 @@ var request = require('request'),
 
 const URL = constants.BASE_PATH + constants.API_PATH + "/";
 
-exports.getmember = function (params, callback) {
+exports.getuser = function (params, callback) {
 	var options = {};
-	if (params.memberId) {
+	if (params.userId) {
 		options = {
-			url: URL + "/members/" + params.memberId,
+			url: URL + "/users/" + params.userId,
 			qs: params
 		};
 	} else {
 		options = {
-			url: URL + "/members/",
+			url: URL + "/users/",
 			qs: params
 		};
 	}
@@ -33,8 +33,8 @@ exports.getmember = function (params, callback) {
 	});
 };
 
-exports.createmember = function (params, callback) {
-	var postUrl = URL + "/members";
+exports.createuser = function (params, callback) {
+	var postUrl = URL + "/users";
 	var newParams = params;
 	var options = {
 		method: 'post',
@@ -54,9 +54,9 @@ exports.createmember = function (params, callback) {
 	});
 };
 
-exports.updatemember = function (params, callback) {
-	var putUrl = URL + "/members/" + params.member;
-	var newParams = _.omit(params, ['member']);
+exports.updateuser = function (params, callback) {
+	var putUrl = URL + "/users/" + params.user;
+	var newParams = _.omit(params, ['user']);
 	var options = {
 		method: 'put',
 		body: newParams,
@@ -75,8 +75,8 @@ exports.updatemember = function (params, callback) {
 	});
 };
 
-// exports.sendMessageTomembers = function(params, callback) {
-// 	var postUrl = URL + "/members/send-message";
+// exports.sendMessageTousers = function(params, callback) {
+// 	var postUrl = URL + "/users/send-message";
 // 	var newParams = params;
 
 // 	var options = {

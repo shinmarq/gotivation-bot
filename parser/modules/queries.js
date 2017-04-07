@@ -4,8 +4,8 @@
 var request = require('request'),
 	async = require('async'),
 	_ = require('underscore'),
-	MapResponse = require('../parser/MapResponse'),
-	constants = require('../constants');
+	MapResponse = require('../MapResponse'),
+	constants = require('../../constants');
 
 const URL = constants.BASE_PATH + constants.API_PATH + "/";
 

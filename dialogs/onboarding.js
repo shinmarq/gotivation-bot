@@ -93,8 +93,8 @@ module.exports = [
     },
     function (session, results, next) {
         if (results.response) {
-            session.dialogData.name = results.response;
-            builder.Prompts.time(session, "Great! What time would you prefer to receive your daily motivation?");
+            session.dialogData.category = results.response;
+            builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation?");
         } else {
             session.beginDialog('/default');
         }
@@ -102,8 +102,8 @@ module.exports = [
 
     function (session, results, next) {
         if (results.response) {
-            session.dialogData.time = builder.EntityRecognizer.resolveTime([results.response]);
-            if (session.dialogData.time) {
+            session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
+            if (session.dialogData.recurrence) {
                 builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.", options, { maxRetries: 0 });
                 var options = ["Completely", "A lot", "Moderate", "Not at all", "A little"]
                 builder.Prompts.choice(session, "When I say I'm going to work out at a specific time, I always follow through.", options);
@@ -226,7 +226,7 @@ module.exports = [
     },
     function (session, results, next) {
         if (results.response) {
-            var ffa = builder.EntityRecognizer.text(results.response);
+            var ffa = builder.EntityRecognizer.text(results.response.entity);
             switch (ffa) {
                 case 4 | 5:
                     ffa = "Glory Seeker";
@@ -246,9 +246,28 @@ module.exports = [
     },
     function (session, results, next) {
         if (results.response) {
+<<<<<<< HEAD
             session.construals = results.response.entity
             createmember()
 
+=======
+            session.dialogData.construals = results.response.entity
+            let params = {
+                memberfbid: session.message.address.user.id,
+                name:  session.message.address.use.name,
+                channel : session.message.address.channelId,
+                facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
+                coaches: [{coach_id: session.dialogData.coach._id}],
+                category: session.dialogData.category,
+                recurrence : {timeofday: session.dialogData.recurrence,timezone:""},
+                conscientiousness: session.dialogData.conscientiousness,
+                grit: session.dialogData.grit,
+                selfcontrol: session.dialogData.selfcontrol,
+                locusofcontrol: session.dialogData.locusofcontrol,
+                fearoffailurevsachievement: session.dialogData.ffa,
+                construals: session.dialogData.construals
+            }
+>>>>>>> 01898ece334f501a0799439fbbad2133c1d5d21c
 
 
         }
