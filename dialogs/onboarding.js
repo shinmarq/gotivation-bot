@@ -246,11 +246,7 @@ module.exports = [
     },
     function (session, results, next) {
         if (results.response) {
-<<<<<<< HEAD
             session.construals = results.response.entity
-            createmember()
-
-=======
             session.dialogData.construals = results.response.entity
             let params = {
                 memberfbid: session.message.address.user.id,
@@ -267,8 +263,6 @@ module.exports = [
                 fearoffailurevsachievement: session.dialogData.ffa,
                 construals: session.dialogData.construals
             }
->>>>>>> 01898ece334f501a0799439fbbad2133c1d5d21c
-
 
         }
 
