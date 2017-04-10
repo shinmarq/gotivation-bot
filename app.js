@@ -36,9 +36,8 @@ server.post('/api/messages', connector.listen());
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
 
-bot.dialog('/', function (session) {
-        console.log('proceed');
-        console.log(CONSTANTS.BASE_URL);
+bot.use({
+    botbuilder: function (session, next) {
         if (session.message.text === "GET_STARTED") {
             session.perUserInConversationData = {};
             session.userData = {};
@@ -61,8 +60,6 @@ bot.dialog('/', function (session) {
                 form: params
             },
                 function (error, response, body) {
-                        console.log(error);
-                        console.log(response.statusCode);
                        if (!error && response.statusCode == 200) {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
@@ -89,6 +86,7 @@ bot.dialog('/', function (session) {
                     session.beginDialog('/onboarding');
  
         }
+}
 });
 
 bot.dialog('/onboarding', Onboarding);
