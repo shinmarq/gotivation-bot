@@ -61,6 +61,8 @@ bot.dialog('/', function (session) {
                 form: params
             },
                 function (error, response, body) {
+                        console.log(error);
+                        console.log(response.statusCode);
                        if (!error && response.statusCode == 200) {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
