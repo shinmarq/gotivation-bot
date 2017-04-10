@@ -150,7 +150,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Healthy Eating')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Healthy Eating.png`)
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Healthy Eating_SM.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Healthy-Eating", "Healthy Eating")
