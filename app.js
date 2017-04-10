@@ -38,6 +38,7 @@ bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i
 
 bot.dialog('/', function (session) {
         console.log('proceed');
+        console.log(CONSTANTS.BASE_URL);
         if (session.message.text === "GET_STARTED") {
             session.perUserInConversationData = {};
             session.userData = {};
@@ -61,8 +62,6 @@ bot.dialog('/', function (session) {
             },
                 function (error, response, body) {
                        if (!error && response.statusCode == 200) {
-                        console.log("Enter request httpd post");
-                        console.log(CONSTANTS.BASE_URL);
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
                             .title('Gotivation bot')
