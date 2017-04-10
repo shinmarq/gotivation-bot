@@ -13,28 +13,17 @@ const CONSTANTS = require('./constants');
 var parser = require('./parser');
 
 
-var Default = require('./dialogs/default');
+var Onboarding = require('./dialogs/onboarding');
 //=========================================================
 // Bot Setup
 //=========================================================
 
 // Setup Restify Server
-var server = restify.createServer();
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
-server.get(/\/assets\/?.*/, restify.serveStatic({
-    directory: __dirname
-}));
-server.listen(process.env.port || process.env.PORT || 3978, function () {
-    console.log('%s listening to %s', server.name, server.url);
-});
+
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
-var consoleConnector = new builder.ConsoleConnector({
-    appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD
-}).listen();
-var bot = new builder.UniversalBot(consoleConnector)
+var consoleConnector = new builder.ConsoleConnector().listen();
+var bot = new builder.UniversalBot(consoleConnector);
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
 bot.dialog('/', function (session) {
         if (session.message.text === "GET_STARTED") {
@@ -72,14 +61,17 @@ bot.dialog('/', function (session) {
 
                         session.send(new builder.Message(session)
                             .addAttachment(welcomeCard));
-                        bot.dialog('/default', Default);
+
+                        
+                    session.beginDialog('/onboarding');
                     } 
                 });
 
         } else {
-            next();
+                    session.beginDialog('/onboarding');
+ 
         }
 });
 
-bot.dialog('/default', Default);
+bot.dialog('/onboarding', Onboarding);
 

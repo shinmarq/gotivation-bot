@@ -4,12 +4,13 @@ var builder = require('botbuilder'),
     async = require('async'),
     _ = require('underscore'),
     parser = require('../parser');
-const Constants = require('../constants');
-const FB_PAGE_ACCESS_TOKEN = Constants.FB_PAGE_ACCESS_TOKEN;
+const CONSTANTS = require('../constants');
+const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session) {
         var msg = new builder.Message(session);
+        session.sendTyping();
         builder.Prompts.confirm(session, 'Do you have a coach code?');
     },
     function (session, results, next) {
@@ -23,11 +24,12 @@ module.exports = [
     },
     function (session, results, next) {
         var prefix;
-        if (session.dialogData.coach._id) {
-            prefix = "Great! You're with Coach " + session.dialogData.coach.name;
+        session.sendTyping();
+        if (session.entity === 'yes') {
+            prefix = `Great! You're with Coach ${session.dialogData.coach.name} .`;
         }
         else {
-            prefix = "I'ts ok, you'll have your coach soon. "
+            prefix = "I'ts ok, you'll have your coach soon."
         }
         // var getParams = {
         //     memberid: session.message.address.user.id,
@@ -109,7 +111,7 @@ module.exports = [
         var reply = new builder.Message(session)
             .attachmentLayout(builder.AttachmentLayout.carousel)
             .attachments(cards);
-        session.send(`${prefix} . Pick the fitness category I can help you with.`);
+        session.send(`${prefix} ,Before that, pick the fitness category I can help you with.`);
         builder.Prompts.choice(session, reply, selectArray, { maxRetries: 0, promptAfterAction: false });
 
         function getCardsAttachments(session) {
@@ -200,6 +202,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
+        session.sendTyping();
         if (results.response) {
             session.dialogData.category = results.response;
             builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation?");
@@ -209,6 +212,7 @@ module.exports = [
     },
 
     function (session, results, next) {
+        session.sendTyping();
         if (results.response) {
             session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             if (session.dialogData.recurrence) {
@@ -225,6 +229,7 @@ module.exports = [
     },
 
     function (session, results, next) {
+        session.sendTyping();
         if (results.response) {
             var conscientiousness = builder.EntityRecognizer.text(results.response);
             switch (conscientiousness) {
@@ -255,6 +260,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
+        session.sendTyping();
         if (results.response) {
             var grit = builder.EntityRecognizer.text(results.response);
             // switch (grit) {
@@ -281,6 +287,7 @@ module.exports = [
     },
 
     function (session, results, next) {
+        session.sendTyping();
         if (results.response) {
             var selfcontrol = builder.EntityRecognizer.text(results.response);
             switch (selfcontrol) {
@@ -303,6 +310,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
+        session.sendTyping();
         if (results.response) {
             var locusofcontrol = builder.EntityRecognizer.text(results.response);
             switch (locusofcontrol) {
@@ -333,6 +341,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
+        session.sendTyping();
         if (results.response) {
             var ffa = builder.EntityRecognizer.text(results.response.entity);
             switch (ffa) {
@@ -353,13 +362,14 @@ module.exports = [
         }
     },
     function (session, results, next) {
+        session.sendTyping();
         if (results.response) {
             session.dialogData.construals = results.response.entity
             let params = {
                 memberfbid: session.message.address.user.id,
                 name: session.message.address.use.name,
                 channel: session.message.address.channelId,
-                facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
+                facebook_page_access_token: FB_PAGE_ACCESS_TOKEN,
                 coaches: [{ coach_id: session.dialogData.coach._id }],
                 category: session.dialogData.category,
                 recurrence: { timeofday: session.dialogData.recurrence, timezone: "" },
@@ -370,6 +380,17 @@ module.exports = [
                 fearoffailurevsachievement: session.dialogData.ffa,
                 construals: session.dialogData.construals
             }
+
+            parser.member.createmember(params, function(statusCode) {
+                if(statusCode == 200) { 
+                    var attachments = [];
+                    var msgString = `Thanks! Someone will contact you soon.`;
+                    callback(null, msgString);
+                } else {
+                    session.send('Something went wrong and your session is not saved. Please try again');
+                    session.beginDialog('/onboarding');
+                }
+            });
 
 
         }

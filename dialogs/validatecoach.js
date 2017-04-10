@@ -48,7 +48,8 @@ module.exports = {
 
 function getcoach(coachCode, callback) {
     request.get(options, r)
-    parser.coach.getcoachs(coachCode, function(error, response, body) {
+    parser.coach.getcoach(coachCode, function(error, response, body) {
         callback(error, response.statusCode, body);
     });
 } 
+
