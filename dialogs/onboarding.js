@@ -193,9 +193,9 @@ module.exports = [
                     ]),
                 //Yoga & Pilates
                 new builder.HeroCard(session)
-                    .title('Yoga & Pilates')
+                    .title('Yoga & Pilates') 
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Yoga Sports_SM.png`)
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Yoga Pilates_SM.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Yoga-&-Pilates", "Yoga & Pilates")
