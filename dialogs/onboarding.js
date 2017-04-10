@@ -29,67 +29,175 @@ module.exports = [
         else {
             prefix = "I'ts ok, you'll have your coach soon. "
         }
-        var getParams = {
-            memberid: session.message.address.user.id,
-            tags: 'table'
-        };
-        async.waterfall([
-            async.apply(getCategories, getParams, msg),
-            formatBody,
-            sendMessage
-        ],
-            function (err, msg, selectString) {
-                if (err) {
-                    session.send(err);
-                    session.reset();
-                } else {
-                    session.send(`${prefix} . Pick the fitness category I can help you with.`);
-                    builder.Prompts.choice(session, msg, selectString, { maxRetries: 0 });
-                }
-            });
-        function getCategories(getParams, msg, callback) {
-            parser.category.getCategory(, function (err, res, body) {
-                if (!err && res.statusCode == 200) {
-                    if (body.length > 0) {
-                        callback(null, body, msg);
-                    } else {
-                        callback("No categories available for you yet", [], null);
-                    }
-                } else {
-                    callback(body, res.statusCode, []);
-                }
-            });
-        }
+        // var getParams = {
+        //     memberid: session.message.address.user.id,
+        //     tags: 'table'
+        // };
 
-        function formatBody(body, msg, callback) {
-            var attachments = [];
-            var selectString = [];
-            body.map(function (value, index) {
-                selectString.push('select:' + value._id);
-                attachments.push(
-                    new builder.HeroCard(session)
-                        .title(value.name)
-                        .text(value.description)
-                        .images([
-                            builder.CardImage.create(session, value.image)
-                                .tap(builder.CardAction.showImage(session, value.image)),
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "select:" + value._id, value.name)
-                        ])
-                );
-            });
-            callback(null, msg, attachments, selectString);
-        }
 
-        function sendMessage(msg, attachments, selectString, callback) {
-            msg
-                .textFormat(builder.TextFormat.xml)
-                .attachmentLayout(builder.AttachmentLayout.carousel)
-                .attachments(attachments);
-            callback(null, msg, selectString);
-        }
+        // FOR FUTURE CATEGORIES
+        // async.waterfall([
+        //     async.apply(getCategories, getParams, msg),
+        //     formatBody,
+        //     sendMessage
+        // ],
+        //     function (err, msg, selectString) {
+        //         if (err) {
+        //             session.send(err);
+        //             session.reset();
+        //         } else {
+        //             session.send(`${prefix} . Pick the fitness category I can help you with.`);
+        //             builder.Prompts.choice(session, msg, selectString, { maxRetries: 0 });
+        //         }
+        //     });
+        // function getCategories(getParams, msg, callback) {
+        //     parser.category.getCategory(, function (err, res, body) {
+        //         if (!err && res.statusCode == 200) {
+        //             if (body.length > 0) {
+        //                 callback(null, body, msg);
+        //             } else {
+        //                 callback("No categories available for you yet", [], null);
+        //             }
+        //         } else {
+        //             callback(body, res.statusCode, []);
+        //         }
+        //     });
+        // }
 
+        // function formatBody(body, msg, callback) {
+        //     var attachments = [];
+        //     var selectString = [];
+        //     body.map(function (value, index) {
+        //         selectString.push('select:' + value._id);
+        //         attachments.push(
+        //             new builder.HeroCard(session)
+        //                 .title(value.name)
+        //                 .text(value.description)
+        //                 .images([
+        //                     builder.CardImage.create(session, value.image)
+        //                         .tap(builder.CardAction.showImage(session, value.image)),
+        //                 ])
+        //                 .buttons([
+        //                     builder.CardAction.imBack(session, "select:" + value._id, value.name)
+        //                 ])
+        //         );
+        //     });
+        //     callback(null, msg, attachments, selectString);
+        // }
+
+        // function sendMessage(msg, attachments, selectString, callback) {
+        //     msg
+        //         .textFormat(builder.TextFormat.xml)
+        //         .attachmentLayout(builder.AttachmentLayout.carousel)
+        //         .attachments(attachments);
+        //     callback(null, msg, selectString);
+        // }
+
+        var selectArray = [
+            "Body-Building",
+            "Cross-Training",
+            "Group-Classes",
+            "Healthy-Eating",
+            "Individual-Sports",
+            "Running-&-Walking",
+            "Team-Sports",
+            "Strength-Training",
+            "Yoga-&-Pilates"
+        ];
+
+        var cards = getCardsAttachments();
+        var reply = new builder.Message(session)
+            .attachmentLayout(builder.AttachmentLayout.carousel)
+            .attachments(cards);
+        session.send(`${prefix} . Pick the fitness category I can help you with.`);
+        builder.Prompts.choice(session, reply, selectArray, { maxRetries: 0, promptAfterAction: false });
+
+        function getCardsAttachments(session) {
+            return [
+
+                //body building
+                new builder.HeroCard(session)
+                    .title('Body Building')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.BASE_URL}/assets/Bodybuilding_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Body-Building", "Body Building")
+                    ]),
+                //cross training
+                new builder.HeroCard(session)
+                    .title('Cross Training')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.BASE_URL}/assets/Cross Training_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Cross-Training", "Cross Training")
+                    ]),
+                //Group Classes
+                new builder.HeroCard(session)
+                    .title('Group Classes')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.BASE_URL}/assets/Group Fitness_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Group-Classes", "Group Classes")
+                    ]),
+                //Healthy Eating
+                new builder.HeroCard(session)
+                    .title('Healthy Eating')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.BASE_URL}/assets/Healthy Eating.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Healthy-Eating", "Healthy Eating")
+                    ]),
+                //Individual Sports
+                new builder.HeroCard(session)
+                    .title('Individual Sports')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.BASE_URL}/assets/Individual Sports_SM.jpg`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Individual-Sports", "Individual Sports")
+                    ]),
+                //Running & Walking
+                new builder.HeroCard(session)
+                    .title('Running & Walking')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.BASE_URL}/assets/Running-Walking_SM.jpg`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Running-&-Walking", "Running & Walking")
+                    ]),
+                //Team Sports
+                new builder.HeroCard(session)
+                    .title('Team Sports')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.BASE_URL}/assets/Team Sports_SM.jpg`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Team-Sports", "Team Sports")
+                    ]),
+                //Strength Training
+                new builder.HeroCard(session)
+                    .title('Strength Training')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.BASE_URL}/assets/Strength Training_SM.jpg`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Strength-Training", "Strength Training")
+                    ]),
+                //Yoga & Pilates
+                new builder.HeroCard(session)
+                    .title('Yoga & Pilates')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.BASE_URL}/assets/Yoga Sports_SM.jpg`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Yoga-&-Pilates", "Yoga & Pilates")
+                    ]),
+            ]
+        }
     },
     function (session, results, next) {
         if (results.response) {
@@ -246,16 +354,15 @@ module.exports = [
     },
     function (session, results, next) {
         if (results.response) {
-            session.construals = results.response.entity
             session.dialogData.construals = results.response.entity
             let params = {
                 memberfbid: session.message.address.user.id,
-                name:  session.message.address.use.name,
-                channel : session.message.address.channelId,
+                name: session.message.address.use.name,
+                channel: session.message.address.channelId,
                 facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
-                coaches: [{coach_id: session.dialogData.coach._id}],
+                coaches: [{ coach_id: session.dialogData.coach._id }],
                 category: session.dialogData.category,
-                recurrence : {timeofday: session.dialogData.recurrence,timezone:""},
+                recurrence: { timeofday: session.dialogData.recurrence, timezone: "" },
                 conscientiousness: session.dialogData.conscientiousness,
                 grit: session.dialogData.grit,
                 selfcontrol: session.dialogData.selfcontrol,
@@ -264,8 +371,8 @@ module.exports = [
                 construals: session.dialogData.construals
             }
 
-        }
 
+        }
     }
 
 
