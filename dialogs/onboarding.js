@@ -328,13 +328,8 @@ module.exports = [
             }
 
             session.dialogData.locusofcontrol = locusofcontrol;
-            session.send(`1) Greatly anticipate feelings of achievement when meeting your goal \n 
-                2) Somewhat anticipate feelings of achievement when meeting your goal \n
-                3) Neutral \n
-                4) Somewhat fear failing to meet your goal \n
-                5) Greatly fear failing to meet your goal \n
-                `);
-            var options =[1,2,3,4,5]
+            session.send(`1) Greatly anticipate feelings of achievement when meeting your goal \n 2) Somewhat anticipate feelings of achievement when meeting your goal \n 3) Neutral \n 4) Somewhat fear failing to meet your goal \n 5) Greatly fear failing to meet your goal \n`);
+            var options =["1","2","3","4","5"]
             builder.Prompts.choice(session,
                 "Please select the point on the scale that best describes you.",
                 options, {
