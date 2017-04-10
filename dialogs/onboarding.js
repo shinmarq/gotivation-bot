@@ -16,8 +16,9 @@ module.exports = [
     function (session, results, next) {
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
-            session.dialogData.coach = {};
-            session.beginDialog('/validatecoach', session.dialogData);
+            session.dialogData.coach.name = "IVY";
+            // session.dialogData.coach = {};
+            // session.beginDialog('/validatecoach', session.dialogData);
         } else {
             next();
         }
@@ -29,7 +30,7 @@ module.exports = [
             prefix = `Great! You're with Coach ${session.dialogData.coach.name} .`;
         }
         else {
-            prefix = "I'ts ok, you'll have your coach soon."
+            prefix = "That's okay."
         }
         // var getParams = {
         //     memberid: session.message.address.user.id,
@@ -111,7 +112,8 @@ module.exports = [
         var reply = new builder.Message(session)
             .attachmentLayout(builder.AttachmentLayout.carousel)
             .attachments(cards);
-        session.send(`${prefix} Before that, pick the fitness category I can help you with.`);
+        session.send(`${prefix} Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
+        session.send(`Pick the fitness category I can help you with.`);
         builder.Prompts.choice(session, reply, selectArray, {retryPrompt: `That's not on our category options, please tap card corresponds your fitness category`});
 
         function getCardsAttachments(session) {
