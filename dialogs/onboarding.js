@@ -111,7 +111,7 @@ module.exports = [
         var reply = new builder.Message(session)
             .attachmentLayout(builder.AttachmentLayout.carousel)
             .attachments(cards);
-        session.send(`${prefix} ,Before that, pick the fitness category I can help you with.`);
+        session.send(`${prefix} Before that, pick the fitness category I can help you with.`);
         builder.Prompts.choice(session, reply, selectArray, { maxRetries: 0, promptAfterAction: false });
 
         function getCardsAttachments(session) {

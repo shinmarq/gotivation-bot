@@ -32,9 +32,10 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
-var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=EAAXL7443DqQBAC1BgU4ZAgpWN1kpumK6ZAUEof18DPQJPPoCmwqDwxI3UCcTeSEDQfjNXvIDk8oST3NHkoQQpfzchxosO7U5gQkGVyL6flmd7aqtpqqd3srlBZCDdRoGCiMC9rZCefBMXgZBYM2wr9hT7w09bYrTeAGVJrhqASAZDZD";
+var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
 bot.dialog('/', function (session) {
+        console.log(session);
         if (session.message.text === "GET_STARTED") {
             session.perUserInConversationData = {};
             session.userData = {};
