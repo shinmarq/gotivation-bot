@@ -27,7 +27,7 @@ server.listen(process.env.port || process.env.PORT || 5000, function () {
 //console.log("MICROSOFt APP PASSWORD: ", process.env.MICROSOFT_APP_PASSWORD); 
 // Create chat bot""
 var connector = new builder.ChatConnector({
-    appId:  process.env.MICROSOFT_APP_PASSWORD ||'0033295f-64bc-4f3a-8a84-94ec5226a24e',
+    appId:  process.env.MICROSOFT_APP_ID ||'0033295f-64bc-4f3a-8a84-94ec5226a24e',
     appPassword: process.env.MICROSOFT_APP_PASSWORD ||'hG5g9Yng7MXScphOnATNPQO'
 });
 var bot = new builder.UniversalBot(connector);
@@ -71,10 +71,8 @@ bot.dialog('/', function (session) {
 
                     session.send(new builder.Message(session)
                     .addAttachment(welcomeCard));
-                    
                     session.sendTyping();   
                     session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
-
                     session.beginDialog('/onboarding');
                     } 
                 });
