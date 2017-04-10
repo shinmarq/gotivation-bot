@@ -16,7 +16,7 @@ module.exports = [
     function (session, results, next) {
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
-            session.dialogData.coach.name = "IVY";
+            session.dialogData.coach.name = "Ivy";
             // session.dialogData.coach = {};
             // session.beginDialog('/validatecoach', session.dialogData);
         } else {
