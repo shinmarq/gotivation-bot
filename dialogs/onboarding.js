@@ -17,6 +17,7 @@ module.exports = [
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
             session.dialogData.coach.name = "Ivy";
+            next();
             // session.dialogData.coach = {};
             // session.beginDialog('/validatecoach', session.dialogData);
         } else {
@@ -384,19 +385,22 @@ module.exports = [
                 construals: session.dialogData.construals
             }
             console.log(params);
-            session.send(`You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`);
-            
+            session.send(`You’re all set!  I’ll be ready with your first motivation tomorrow… let’s do this!`);
             return;
-            parser.member.createmember(params, function(statusCode) {
-                if(statusCode == 200) { 
-                    var attachments = [];
-                    var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
-                    callback(null, msgString);
-                } else {
-                    session.send('Something went wrong and your session is not saved. Please try again');
-                    session.beginDialog('/onboarding');
-                }
-            });
+             builder.Prompts.confirm(session, `Do you want to choose an additional category?`);
+
+            
+            // return;
+            // parser.member.createmember(params, function(statusCode) {
+            //     if(statusCode == 200) { 
+            //         var attachments = [];
+            //         var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
+            //         callback(null, msgString);
+            //     } else {
+            //         session.send('Something went wrong and your session is not saved. Please try again');
+            //         session.beginDialog('/onboarding');
+            //     }
+            // });
 
 
         }
