@@ -69,7 +69,7 @@ bot.dialog('/', function (session) {
                             .title('Gotivation bot')
                             .images([
                                 new builder.CardImage(session)
-                                    .url(`${CONSTANTS.BASE_URL}/assets/GOtivation+Logo.jpg`)
+                                    .url(`${CONSTANTS.IMG_PATH}GOtivation+Logo.jpg`)
                                     .alt('Logo')
                             ]);
 
