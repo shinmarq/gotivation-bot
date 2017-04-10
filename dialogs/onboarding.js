@@ -8,7 +8,7 @@ const CONSTANTS = require('../constants');
 const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
-    function (session,next) {
+    function (session) {
         var msg = new builder.Message(session);
         session.sendTyping();
         builder.Prompts.confirm(session, `Before we proceed, do you have a coach code?`);

@@ -77,6 +77,7 @@ bot.use({
                     session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
 
                     session.beginDialog('/onboarding');
+                     next();
                     } 
                 });
 
@@ -84,6 +85,7 @@ bot.use({
                     session.send(`Hi ${session.message.address.user.name}! Welcome back!`)
                     session.sendTyping();
                     session.beginDialog('/onboarding');
+                    next();
  
         }
 }
