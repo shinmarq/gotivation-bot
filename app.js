@@ -61,6 +61,8 @@ bot.dialog('/', function (session) {
             },
                 function (error, response, body) {
                        if (!error && response.statusCode == 200) {
+                        console.log("Enter request httpd post");
+                        console.log(CONSTANTS.BASE_URL);
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
                             .title('Gotivation bot')
