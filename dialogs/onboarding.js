@@ -159,7 +159,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Individual Sports')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Individual Sports_SM.jpg`)
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Individual Sports_SM.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Individual-Sports", "Individual Sports")
@@ -168,7 +168,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Running & Walking')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Running-Walking_SM.jpg`)
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Running-Walking_SM.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Running-&-Walking", "Running & Walking")
@@ -177,7 +177,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Team Sports')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Team Sports_SM.jpg`)
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Team Sports_SM.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Team-Sports", "Team Sports")
@@ -186,7 +186,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Strength Training')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Strength Training_SM.jpg`)
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Strength Training_SM.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Strength-Training", "Strength Training")
@@ -195,7 +195,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Yoga & Pilates')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Yoga Sports_SM.jpg`)
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Yoga Sports_SM.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Yoga-&-Pilates", "Yoga & Pilates")
