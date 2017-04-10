@@ -13,7 +13,6 @@ const CONSTANTS = require('./constants');
 var parser = require('./parser');
 
 var Onboarding = require('./dialogs/onboarding');
-var Default = require('./dialogs/default');
 //=========================================================
 // Bot Setup
 //=========================================================
@@ -92,6 +91,5 @@ bot.dialog('/', function (session) {
         }
 });
 
-bot.dialog('/onboarding', Onboarding);
 bot.dialog('/onboarding', Onboarding);
 
