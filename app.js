@@ -27,8 +27,8 @@ server.listen(process.env.port || process.env.PORT || 5000, function () {
 //console.log("MICROSOFt APP PASSWORD: ", process.env.MICROSOFT_APP_PASSWORD); 
 // Create chat bot""
 var connector = new builder.ChatConnector({
-    appId:  process.env.MICROSOFT_APP_ID ||'0033295f-64bc-4f3a-8a84-94ec5226a24e',
-    appPassword: process.env.MICROSOFT_APP_PASSWORD ||'hG5g9Yng7MXScphOnATNPQO'
+    appId:  '0033295f-64bc-4f3a-8a84-94ec5226a24e',
+    appPassword: 'hG5g9Yng7MXScphOnATNPQO'
 });
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
@@ -37,6 +37,7 @@ var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" +
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
 
 bot.dialog('/', function (session) {
+        console.log('proceed');
         if (session.message.text === "GET_STARTED") {
             session.perUserInConversationData = {};
             session.userData = {};
