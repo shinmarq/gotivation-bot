@@ -328,13 +328,13 @@ module.exports = [
             }
 
             session.dialogData.locusofcontrol = locusofcontrol;
-            var options =
-                ["Greatly anticipate feelings of achievement when meeting your goal", 
-                "Somewhat anticipate feelings of achievement when meeting your goal", 
-                "Neutral", 
-                "Somewhat fear failing to meet your goal", 
-                "Greatly fear failing to meet your goal"
-                ]
+            session.send(`1) Greatly anticipate feelings of achievement when meeting your goal \n 
+                2) Somewhat anticipate feelings of achievement when meeting your goal \n
+                3) Neutral \n
+                4) Somewhat fear failing to meet your goal \n
+                5) Greatly fear failing to meet your goal \n
+                `);
+            var options =[1,2,3,4,5]
             builder.Prompts.choice(session,
                 "Please select the point on the scale that best describes you.",
                 options, {
@@ -389,13 +389,13 @@ module.exports = [
                 construals: session.dialogData.construals
             }
             console.log(params);
-            session.send(`Thanks!We've gathered all necessary data about your work out plans. Someone will contact you soon. :)`);
+            session.send(`You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`);
             
             return;
             parser.member.createmember(params, function(statusCode) {
                 if(statusCode == 200) { 
                     var attachments = [];
-                    var msgString = `Thanks!We've gathered all necessary data about your work out plans. Someone will contact you soon. :)`;
+                    var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
                     callback(null, msgString);
                 } else {
                     session.send('Something went wrong and your session is not saved. Please try again');
