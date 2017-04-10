@@ -11,7 +11,7 @@ module.exports = [
     function (session) {
         var msg = new builder.Message(session);
         session.sendTyping();
-        builder.Prompts.confirm(session, 'Do you have a coach code?');
+        builder.Prompts.confirm(session, `Before we proceed, do you have a coach code?`);
     },
     function (session, results, next) {
         var choice = results.response ? 'yes' : 'no';
@@ -112,7 +112,7 @@ module.exports = [
             .attachmentLayout(builder.AttachmentLayout.carousel)
             .attachments(cards);
         session.send(`${prefix} Before that, pick the fitness category I can help you with.`);
-        builder.Prompts.choice(session, reply, selectArray, { maxRetries: 0, promptAfterAction: false });
+        builder.Prompts.choice(session, reply, selectArray, {retryPrompt: `That's not on our category options, please tap card corresponds your fitness category`});
 
         function getCardsAttachments(session) {
             return [
@@ -204,7 +204,7 @@ module.exports = [
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
-            session.dialogData.category = results.response;
+            session.dialogData.category = results.response.entity;
             builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation?");
         } else {
             session.beginDialog('/default');
@@ -216,9 +216,8 @@ module.exports = [
         if (results.response) {
             session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             if (session.dialogData.recurrence) {
-                builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.", options, { maxRetries: 0 });
-                var options = ["Completely", "A lot", "Moderate", "Not at all", "A little"]
-                builder.Prompts.choice(session, "When I say I'm going to work out at a specific time, I always follow through.", options);
+                builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
+                next();
 
             }
             else {
@@ -227,11 +226,19 @@ module.exports = [
         }
 
     },
+    function (session,results,next){
+        var options = ["Completely", "A lot", "Moderate", "Not at all", "A little"]
+                builder.Prompts.choice(session, "When I say I'm going to work out at a specific time, I always follow through.", options,{
+                    listStyle: builder.ListStyle.button,
+                    retryPrompt: `It's much easier if you tap button corresponds your answer regarding following work out time.`
+                });
+    },
 
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
-            var conscientiousness = builder.EntityRecognizer.text(results.response);
+            console.log(results.response);
+            var conscientiousness = results.response.entity;
             switch (conscientiousness) {
                 case "Completely" | "A lot":
                     conscientiousness = "Hard Worker";
@@ -242,16 +249,12 @@ module.exports = [
             }
 
             session.dialogData.conscientiousness = conscientiousness;
-            var options = [
-                { name: "Completely", id: "Committed" },
-                { name: "A lot", id: "Committed" },
-                { name: "Moderate", id: "Semi-Committed" },
-                { name: "Not at all", id: "Gives Up Easily" },
-                { name: "A little", id: "Gives Up Easily" }]
+            var options = ["Completely","A lot","Moderate", "Not at all","A little"];
             builder.Prompts.choice(session,
                 "I have achieved health goals that took a long time to accomplish.",
                 options, {
-                    listStyle: builder.ListStyle.button
+                    listStyle: builder.ListStyle.button,
+                    retryPrompt: `That's not on the options please tap button that corresponds your answer on achieving health goals.`
                 });
 
         }
@@ -262,22 +265,23 @@ module.exports = [
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
-            var grit = builder.EntityRecognizer.text(results.response);
-            // switch (grit) {
-            //     case "Completely" | "A lot":
-            //         grit = "Committed";
-            //     case "Moderate":
-            //         grit = "Semi-Committed";
-            //     case "Not at all" | "A little":
-            //         grit = "Gives Up Easily";
-            // }
+            var grit = results.response.entity;
+            switch (grit) {
+                 case "Completely" | "A lot":
+                     grit = "Committed";
+                 case "Moderate":
+                     grit = "Semi-Committed";
+                 case "Not at all" | "A little":
+                     grit = "Gives Up Easily";
+            }
 
             session.dialogData.grit = grit;
             var options = ["Completely", "A lot", "Moderate", "Not at all", "A little"]
             builder.Prompts.choice(session,
                 "I am able to give up temporary pleasures such as sweets in order to pursue my fitness/health goals.",
                 options, {
-                    listStyle: builder.ListStyle.button
+                    listStyle: builder.ListStyle.button,
+                    retryPrompt: `That's not on the options please tap button that corresponds your answer on giving up temporary pleasures.`
                 });
 
         }
@@ -289,7 +293,7 @@ module.exports = [
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
-            var selfcontrol = builder.EntityRecognizer.text(results.response);
+            var selfcontrol = results.response.entity;
             switch (selfcontrol) {
                 case "Completely" | "A lot":
                     selfcontrol = "High Self Control";
@@ -302,7 +306,8 @@ module.exports = [
             builder.Prompts.choice(session,
                 "I have control over my own health.",
                 options, {
-                    listStyle: builder.ListStyle.button
+                    listStyle: builder.ListStyle.button,
+                    retryPrompt: `That's not on the options please tap button that corresponds your answer on control over your own health.`
                 });
         }
         else {
@@ -312,7 +317,7 @@ module.exports = [
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
-            var locusofcontrol = builder.EntityRecognizer.text(results.response);
+            var locusofcontrol = results.response.entity;
             switch (locusofcontrol) {
                 case "Completely" | "A lot":
                     locusofcontrol = "In Control";
@@ -322,17 +327,17 @@ module.exports = [
 
             session.dialogData.locusofcontrol = locusofcontrol;
             var options =
-                [
-                    { label: "Greatly anticipate feelings of achievement when meeting your goal", value: 5 },
-                    { label: "Somewhat anticipate feelings of achievement when meeting your goal", value: 4 },
-                    { label: "Neutral", value: 3 },
-                    { label: "Somewhat fear failing to meet your goal", value: 2 },
-                    { label: "Greatly fear failing to meet your goal", value: 1 },
+                ["Greatly anticipate feelings of achievement when meeting your goal", 
+                "Somewhat anticipate feelings of achievement when meeting your goal", 
+                "Neutral", 
+                "Somewhat fear failing to meet your goal", 
+                "Greatly fear failing to meet your goal"
                 ]
             builder.Prompts.choice(session,
                 "Please select the point on the scale that best describes you.",
                 options, {
-                    listStyle: builder.ListStyle.button
+                    listStyle: builder.ListStyle.button,
+                    retryPrompt: `That's not on the options please tap button that corresponds your answer ragarding scale that describes you.`
                 });
 
         }
@@ -343,7 +348,7 @@ module.exports = [
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
-            var ffa = builder.EntityRecognizer.text(results.response.entity);
+            var ffa = results.response.entity;
             switch (ffa) {
                 case 4 | 5:
                     ffa = "Glory Seeker";
@@ -354,7 +359,7 @@ module.exports = [
             }
 
             session.dialogData.ffa = ffa;
-            builder.Prompts.text(session, `In 1-2 sentences, write WHY you want to achieve your healthy eating and fitness goals with ${session.dialogData.coach.name}? `)
+            builder.Prompts.text(session, `In 1-2 sentences, write WHY you want to achieve your healthy eating and fitness goals with ${'your coach'}? `)
 
         }
         else {
@@ -364,13 +369,14 @@ module.exports = [
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
-            session.dialogData.construals = results.response.entity
+            session.dialogData.construals = results.response
             let params = {
                 memberfbid: session.message.address.user.id,
-                name: session.message.address.use.name,
+                name: session.message.address.user.name,
                 channel: session.message.address.channelId,
                 facebook_page_access_token: FB_PAGE_ACCESS_TOKEN,
-                coaches: [{ coach_id: session.dialogData.coach._id }],
+                //coaches: [{ coach_id: session.dialogData.coach._id }],
+                coaches: [{ coach_id: "" }],
                 category: session.dialogData.category,
                 recurrence: { timeofday: session.dialogData.recurrence, timezone: "" },
                 conscientiousness: session.dialogData.conscientiousness,
@@ -380,11 +386,14 @@ module.exports = [
                 fearoffailurevsachievement: session.dialogData.ffa,
                 construals: session.dialogData.construals
             }
-
+            console.log(params);
+            session.send(`Thanks!We've gathered all necessary data about your work out plans. Someone will contact you soon. :)`);
+            
+            return;
             parser.member.createmember(params, function(statusCode) {
                 if(statusCode == 200) { 
                     var attachments = [];
-                    var msgString = `Thanks! Someone will contact you soon.`;
+                    var msgString = `Thanks!We've gathered all necessary data about your work out plans. Someone will contact you soon. :)`;
                     callback(null, msgString);
                 } else {
                     session.send('Something went wrong and your session is not saved. Please try again');

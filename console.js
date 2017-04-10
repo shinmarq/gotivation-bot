@@ -13,6 +13,7 @@ const CONSTANTS = require('./constants');
 var parser = require('./parser');
 
 
+var Default = require('./dialogs/default');
 var Onboarding = require('./dialogs/onboarding');
 //=========================================================
 // Bot Setup
@@ -62,16 +63,17 @@ bot.dialog('/', function (session) {
                         session.send(new builder.Message(session)
                             .addAttachment(welcomeCard));
 
-                        
                     session.beginDialog('/onboarding');
+                        
                     } 
                 });
 
         } else {
-                    session.beginDialog('/onboarding');
+                    session.beginDialog('/default');
  
         }
 });
 
+bot.dialog('/default', Default);
 bot.dialog('/onboarding', Onboarding);
 

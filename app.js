@@ -12,7 +12,6 @@ var restify = require('restify'),
 const CONSTANTS = require('./constants');
 var parser = require('./parser');
 
-
 var Onboarding = require('./dialogs/onboarding');
 //=========================================================
 // Bot Setup
@@ -24,18 +23,20 @@ server.listen(process.env.port || process.env.PORT || 5000, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
   
-// Create chat bot
+//console.log("MICROSOFT APP ID: ", process.env.MICROSOFT_APP_ID);
+//console.log("MICROSOFt APP PASSWORD: ", process.env.MICROSOFT_APP_PASSWORD); 
+// Create chat bot""
 var connector = new builder.ChatConnector({
-    appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD
+    appId:  process.env.MICROSOFT_APP_PASSWORD ||'0033295f-64bc-4f3a-8a84-94ec5226a24e',
+    appPassword: process.env.MICROSOFT_APP_PASSWORD ||'hG5g9Yng7MXScphOnATNPQO'
 });
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
+
 bot.dialog('/', function (session) {
-        console.log(session);
         if (session.message.text === "GET_STARTED") {
             session.perUserInConversationData = {};
             session.userData = {};
@@ -58,7 +59,7 @@ bot.dialog('/', function (session) {
                 form: params
             },
                 function (error, response, body) {
-                    if (!error && response.statusCode == 200) {
+                       if (!error && response.statusCode == 200) {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
                             .title('Gotivation bot')
@@ -77,6 +78,7 @@ bot.dialog('/', function (session) {
                 });
 
         } else {
+                    session.send(`Hi ${session.message.address.user.name}! Welcome back!`)
                     session.sendTyping();
                     session.beginDialog('/onboarding');
  
