@@ -208,7 +208,13 @@ module.exports = [
         session.sendTyping();
         if (results.response) {
             session.dialogData.category = results.response.entity;
-            builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation?");
+            var options = [
+                "7:30am","11:30am","4:30pm"
+            ]
+            builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?",options,{
+                    listStyle: builder.ListStyle.button,
+                    retryPrompt: `For now let's stick with the given time options.`
+                });
         } else {
             session.beginDialog('/default');
         }
@@ -217,7 +223,8 @@ module.exports = [
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
-            session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
+            // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
+            session.dialogData.recurrence = results.response.entity;
             if (session.dialogData.recurrence) {
                 builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
                 next();
