@@ -33,7 +33,6 @@ bot.dialog('/', function (session) {
             session.conversationData = {};
         }
 
-
         if (!session.userData.firstRun) {
             var params = {
                 setting_type: "call_to_actions",
@@ -49,6 +48,7 @@ bot.dialog('/', function (session) {
                 form: params
             },
                 function (error, response, body) {
+                    console.log(session);
                     if (!error && response.statusCode == 200) {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
