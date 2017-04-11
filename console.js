@@ -89,24 +89,28 @@ bot.use({
                 });
 
         } else {
-            session.beginDialog('');
+         session.beginDialog('/onboarding');
 
         }
     }
 });
 
 bot.dialog('/get-coachcode', [
-    function (session, response, next) {
+    function (session, args, next) {
         session.sendTyping();
+        //session.beginDialog('/onboarding');
         builder.Prompts.confirm(session, `Before we proceed, do you have a coach code?`);
-       
+        // console.log(session);
     },
     function (session, results) {
+    session.sendTyping();
+      // session.beginDialog('/onboarding');
+        // console.log(session);
+        //console.log(results.response);
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
-
-            // session.dialogData.coach = {};
-            // session.beginDialog('/validatecoach', session.dialogData);
+         // session.dialogData.coach = {};
+           // session.beginDialog('/validatecoach', session.dialogData);
 
             session.dialogData.coach.name = `Ivy`;
             session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name} .`;
@@ -115,6 +119,7 @@ bot.dialog('/get-coachcode', [
         }
         session.beginDialog('/onboarding', session.dialogData);
     }
+    
 ]);
 
 bot.dialog('/', intentDialog);
