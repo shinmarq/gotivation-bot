@@ -36,7 +36,9 @@ server.post('/api/messages', connector.listen());
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
 
-bot.dialog('/', function (session, next) {
+bot.dialog('/', function (session) {
+        console.log('proceed');
+        console.log(CONSTANTS.BASE_URL);
         if (session.message.text === "GET_STARTED") {
             session.perUserInConversationData = {};
             session.userData = {};
@@ -59,36 +61,36 @@ bot.dialog('/', function (session, next) {
                 form: params
             },
                 function (error, response, body) {
-                    if (!error && response.statusCode == 200) {
+                        console.log(error);
+                        console.log(response.statusCode);
+                       if (!error && response.statusCode == 200) {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
                             .title('Gotivation bot')
                             .images([
                                 new builder.CardImage(session)
-                                    .url(`${CONSTANTS.IMG_PATH}GOtivation+Logo.png`)
+                                    .url(`${CONSTANTS.IMG_PATH}GOtivation+Logo.jpg`)
                                     .alt('Logo')
                             ]);
 
-                        session.send(new builder.Message(session)
-                            .addAttachment(welcomeCard));
+                    session.send(new builder.Message(session)
+                    .addAttachment(welcomeCard));
+                    
+                    session.sendTyping();   
+                    session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
 
-                        session.sendTyping();
-                        session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
-                        session.replaceDialog('/get-coachcode');
-                    }
+                    session.beginDialog('/get-coachcode');
+                    } 
                 });
 
+        } else {
+                    session.send(`Hi ${session.message.address.user.name}! Welcome back!`)
+                    session.sendTyping();
+                    session.beginDialog('/get-coachcode');
+ 
         }
-        // else {
-        //             session.send(`Hi ${session.message.address.user.name}! Welcome back!`)
-        //             session.sendTyping();
-        //             session.beginDialog('/onboarding');
-        //             next();
+});
 
-        // }
-    },
-    
-);
 bot.dialog('/get-coachcode', [
     function(session, response,next) {
         session.sendTyping();
@@ -111,7 +113,5 @@ bot.dialog('/get-coachcode', [
         session.beginDialog('/onboarding',session.dialogData);
     }
 ]);
-
 bot.dialog('/onboarding', Onboarding);
-bot.dialog('/default', Default);
 
