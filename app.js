@@ -36,9 +36,9 @@ server.post('/api/messages', connector.listen());
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
 
-bot.dialog('/', function (session) {
-        console.log('proceed');
-        console.log(CONSTANTS.BASE_URL);
+
+bot.use({
+    botbuilder: function (session, next) {
         if (session.message.text === "GET_STARTED") {
             session.perUserInConversationData = {};
             session.userData = {};
