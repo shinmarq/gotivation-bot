@@ -32,6 +32,15 @@ var Default = require('./dialogs/default');
 
 
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
+var model = process.env.model ||
+    'https://api.projectoxford.ai/luis/v1/application?id=ff6021a2-8bc4-4557-bb0e-3394bc2ae164&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
+var recognizer = new builder.LuisRecognizer(model)
+var intentDialog = new builder.IntentDialog({
+    recognizers: [recognizer],
+    intentThreshold: 0.5,
+    recognizeMode: builder.RecognizeMode.onBegin
+});
+
 
 bot.use({
     botbuilder: function (session, next) {
@@ -57,13 +66,15 @@ bot.use({
                 form: params
             },
                 function (error, response, body) {
+                    console.log(error);
+                    console.log(response.statusCode);
                     if (!error && response.statusCode == 200) {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
                             .title('Gotivation bot')
                             .images([
                                 new builder.CardImage(session)
-                                    .url(`${CONSTANTS.IMG_PATH}GOtivation+Logo.png`)
+                                    .url(`${CONSTANTS.IMG_PATH}GOtivation+Logo.jpg`)
                                     .alt('Logo')
                             ]);
 
@@ -72,33 +83,29 @@ bot.use({
 
                         session.sendTyping();
                         session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
-                        session.replaceDialog('/get-coachcode');
+
+                        session.beginDialog('/get-coachcode');
                     }
                 });
 
-        }
-        // else {
-        //             session.send(`Hi ${session.message.address.user.name}! Welcome back!`)
-        //             session.sendTyping();
-        //             session.beginDialog('/onboarding');
-        //             next();
+        } else {
+            session.beginDialog('');
 
-        // }
-    },
-    
+        }
+    }
 });
+
 bot.dialog('/get-coachcode', [
-    function(session, response,next) {
+    function (session, response, next) {
         session.sendTyping();
         builder.Prompts.confirm(session, `Before we proceed, do you have a coach code?`);
-        console.log(session);
+       
     },
     function (session, results) {
-        console.log(session);
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
 
-             // session.dialogData.coach = {};
+            // session.dialogData.coach = {};
             // session.beginDialog('/validatecoach', session.dialogData);
 
             session.dialogData.coach.name = `Ivy`;
@@ -106,10 +113,9 @@ bot.dialog('/get-coachcode', [
         } else {
             session.dialogData.prefix = `That's okay.`;
         }
-        session.beginDialog('/onboarding',session.dialogData);
+        session.beginDialog('/onboarding', session.dialogData);
     }
 ]);
 
+bot.dialog('/', intentDialog);
 bot.dialog('/onboarding', Onboarding);
-bot.dialog('/default', Default);
-
