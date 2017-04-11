@@ -60,7 +60,7 @@ bot.use({
                 form: params
             },
                 function (error, response, body) {
-                       if (!error && response.statusCode == 200) {
+                    if (!error && response.statusCode == 200) {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
                             .title('Gotivation bot')
@@ -70,26 +70,49 @@ bot.use({
                                     .alt('Logo')
                             ]);
 
-                    session.send(new builder.Message(session)
-                    .addAttachment(welcomeCard));
-                    
-                    session.sendTyping();   
-                    session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
+                        session.send(new builder.Message(session)
+                            .addAttachment(welcomeCard));
 
-                    session.beginDialog('/onboarding');
-                     next();
-                    } 
+                        session.sendTyping();
+                        session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
+                        session.replaceDialog('/get-coachcode');
+                    }
                 });
 
-        } else {
-                    session.send(`Hi ${session.message.address.user.name}! Welcome back!`)
-                    session.sendTyping();
-                    session.beginDialog('/onboarding');
-                    next();
- 
         }
-}
+        // else {
+        //             session.send(`Hi ${session.message.address.user.name}! Welcome back!`)
+        //             session.sendTyping();
+        //             session.beginDialog('/onboarding');
+        //             next();
+
+        // }
+    },
+    
 });
+bot.dialog('/get-coachcode', [
+    function(session, response,next) {
+        session.sendTyping();
+        builder.Prompts.confirm(session, `Before we proceed, do you have a coach code?`);
+        console.log(session);
+    },
+    function (session, results) {
+        console.log(session);
+        var choice = results.response ? 'yes' : 'no';
+        if (choice === 'yes') {
+
+             // session.dialogData.coach = {};
+            // session.beginDialog('/validatecoach', session.dialogData);
+
+            session.dialogData.coach.name = `Ivy`;
+            session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name} .`;
+        } else {
+            session.dialogData.prefix = `That's okay.`;
+        }
+        session.beginDialog('/onboarding',session.dialogData);
+    }
+]);
 
 bot.dialog('/onboarding', Onboarding);
+bot.dialog('/default', Default);
 

@@ -8,202 +8,115 @@ const CONSTANTS = require('../constants');
 const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
-    function (session) {
-        var msg = new builder.Message(session);
-        session.sendTyping();
-        builder.Prompts.confirm(session, `Before we proceed, do you have a coach code?`);
-    },
-    function (session, results, next) {
-        var choice = results.response ? 'yes' : 'no';
-        if (choice === 'yes') {
-            session.dialogData.coach.name = "Ivy";
-            next();
-            // session.dialogData.coach = {};
-            // session.beginDialog('/validatecoach', session.dialogData);
-        } else {
-            next();
-        }
-    },
-    function (session, results, next) {
-        var prefix;
-        session.sendTyping();
-        if (session.entity === 'yes') {
-            prefix = `Great! You're with Coach ${session.dialogData.coach.name} .`;
-        }
-        else {
-            prefix = "That's okay."
-        }
-        // var getParams = {
-        //     memberid: session.message.address.user.id,
-        //     tags: 'table'
-        // };
+    function (session, args, next) {
+    var prefix = session.dialogData.prefix;
+            var selectArray = [
+                "Body-Building",
+                "Cross-Training",
+                "Group-Classes",
+                "Healthy-Eating",
+                "Individual-Sports",
+                "Running-&-Walking",
+                "Team-Sports",
+                "Strength-Training",
+                "Yoga-&-Pilates"
+            ];
 
+            var cards = getCardsAttachments();
+            var reply = new builder.Message(session)
+                .attachmentLayout(builder.AttachmentLayout.carousel)
+                .attachments(cards);
+            session.send(`${prefix} Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
+            session.send(`Pick the fitness category I can help you with.`);
+            builder.Prompts.choice(session, reply, selectArray, { maxRetries:0});
 
-        // FOR FUTURE CATEGORIES
-        // async.waterfall([
-        //     async.apply(getCategories, getParams, msg),
-        //     formatBody,
-        //     sendMessage
-        // ],
-        //     function (err, msg, selectString) {
-        //         if (err) {
-        //             session.send(err);
-        //             session.reset();
-        //         } else {
-        //             session.send(`${prefix} . Pick the fitness category I can help you with.`);
-        //             builder.Prompts.choice(session, msg, selectString, { maxRetries: 0 });
-        //         }
-        //     });
-        // function getCategories(getParams, msg, callback) {
-        //     parser.category.getCategory(, function (err, res, body) {
-        //         if (!err && res.statusCode == 200) {
-        //             if (body.length > 0) {
-        //                 callback(null, body, msg);
-        //             } else {
-        //                 callback("No categories available for you yet", [], null);
-        //             }
-        //         } else {
-        //             callback(body, res.statusCode, []);
-        //         }
-        //     });
-        // }
+            function getCardsAttachments(session) {
+                return [
 
-        // function formatBody(body, msg, callback) {
-        //     var attachments = [];
-        //     var selectString = [];
-        //     body.map(function (value, index) {
-        //         selectString.push('select:' + value._id);
-        //         attachments.push(
-        //             new builder.HeroCard(session)
-        //                 .title(value.name)
-        //                 .text(value.description)
-        //                 .images([
-        //                     builder.CardImage.create(session, value.image)
-        //                         .tap(builder.CardAction.showImage(session, value.image)),
-        //                 ])
-        //                 .buttons([
-        //                     builder.CardAction.imBack(session, "select:" + value._id, value.name)
-        //                 ])
-        //         );
-        //     });
-        //     callback(null, msg, attachments, selectString);
-        // }
-
-        // function sendMessage(msg, attachments, selectString, callback) {
-        //     msg
-        //         .textFormat(builder.TextFormat.xml)
-        //         .attachmentLayout(builder.AttachmentLayout.carousel)
-        //         .attachments(attachments);
-        //     callback(null, msg, selectString);
-        // }
-
-        var selectArray = [
-            "Body-Building",
-            "Cross-Training",
-            "Group-Classes",
-            "Healthy-Eating",
-            "Individual-Sports",
-            "Running-&-Walking",
-            "Team-Sports",
-            "Strength-Training",
-            "Yoga-&-Pilates"
-        ];
-
-        var cards = getCardsAttachments();
-        var reply = new builder.Message(session)
-            .attachmentLayout(builder.AttachmentLayout.carousel)
-            .attachments(cards);
-        session.send(`${prefix} Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
-        session.send(`Pick the fitness category I can help you with.`);
-        builder.Prompts.choice(session, reply, selectArray, {retryPrompt: `That's not on our category options, please tap card corresponds your fitness category`});
-
-        function getCardsAttachments(session) {
-            return [
-
-                //body building
-                new builder.HeroCard(session)
-                    .title('Body Building')
-                    .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Bodybuilding_SM.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Body-Building", "Body Building")
-                    ]),
-                //cross training
-                new builder.HeroCard(session)
-                    .title('Cross Training')
-                    .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Cross Training_SM.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Cross-Training", "Cross Training")
-                    ]),
-                //Group Classes
-                new builder.HeroCard(session)
-                    .title('Group Classes')
-                    .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Group Fitness_SM.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Group-Classes", "Group Classes")
-                    ]),
-                //Healthy Eating
-                new builder.HeroCard(session)
-                    .title('Healthy Eating')
-                    .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Healthy Eating_SM.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Healthy-Eating", "Healthy Eating")
-                    ]),
-                //Individual Sports
-                new builder.HeroCard(session)
-                    .title('Individual Sports')
-                    .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Individual Sports_SM.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Individual-Sports", "Individual Sports")
-                    ]),
-                //Running & Walking
-                new builder.HeroCard(session)
-                    .title('Running & Walking')
-                    .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Running-Walking_SM.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Running-&-Walking", "Running & Walking")
-                    ]),
-                //Team Sports
-                new builder.HeroCard(session)
-                    .title('Team Sports')
-                    .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Team Sports_SM.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Team-Sports", "Team Sports")
-                    ]),
-                //Strength Training
-                new builder.HeroCard(session)
-                    .title('Strength Training')
-                    .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Strength Training_SM.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Strength-Training", "Strength Training")
-                    ]),
-                //Yoga & Pilates
-                new builder.HeroCard(session)
-                    .title('Yoga & Pilates') 
-                    .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Yoga Pilates_SM.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Yoga-&-Pilates", "Yoga & Pilates")
-                    ]),
-            ]
-        }
-    },
+                    //body building
+                    new builder.HeroCard(session)
+                        .title('Body Building')
+                        .images([
+                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Bodybuilding_SM.png`)
+                        ])
+                        .buttons([
+                            builder.CardAction.imBack(session, "Body-Building", "Body Building")
+                        ]),
+                    //cross training
+                    new builder.HeroCard(session)
+                        .title('Cross Training')
+                        .images([
+                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Cross Training_SM.png`)
+                        ])
+                        .buttons([
+                            builder.CardAction.imBack(session, "Cross-Training", "Cross Training")
+                        ]),
+                    //Group Classes
+                    new builder.HeroCard(session)
+                        .title('Group Classes')
+                        .images([
+                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Group Fitness_SM.png`)
+                        ])
+                        .buttons([
+                            builder.CardAction.imBack(session, "Group-Classes", "Group Classes")
+                        ]),
+                    //Healthy Eating
+                    new builder.HeroCard(session)
+                        .title('Healthy Eating')
+                        .images([
+                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Healthy Eating_SM.png`)
+                        ])
+                        .buttons([
+                            builder.CardAction.imBack(session, "Healthy-Eating", "Healthy Eating")
+                        ]),
+                    //Individual Sports
+                    new builder.HeroCard(session)
+                        .title('Individual Sports')
+                        .images([
+                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Individual Sports_SM.png`)
+                        ])
+                        .buttons([
+                            builder.CardAction.imBack(session, "Individual-Sports", "Individual Sports")
+                        ]),
+                    //Running & Walking
+                    new builder.HeroCard(session)
+                        .title('Running & Walking')
+                        .images([
+                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Running-Walking_SM.png`)
+                        ])
+                        .buttons([
+                            builder.CardAction.imBack(session, "Running-&-Walking", "Running & Walking")
+                        ]),
+                    //Team Sports
+                    new builder.HeroCard(session)
+                        .title('Team Sports')
+                        .images([
+                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Team Sports_SM.png`)
+                        ])
+                        .buttons([
+                            builder.CardAction.imBack(session, "Team-Sports", "Team Sports")
+                        ]),
+                    //Strength Training
+                    new builder.HeroCard(session)
+                        .title('Strength Training')
+                        .images([
+                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Strength Training_SM.png`)
+                        ])
+                        .buttons([
+                            builder.CardAction.imBack(session, "Strength-Training", "Strength Training")
+                        ]),
+                    //Yoga & Pilates
+                    new builder.HeroCard(session)
+                        .title('Yoga & Pilates')
+                        .images([
+                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Yoga Pilates_SM.png`)
+                        ])
+                        .buttons([
+                            builder.CardAction.imBack(session, "Yoga-&-Pilates", "Yoga & Pilates")
+                        ]),
+                ]
+            }
+        },
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
@@ -228,7 +141,6 @@ module.exports = [
             if (session.dialogData.recurrence) {
                 builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
                 next();
-
             }
             else {
                 session.beginDialog('/default');
