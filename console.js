@@ -29,6 +29,7 @@ var bot = new builder.UniversalBot(consoleConnector);
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 var Onboarding = require('./dialogs/onboarding');
 var Default = require('./dialogs/default');
+var Validatecoach = require('./dialogs/validatecoach');
 
 
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
@@ -83,13 +84,12 @@ bot.use({
 
                         session.sendTyping();
                         session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
-
                         session.beginDialog('/get-coachcode');
                     }
                 });
 
         } else {
-         session.beginDialog('/onboarding');
+            next();
 
         }
     }
@@ -98,29 +98,35 @@ bot.use({
 bot.dialog('/get-coachcode', [
     function (session, args, next) {
         session.sendTyping();
-        //session.beginDialog('/onboarding');
         builder.Prompts.confirm(session, `Before we proceed, do you have a coach code?`);
-        // console.log(session);
+
     },
-    function (session, results) {
-    session.sendTyping();
-      // session.beginDialog('/onboarding');
-        // console.log(session);
-        //console.log(results.response);
+    function (session, results, next) {
+        session.sendTyping();
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
-         // session.dialogData.coach = {};
-           // session.beginDialog('/validatecoach', session.dialogData);
+            session.dialogData.coach = {};
+            session.beginDialog('/validatecoach', session.dialogData);
 
-            session.dialogData.coach.name = `Ivy`;
-            session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name} .`;
         } else {
             session.dialogData.prefix = `That's okay.`;
+            next();
+        }
+    },
+    function (session, results) {
+        
+        if (results.response && results.response.validCode == true) {
+            session.dialogData.coach.name = results.response.name;
+            session.dialogData.coach._id = results.response._id;
+            session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name} .`;
         }
         session.beginDialog('/onboarding', session.dialogData);
     }
-    
+
+
+
 ]);
 
 bot.dialog('/', intentDialog);
 bot.dialog('/onboarding', Onboarding);
+bot.dialog('/validatecoach', Validatecoach);

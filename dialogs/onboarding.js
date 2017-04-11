@@ -9,7 +9,12 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session, args, next) {
-    var prefix = session.dialogData.prefix;
+            
+            var prefix = args.prefix;
+            session.dialogData.coach = {};
+
+            session.dialogData.coach.name = args.name || "";
+            session.dialogData.coach._id = args._id |"";
             var selectArray = [
                 "Body-Building",
                 "Cross-Training",

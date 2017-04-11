@@ -1,8 +1,8 @@
 var builder = require('botbuilder'),
-    parser = require('./parser'),
+   parser = require('../parser');
     _ = require('underscore');
-module.exports = {
-    Dialog: [
+module.exports = 
+[
     function (session, args, next) {
         session.dialogData.coach = args.coach;
 
@@ -18,19 +18,24 @@ module.exports = {
             var params = {
                 coach_code: results.response,
             }
-
-            getcoach(params, function(error, statusCode, body) {
-                if(statusCode == 200 && body.length > 0) {
-                    var result = _.findWhere(body, {coach_code: params.coach_code});
-                    session.dialogData.coach._id = result._id;
-                    session.dialogData.coach.name = result.name;
-                    session.dialogData.coach.coachCode = result.coach_code;
-                    session.dialogData.coach.validCode = true;
-                    next();
-                } else {
-                    next();
-                }
-            });
+            //uncomment this is how to get code
+            // getcoach(params, function(error, statusCode, body) {
+            //     if(statusCode == 200 && body.length > 0) {
+            //         var result = _.findWhere(body, {coach_code: params.coach_code});
+            //         session.dialogData.coach._id = result._id;
+            //         session.dialogData.coach.name = result.name;
+            //         session.dialogData.coach.coachCode = result.coach_code;
+            //         session.dialogData.coach.validCode = true;
+            //         next();
+            //     } else {
+            //         next();
+            //     }
+            // });
+            session.dialogData.coach._id =0;
+            session.dialogData.coach.coachCode ="113";
+            session.dialogData.coach.name = 'Ivy';
+            session.dialogData.coach.validCode =true;
+            next();
         }
         else {
             next();
@@ -44,7 +49,9 @@ module.exports = {
             session.endDialogWithResult({ response: session.dialogData.coach });
         }
     }]
-}
+
+
+
 
 function getcoach(coachCode, callback) {
     request.get(options, r)
