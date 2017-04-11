@@ -328,6 +328,19 @@ module.exports = [
 
 
         }
+    },
+    function (session,results){
+        session.sendTyping();
+        var choice = results.response ? 'yes' : 'no';
+        if (choice === 'yes') {
+            session.dialogData.coach = {};
+            session.dialogData.coach.prefix = "";
+            session.beginDialog('/onboarding', session.dialogData);
+
+        } else {
+            session.dialogData.prefix = `Alright, have a great day!`;
+            next();
+        }
     }
 
 
