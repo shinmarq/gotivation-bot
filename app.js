@@ -36,8 +36,7 @@ server.post('/api/messages', connector.listen());
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
 
-bot.use({
-    botbuilder: function (session, next) {
+bot.dialog('/', function (session, next) {
         if (session.message.text === "GET_STARTED") {
             session.perUserInConversationData = {};
             session.userData = {};
@@ -89,7 +88,7 @@ bot.use({
         // }
     },
     
-});
+);
 bot.dialog('/get-coachcode', [
     function(session, response,next) {
         session.sendTyping();
