@@ -42,7 +42,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Body Building')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Bodybuilding_SM.png`)
+                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974346/Gotivation/Bodybuilding_SM_j3xidb.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Body-Building", "Body Building")
@@ -51,7 +51,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Cross Training')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Cross Training_SM.png`)
+                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974358/Gotivation/Cross_Training_SM_q0av2q.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Cross-Training", "Cross Training")
@@ -60,7 +60,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Group Classes')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Group Fitness_SM.png`)
+                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974348/Gotivation/Group_Fitness_SM_umwfd0.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Group-Classes", "Group Classes")
@@ -69,7 +69,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Healthy Eating')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Healthy Eating_SM.png`)
+                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974362/Gotivation/Healthy_Eating_SM_d91toc.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Healthy-Eating", "Healthy Eating")
@@ -78,7 +78,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Individual Sports')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Individual Sports_SM.png`)
+                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974349/Gotivation/Individual_Sports_SM_ihmxyi.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Individual-Sports", "Individual Sports")
@@ -87,7 +87,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Running & Walking')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Running-Walking_SM.png`)
+                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974353/Gotivation/Running-Walking_SM_rbvnzi.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Running-&-Walking", "Running & Walking")
@@ -96,7 +96,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Team Sports')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Team Sports_SM.png`)
+                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974362/Gotivation/Team_Sports_SM_xcpgji.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Team-Sports", "Team Sports")
@@ -105,7 +105,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Strength Training')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Strength Training_SM.png`)
+                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974362/Gotivation/Strength_Training_SM_gcwpcs.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Strength-Training", "Strength Training")
@@ -114,7 +114,7 @@ module.exports = [
                 new builder.HeroCard(session)
                     .title('Yoga & Pilates')
                     .images([
-                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Yoga Pilates_SM.png`)
+                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974365/Gotivation/Yoga_Pilates_SM_t7b73d.png`)
                     ])
                     .buttons([
                         builder.CardAction.imBack(session, "Yoga-&-Pilates", "Yoga & Pilates")
@@ -301,8 +301,7 @@ module.exports = [
                 name: session.message.address.user.name,
                 channel: session.message.address.channelId,
                 facebook_page_access_token: FB_PAGE_ACCESS_TOKEN,
-                //coaches: [{ coach_id: session.dialogData.coach._id }],
-                coaches: [{ coach_id: "" }],
+                coaches: [{ coach_id: session.dialogData.coach._id }],
                 category: session.dialogData.category,
                 recurrence: { timeofday: session.dialogData.recurrence, timezone: "" },
                 conscientiousness: session.dialogData.conscientiousness,
@@ -312,22 +311,22 @@ module.exports = [
                 fearoffailurevsachievement: session.dialogData.ffa,
                 construals: session.dialogData.construals
             }
-            console.log(params);
-            session.send(`You’re all set!  I’ll be ready with your first motivation tomorrow… let’s do this!`);
+          
+            parser.member.createmember(params, function(err,statusCode) {
+                if(!err && statusCode == 200) { 
+                    var attachments = [];
+                    var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
+                    
+                    callback(null, msgString);
+                } else {
+                    console.log(statusCode);
+                    session.send('Something went wrong and your session is not saved. Please try again');
+                }
+            });
+            
             builder.Prompts.confirm(session, `Do you want to choose an additional category?`);
 
 
-            // return;
-            // parser.member.createmember(params, function(statusCode) {
-            //     if(statusCode == 200) { 
-            //         var attachments = [];
-            //         var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
-            //         callback(null, msgString);
-            //     } else {
-            //         session.send('Something went wrong and your session is not saved. Please try again');
-            //         session.beginDialog('/onboarding');
-            //     }
-            // });
 
 
         }
@@ -341,7 +340,7 @@ module.exports = [
             session.beginDialog('/onboarding', session.dialogData);
 
         } else {
-            session.dialogData.prefix = `Alright, have a great day!`;
+            session.send(`Alright, have a great day!`);
             next();
         }
     }
