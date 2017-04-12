@@ -312,38 +312,38 @@ module.exports = [
                 construals: session.dialogData.construals
             }
           
-            parser.member.createmember(params, function(err,statusCode) {
-                if(!err && statusCode == 200) { 
-                    var attachments = [];
-                    var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
+           builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation tomorrow. Let’s do this!`);
+            // parser.member.createmember(params, function(err,statusCode) {
+            //     if(!err && statusCode == 200) { 
+            //         var attachments = [];
+            //         var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
                     
-                    callback(null, msgString);
-                } else {
-                    console.log(statusCode);
-                    session.send('Something went wrong and your session is not saved. Please try again');
-                }
-            });
-            
-            builder.Prompts.confirm(session, `Do you want to choose an additional category?`);
-
-
-
+            //         callback(null, msgString);
+            //     } else {
+            //         console.log(statusCode);
+            //         session.send('Something went wrong and your session is not saved. Please try again');
+            //     }
+            // });
 
         }
     },
-    function (session, results) {
-        session.sendTyping();
-        var choice = results.response ? 'yes' : 'no';
-        if (choice === 'yes') {
-            session.dialogData.coach = {};
-            session.dialogData.prefix = "";
-            session.beginDialog('/onboarding', session.dialogData);
-
-        } else {
-            session.send(`Alright, have a great day!`);
-            next();
-        }
+    function(session,results){
+        session.beginDialog('/default');
     }
+    // ,
+    // function (session, results) {
+    //     session.sendTyping();
+    //     var choice = results.response ? 'yes' : 'no';
+    //     if (choice === 'yes') {
+    //         session.dialogData.coach = {};
+    //         session.dialogData.prefix = "";
+    //         session.beginDialog('/onboarding', session.dialogData);
+
+    //     } else {
+    //         session.send(`Alright, have a great day!`);
+    //         next();
+    //     }
+    // }
 
 
 
