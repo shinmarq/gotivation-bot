@@ -328,7 +328,9 @@ module.exports = [
         }
     },
     function(session,results){
-        session.beginDialog('/default');
+         if (!results.response) {
+            session.replaceDialog('/default');
+        }
     }
     // ,
     // function (session, results) {
