@@ -9,130 +9,130 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session, args, next) {
-            
-            var prefix = args.prefix;
-            session.dialogData.coach = {};
 
-            session.dialogData.coach.name = args.name || "";
-            session.dialogData.coach._id = args._id |"";
-            var selectArray = [
-                "Body-Building",
-                "Cross-Training",
-                "Group-Classes",
-                "Healthy-Eating",
-                "Individual-Sports",
-                "Running-&-Walking",
-                "Team-Sports",
-                "Strength-Training",
-                "Yoga-&-Pilates"
-            ];
+        var prefix = args.prefix;
+        session.dialogData.coach = {};
 
-            var cards = getCardsAttachments();
-            var reply = new builder.Message(session)
-                .attachmentLayout(builder.AttachmentLayout.carousel)
-                .attachments(cards);
-            session.send(`${prefix} Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
-            session.send(`Pick the fitness category I can help you with.`);
-            builder.Prompts.choice(session, reply, selectArray, { maxRetries:0});
+        session.dialogData.coach.name = args.name || "";
+        session.dialogData.coach._id = args._id | "";
+        var selectArray = [
+            "Body-Building",
+            "Cross-Training",
+            "Group-Classes",
+            "Healthy-Eating",
+            "Individual-Sports",
+            "Running-&-Walking",
+            "Team-Sports",
+            "Strength-Training",
+            "Yoga-&-Pilates"
+        ];
 
-            function getCardsAttachments(session) {
-                return [
+        var cards = getCardsAttachments();
+        var reply = new builder.Message(session)
+            .attachmentLayout(builder.AttachmentLayout.carousel)
+            .attachments(cards);
+        session.send(`${prefix} Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
+        session.send(`Pick the fitness category I can help you with.`);
+        builder.Prompts.choice(session, reply, selectArray, { maxRetries: 0 });
 
-                    //body building
-                    new builder.HeroCard(session)
-                        .title('Body Building')
-                        .images([
-                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Bodybuilding_SM.png`)
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "Body-Building", "Body Building")
-                        ]),
-                    //cross training
-                    new builder.HeroCard(session)
-                        .title('Cross Training')
-                        .images([
-                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Cross Training_SM.png`)
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "Cross-Training", "Cross Training")
-                        ]),
-                    //Group Classes
-                    new builder.HeroCard(session)
-                        .title('Group Classes')
-                        .images([
-                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Group Fitness_SM.png`)
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "Group-Classes", "Group Classes")
-                        ]),
-                    //Healthy Eating
-                    new builder.HeroCard(session)
-                        .title('Healthy Eating')
-                        .images([
-                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Healthy Eating_SM.png`)
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "Healthy-Eating", "Healthy Eating")
-                        ]),
-                    //Individual Sports
-                    new builder.HeroCard(session)
-                        .title('Individual Sports')
-                        .images([
-                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Individual Sports_SM.png`)
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "Individual-Sports", "Individual Sports")
-                        ]),
-                    //Running & Walking
-                    new builder.HeroCard(session)
-                        .title('Running & Walking')
-                        .images([
-                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Running-Walking_SM.png`)
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "Running-&-Walking", "Running & Walking")
-                        ]),
-                    //Team Sports
-                    new builder.HeroCard(session)
-                        .title('Team Sports')
-                        .images([
-                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Team Sports_SM.png`)
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "Team-Sports", "Team Sports")
-                        ]),
-                    //Strength Training
-                    new builder.HeroCard(session)
-                        .title('Strength Training')
-                        .images([
-                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Strength Training_SM.png`)
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "Strength-Training", "Strength Training")
-                        ]),
-                    //Yoga & Pilates
-                    new builder.HeroCard(session)
-                        .title('Yoga & Pilates')
-                        .images([
-                            builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Yoga Pilates_SM.png`)
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "Yoga-&-Pilates", "Yoga & Pilates")
-                        ]),
-                ]
-            }
-        },
+        function getCardsAttachments(session) {
+            return [
+
+                //body building
+                new builder.HeroCard(session)
+                    .title('Body Building')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Bodybuilding_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Body-Building", "Body Building")
+                    ]),
+                //cross training
+                new builder.HeroCard(session)
+                    .title('Cross Training')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Cross Training_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Cross-Training", "Cross Training")
+                    ]),
+                //Group Classes
+                new builder.HeroCard(session)
+                    .title('Group Classes')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Group Fitness_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Group-Classes", "Group Classes")
+                    ]),
+                //Healthy Eating
+                new builder.HeroCard(session)
+                    .title('Healthy Eating')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Healthy Eating_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Healthy-Eating", "Healthy Eating")
+                    ]),
+                //Individual Sports
+                new builder.HeroCard(session)
+                    .title('Individual Sports')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Individual Sports_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Individual-Sports", "Individual Sports")
+                    ]),
+                //Running & Walking
+                new builder.HeroCard(session)
+                    .title('Running & Walking')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Running-Walking_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Running-&-Walking", "Running & Walking")
+                    ]),
+                //Team Sports
+                new builder.HeroCard(session)
+                    .title('Team Sports')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Team Sports_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Team-Sports", "Team Sports")
+                    ]),
+                //Strength Training
+                new builder.HeroCard(session)
+                    .title('Strength Training')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Strength Training_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Strength-Training", "Strength Training")
+                    ]),
+                //Yoga & Pilates
+                new builder.HeroCard(session)
+                    .title('Yoga & Pilates')
+                    .images([
+                        builder.CardImage.create(session).url(`${CONSTANTS.IMG_PATH}Yoga Pilates_SM.png`)
+                    ])
+                    .buttons([
+                        builder.CardAction.imBack(session, "Yoga-&-Pilates", "Yoga & Pilates")
+                    ]),
+            ]
+        }
+    },
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
             session.dialogData.category = results.response.entity;
             var options = [
-                "7:30am","11:30am","4:30pm"
+                "7:30am", "11:30am", "4:30pm"
             ]
-            builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?",options,{
-                    listStyle: builder.ListStyle.button,
-                    retryPrompt: `For now let's stick with the given time options.`
-                });
+            builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?", options, {
+                listStyle: builder.ListStyle.button,
+                retryPrompt: `For now let's stick with the given time options.`
+            });
         } else {
             session.beginDialog('/default');
         }
@@ -153,12 +153,12 @@ module.exports = [
         }
 
     },
-    function (session,results,next){
+    function (session, results, next) {
         var options = ["Completely", "A lot", "Moderate", "Not at all", "A little"]
-                builder.Prompts.choice(session, "When I say I'm going to work out at a specific time, I always follow through.", options,{
-                    listStyle: builder.ListStyle.button,
-                    retryPrompt: `It's much easier if you tap button corresponds your answer regarding following work out time.`
-                });
+        builder.Prompts.choice(session, "When I say I'm going to work out at a specific time, I always follow through.", options, {
+            listStyle: builder.ListStyle.button,
+            retryPrompt: `It's much easier if you tap button corresponds your answer regarding following work out time.`
+        });
     },
 
     function (session, results, next) {
@@ -176,7 +176,7 @@ module.exports = [
             }
 
             session.dialogData.conscientiousness = conscientiousness;
-            var options = ["Completely","A lot","Moderate", "Not at all","A little"];
+            var options = ["Completely", "A lot", "Moderate", "Not at all", "A little"];
             builder.Prompts.choice(session,
                 "I have achieved health goals that took a long time to accomplish.",
                 options, {
@@ -194,12 +194,12 @@ module.exports = [
         if (results.response) {
             var grit = results.response.entity;
             switch (grit) {
-                 case "Completely" | "A lot":
-                     grit = "Committed";
-                 case "Moderate":
-                     grit = "Semi-Committed";
-                 case "Not at all" | "A little":
-                     grit = "Gives Up Easily";
+                case "Completely" | "A lot":
+                    grit = "Committed";
+                case "Moderate":
+                    grit = "Semi-Committed";
+                case "Not at all" | "A little":
+                    grit = "Gives Up Easily";
             }
 
             session.dialogData.grit = grit;
@@ -254,12 +254,12 @@ module.exports = [
 
             session.dialogData.locusofcontrol = locusofcontrol;
             session.send(`
-            1) Greatly anticipate feelings of achievement when meeting your goal
-        2) Somewhat anticipate feelings of achievement when meeting your goal
-        3) Neutral
-        4) Somewhat fear failing to meet your goal 
-        5) Greatly fear failing to meet your goal `);
-            var options =["1","2","3","4","5"]
+            1) Greatly anticipate feelings of achievement when meeting your goal.
+    2) Somewhat anticipate feelings of achievement when meeting your goal.
+    3) Neutral.
+    4) Somewhat fear failing to meet your goal.
+    5) Greatly fear failing to meet your goal. `);
+            var options = ["1", "2", "3", "4", "5"]
             builder.Prompts.choice(session,
                 "Please select the point on the scale that best describes you.",
                 options, {
@@ -315,9 +315,9 @@ module.exports = [
             }
             console.log(params);
             session.send(`You’re all set!  I’ll be ready with your first motivation tomorrow… let’s do this!`);
-             builder.Prompts.confirm(session, `Do you want to choose an additional category?`);
+            builder.Prompts.confirm(session, `Do you want to choose an additional category?`);
 
-            
+
             // return;
             // parser.member.createmember(params, function(statusCode) {
             //     if(statusCode == 200) { 
@@ -333,7 +333,7 @@ module.exports = [
 
         }
     },
-    function (session,results){
+    function (session, results) {
         session.sendTyping();
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
