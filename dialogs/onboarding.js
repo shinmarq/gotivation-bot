@@ -310,7 +310,6 @@ module.exports = [
             }
             console.log(params);
             session.send(`You’re all set!  I’ll be ready with your first motivation tomorrow… let’s do this!`);
-            return;
              builder.Prompts.confirm(session, `Do you want to choose an additional category?`);
 
             
