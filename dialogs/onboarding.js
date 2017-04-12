@@ -285,7 +285,7 @@ module.exports = [
             }
 
             session.dialogData.ffa = ffa;
-            builder.Prompts.text(session, `In 1-2 sentences, write WHY you want to achieve your healthy eating and fitness goals with ${'your coach'}? `)
+            builder.Prompts.text(session, `In 1-2 sentences, write WHY you want to achieve your healthy eating and fitness goals? `)
 
         }
         else {
