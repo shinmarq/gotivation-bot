@@ -73,8 +73,6 @@ bot.use({
                 form: params
             },
                 function (error, response, body) {
-                    console.log(error);
-                    console.log(response.statusCode);
                     if (!error && response.statusCode == 200) {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
@@ -89,7 +87,7 @@ bot.use({
                             .addAttachment(welcomeCard));
 
                         session.sendTyping();
-                        session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
+                        session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! I'm here to motivate, educate, and encourage you along your fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation  :)`)
                         session.beginDialog('/get-coachcode');
                     }
                 });
