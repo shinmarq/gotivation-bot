@@ -79,7 +79,7 @@ bot.use({
                             .title('Gotivation bot')
                             .images([
                                 new builder.CardImage(session)
-                                    .url(`${CONSTANTS.IMG_PATH}GOtivation+Logo.jpg`)
+                                    .url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491976005/Gotivationlogo_small_wzdjok.png`)
                                     .alt('Logo')
                             ]);
 
@@ -87,7 +87,7 @@ bot.use({
                             .addAttachment(welcomeCard));
 
                         session.sendTyping();
-                        session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! I'm here to motivate, educate, and encourage you along your fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation  :)`)
+                        session.send(`Hi ${session.message.address.user.name}!Welcome to GOtivation! I'm here to motivate, educate, and encourage you along your fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation  :)`)
                         session.beginDialog('/get-coachcode');
                     }
                 });
