@@ -15,7 +15,16 @@ module.exports = [
        if(entity && entity.length > 0) {
             if((/^category|categories/i.test(entity))) {
                  session.beginDialog('/onboarding');
-             }  
+             } 
+             else if((/^hi|hello/i.test(entity))){
+                session.send(`${entity} to you too :)` )
+             }
+             else if((/^bye|goodbye/i.test(entity))){
+                session.send(`Have a great day!` )
+             }
+             else if((/^thank\?s|ty/i.test(entity))){
+                session.send(`You're welcome!` )
+             }
             else {
                var params = {
                     entity: entity
