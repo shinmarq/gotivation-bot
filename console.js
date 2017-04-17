@@ -67,8 +67,6 @@ bot.use({
                 form: params
             },
                 function (error, response, body) {
-                    console.log(error);
-                    console.log(response.statusCode);
                     if (!error && response.statusCode == 200) {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
@@ -82,9 +80,26 @@ bot.use({
                         session.send(new builder.Message(session)
                             .addAttachment(welcomeCard));
 
-                        session.sendTyping();
-                        session.send(`Hi ${session.message.address.user.name}!,Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
-                        session.beginDialog('/get-coachcode');
+                        request({
+                            url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
+                            method: 'GET',
+                            headers: { 'Content-Type': 'application/json' }
+                        },
+                            function (error, response, body) {
+
+                                body = JSON.parse(body);
+                                if (!error && response.statusCode == 200) {
+                                    session.send(`Hi ${body.first_name}! Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
+                                    session.beginDialog('/get-coachcode');
+                                }
+                                else {
+                                    // TODO: Handle errors
+                                    session.send(error);
+                                    session.send("Get user profile failed");
+                                }
+                            });
+
+
                     }
                 });
 
@@ -114,7 +129,7 @@ bot.dialog('/get-coachcode', [
         }
     },
     function (session, results) {
-        
+
         if (results.response && results.response.validCode == true) {
             session.dialogData.coach.name = results.response.name;
             session.dialogData.coach._id = results.response._id;
