@@ -95,7 +95,7 @@ bot.use({
                         }),
                             function (error, response, body) {
                                 if (!error && response.statusCode == 200) {
-                                    firstname = body.first_name
+                                    session.send(body.first_name)
                                 }
                                 else {
                                     // TODO: Handle errors
@@ -104,7 +104,7 @@ bot.use({
                                 }
                             }
 
-
+                        
                         session.sendTyping();
                         session.send(`Hi ${firstname}! Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
                         session.beginDialog('/get-coachcode');
