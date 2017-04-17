@@ -129,4 +129,5 @@ bot.dialog('/get-coachcode', [
 
 bot.dialog('/', intentDialog);
 bot.dialog('/onboarding', Onboarding);
+bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);

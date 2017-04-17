@@ -22,7 +22,7 @@ module.exports = [
              else if((/^bye|goodbye/i.test(entity))){
                 session.send(`Have a great day!` )
              }
-             else if((/^thank\?s|ty/i.test(entity))){
+             else if((/^thanks|thank|ty/i.test(entity))){
                 session.send(`You're welcome!` )
              }
             else {
