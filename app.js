@@ -33,6 +33,7 @@ var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
+
 var Onboarding = require('./dialogs/onboarding');
 var Default = require('./dialogs/default');
 var Validatecoach = require('./dialogs/validatecoach');
@@ -56,7 +57,6 @@ bot.use({
             session.userData = {};
             session.conversationData = {};
         }
-
 
         if (!session.userData.firstRun) {
             var params = {
@@ -87,10 +87,22 @@ bot.use({
 
                         session.send(new builder.Message(session)
                             .addAttachment(welcomeCard));
-                        session.send(session.message.sourceEvent.sender.name);
+                        session.send(session.message.sourceEvent.sender.id);
+                        var firstname;
+                        request({
+                            url: "https://graph.facebook.com/v2.6/"+session.message.sourceEvent.sender.id+"?fields=first_name",
+                            qs: {access_token: FB_PAGE_ACCESS_TOKEN},
+                            method: 'GET'
+                        }),{
+                            function(error, response,body){
+                                if (!error && response.statusCode == 200) {
+                                    firstname = body.first_name
+                                }
+                            }
+                        }
 
                         session.sendTyping();
-                        session.send(`Hi ${session.message.address.user.name}! Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
+                        session.send(`Hi ${ession.dialogData.sender}! Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
                         session.beginDialog('/get-coachcode');
                     }
                 });
