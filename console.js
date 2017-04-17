@@ -72,7 +72,7 @@ bot.use({
                     if (!error && response.statusCode == 200) {
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
-                            .title('Gotivation bot')
+                            .title('GOtivation bot')
                             .images([
                                 new builder.CardImage(session)
                                     .url(`${CONSTANTS.IMG_PATH}GOtivation+Logo.jpg`)

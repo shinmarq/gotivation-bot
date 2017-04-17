@@ -133,9 +133,7 @@ module.exports = [
                 listStyle: builder.ListStyle.button,
                 retryPrompt: `For now let's stick with the given time options.`
             });
-        } else {
-            session.beginDialog('/default');
-        }
+        } 
     },
 
     function (session, results, next) {
@@ -146,9 +144,6 @@ module.exports = [
             if (session.dialogData.recurrence) {
                 builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
                 next();
-            }
-            else {
-                session.beginDialog('/default');
             }
         }
 
@@ -185,9 +180,6 @@ module.exports = [
                 });
 
         }
-        else {
-            session.beginDialog('/default');
-        }
     },
     function (session, results, next) {
         session.sendTyping();
@@ -212,9 +204,6 @@ module.exports = [
                 });
 
         }
-        else {
-            session.beginDialog('/default');
-        }
     },
 
     function (session, results, next) {
@@ -236,9 +225,6 @@ module.exports = [
                     listStyle: builder.ListStyle.button,
                     retryPrompt: `That's not on the options please tap button that corresponds your answer on control over your own health.`
                 });
-        }
-        else {
-            session.beginDialog('/default');
         }
     },
     function (session, results, next) {
@@ -288,9 +274,6 @@ module.exports = [
             builder.Prompts.text(session, `In 1-2 sentences, write WHY you want to achieve your healthy eating and fitness goals? `)
 
         }
-        else {
-            session.beginDialog('/default');
-        }
     },
     function (session, results, next) {
         session.sendTyping();
@@ -328,7 +311,8 @@ module.exports = [
         }
     },
     function(session,results){
-         if (!results.response) {
+        console.log(results);
+         if (results.response) {
             session.replaceDialog('/default');
         }
     }
