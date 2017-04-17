@@ -154,7 +154,7 @@ module.exports = [
 
     },
     function (session, results, next) {
-        var options = ["Completely", "A lot", "Moderate", "Not at all", "A little"]
+        var options = ["Completely", "A lot", "Moderate", "A little", "Not at all"]
         builder.Prompts.choice(session, "When I say I'm going to work out at a specific time, I always follow through.", options, {
             listStyle: builder.ListStyle.button,
             retryPrompt: `It's much easier if you tap button corresponds your answer regarding following work out time.`
@@ -176,7 +176,7 @@ module.exports = [
             }
 
             session.dialogData.conscientiousness = conscientiousness;
-            var options = ["Completely", "A lot", "Moderate", "Not at all", "A little"];
+            var options = ["Completely", "A lot", "Moderate", "A little", "Not at all"]
             builder.Prompts.choice(session,
                 "I have achieved health goals that took a long time to accomplish.",
                 options, {
@@ -203,7 +203,7 @@ module.exports = [
             }
 
             session.dialogData.grit = grit;
-            var options = ["Completely", "A lot", "Moderate", "Not at all", "A little"]
+            var options =["Completely", "A lot", "Moderate", "A little", "Not at all"]
             builder.Prompts.choice(session,
                 "I am able to give up temporary pleasures such as sweets in order to pursue my fitness/health goals.",
                 options, {
@@ -229,7 +229,7 @@ module.exports = [
             }
 
             session.dialogData.selfcontrol = selfcontrol;
-            var options = ["Completely", "A lot", "Moderate", "Not at all", "A little"]
+            var options = ["Completely", "A lot", "Moderate", "A little", "Not at all"]
             builder.Prompts.choice(session,
                 "I have control over my own health.",
                 options, {
@@ -255,11 +255,11 @@ module.exports = [
             session.dialogData.locusofcontrol = locusofcontrol;
             var options = ["1", "2", "3", "4", "5"]
             builder.Prompts.choice(session,
-                `Please select the point on the scale that best describes you.
-    1) Greatly anticipate feelings of achievement when meeting your goal.
-    2) Somewhat anticipate feelings of achievement when meeting your goal.
-    3) Neutral.
-    4) Somewhat fear failing to meet your goal.
+                `Please select the point on the scale that best describes you.\nfoo\nbar\nfoobar
+    1) Greatly anticipate feelings of achievement when meeting your goal.\nfoo\nbar\nfoobar
+    2) Somewhat anticipate feelings of achievement when meeting your goal.\nfoo\nbar\nfoobar
+    3) Neutral.\nfoo\nbar\nfoobar
+    4) Somewhat fear failing to meet your goal.\nfoo\nbar\nfoobar
     5) Greatly fear failing to meet your goal. `,
                 options, {
                     listStyle: builder.ListStyle.button,
@@ -302,7 +302,7 @@ module.exports = [
                 channel: session.message.address.channelId,
                 facebook_page_access_token: FB_PAGE_ACCESS_TOKEN,
                 coaches: [{ coach_id: session.dialogData.coach._id }],
-                category: session.dialogData.category,
+                category: [{categoryId: session.dialogData.category}],
                 recurrence: { timeofday: session.dialogData.recurrence, timezone: "" },
                 conscientiousness: session.dialogData.conscientiousness,
                 grit: session.dialogData.grit,
@@ -332,20 +332,6 @@ module.exports = [
             session.replaceDialog('/default');
         }
     }
-    // ,
-    // function (session, results) {
-    //     session.sendTyping();
-    //     var choice = results.response ? 'yes' : 'no';
-    //     if (choice === 'yes') {
-    //         session.dialogData.coach = {};
-    //         session.dialogData.prefix = "";
-    //         session.beginDialog('/onboarding', session.dialogData);
-
-    //     } else {
-    //         session.send(`Alright, have a great day!`);
-    //         next();
-    //     }
-    // }
 
 
 
