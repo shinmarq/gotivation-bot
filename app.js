@@ -89,7 +89,7 @@ bot.use({
                             .addAttachment(welcomeCard));
                         var firstname;
                         request({
-                            url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}?fields=first_name`,
+                            url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name`,
                             qs: { access_token: FB_PAGE_ACCESS_TOKEN },
                             method: 'GET'
                         }), {
@@ -103,7 +103,6 @@ bot.use({
                                        session.send("Get user profile failed");
                                     }
                                 }
-
                             }
 
                         session.sendTyping();
