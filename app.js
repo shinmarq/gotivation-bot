@@ -90,15 +90,21 @@ bot.use({
                         var firstname;
                         request({
                             url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}?fields=first_name`,
-                            qs: {access_token: FB_PAGE_ACCESS_TOKEN},
+                            qs: { access_token: FB_PAGE_ACCESS_TOKEN },
                             method: 'GET'
-                        }),{
-                            function(error, response,body){
-                                if (!error && response.statusCode == 200) {
-                                    firstname = body.first_name
+                        }), {
+                                function(error, response, body) {
+                                    if (!error && response.statusCode == 200) {
+                                        firstname = body.first_name
+                                    }
+                                    else {
+                                        // TODO: Handle errors
+                                        console.log(error);
+                                        console.log("Get user profile failed");
+                                    }
                                 }
+
                             }
-                        }
 
                         session.sendTyping();
                         session.send(`Hi ${firstname}! Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
@@ -132,7 +138,7 @@ bot.dialog('/get-coachcode', [
         }
     },
     function (session, results) {
-        
+
         if (results.response && results.response.validCode == true) {
             session.dialogData.coach.name = results.response.name;
             session.dialogData.coach._id = results.response._id;
