@@ -89,21 +89,21 @@ bot.use({
                             .addAttachment(welcomeCard));
                         var firstname;
                         request({
-                            url:`https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name&access_token=${FB_PAGE_ACCESS_TOKEN}`,
+                            url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name&access_token=${FB_PAGE_ACCESS_TOKEN}`,
                             method: 'GET',
-                            headers: {'Content-Type': 'application/json'}
-                        }), {
-                                function(error, response, body) {
-                                    if (!error && response.statusCode == 200) {
-                                        firstname = body.first_name
-                                    }
-                                    else {
-                                        // TODO: Handle errors
-                                       session.send(error);
-                                       session.send("Get user profile failed");
-                                    }
+                            headers: { 'Content-Type': 'application/json' }
+                        }),
+                            function (error, response, body) {
+                                if (!error && response.statusCode == 200) {
+                                    firstname = body.first_name
+                                }
+                                else {
+                                    // TODO: Handle errors
+                                    session.send(error);
+                                    session.send("Get user profile failed");
                                 }
                             }
+
 
                         session.sendTyping();
                         session.send(`Hi ${firstname}! Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
