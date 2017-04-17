@@ -87,9 +87,9 @@ bot.use({
 
                         session.send(new builder.Message(session)
                             .addAttachment(welcomeCard));
-
+                        session.send(session.message.sourceEvent.sender.id);
                         session.sendTyping();
-                        session.send(`Hi ${session.recipient.name.first_name}! Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
+                        session.send(`Hi ${session.message.From.Name.first_name}! Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
                         session.beginDialog('/get-coachcode');
                     }
                 });
