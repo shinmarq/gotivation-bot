@@ -87,10 +87,9 @@ bot.use({
 
                         session.send(new builder.Message(session)
                             .addAttachment(welcomeCard));
-                        session.send(session.message.sourceEvent.sender.id);
                         var firstname;
                         request({
-                            url: "https://graph.facebook.com/v2.6/"+session.message.sourceEvent.sender.id+"?fields=first_name",
+                            url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}?fields=first_name`,
                             qs: {access_token: FB_PAGE_ACCESS_TOKEN},
                             method: 'GET'
                         }),{
