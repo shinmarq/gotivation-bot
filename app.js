@@ -89,9 +89,9 @@ bot.use({
                             .addAttachment(welcomeCard));
                         var firstname;
                         request({
-                            url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name`,
-                            qs: { access_token: FB_PAGE_ACCESS_TOKEN },
-                            method: 'GET'
+                            url:`https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name&access_token=${FB_PAGE_ACCESS_TOKEN}`,
+                            method: 'GET',
+                            headers: {'Content-Type': 'application/json'}
                         }), {
                                 function(error, response, body) {
                                     if (!error && response.statusCode == 200) {
