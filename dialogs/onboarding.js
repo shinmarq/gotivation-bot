@@ -255,12 +255,12 @@ module.exports = [
             session.dialogData.locusofcontrol = locusofcontrol;
             var options = ["1", "2", "3", "4", "5"]
             builder.Prompts.choice(session,
-                `Please select the point on the scale that best describes you.\nfoo\nbar\nfoobar
-    1) Greatly anticipate feelings of achievement when meeting your goal.\nfoo\nbar\nfoobar
-    2) Somewhat anticipate feelings of achievement when meeting your goal.\nfoo\nbar\nfoobar
-    3) Neutral.\nfoo\nbar\nfoobar
-    4) Somewhat fear failing to meet your goal.\nfoo\nbar\nfoobar
-    5) Greatly fear failing to meet your goal. `,
+                `Please select the point on the scale that best describes you.<br />
+    1) Greatly anticipate feelings of achievement when meeting your goal.<br />
+    2) Somewhat anticipate feelings of achievement when meeting your goal.<br />
+    3) Neutral.<br />
+    4) Somewhat fear failing to meet your goal.<br />
+    5) Greatly fear failing to meet your goal.`,
                 options, {
                     listStyle: builder.ListStyle.button,
                     retryPrompt: `That's not on the options please tap button that corresponds your answer ragarding scale that describes you.`
