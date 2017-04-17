@@ -255,7 +255,7 @@ module.exports = [
             session.dialogData.locusofcontrol = locusofcontrol;
             var options = ["1", "2", "3", "4", "5"]
             builder.Prompts.choice(session,
-                `Please select the point on the scale that best describes you.\\n
+                `Please select the point on the scale that best describes you:\n
     1) Greatly anticipate feelings of achievement when meeting your goal.
     2) Somewhat anticipate feelings of achievement when meeting your goal.
     3) Neutral.
