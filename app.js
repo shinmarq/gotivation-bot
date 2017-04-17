@@ -99,8 +99,8 @@ bot.use({
                                     }
                                     else {
                                         // TODO: Handle errors
-                                        console.log(error);
-                                        console.log("Get user profile failed");
+                                       session.send(error);
+                                       session.send("Get user profile failed");
                                     }
                                 }
 
