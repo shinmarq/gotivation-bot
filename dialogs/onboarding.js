@@ -63,38 +63,42 @@ module.exports = [
             body.map(function (value, index) {
                 var exist = false;
                 var arr = session.dialogData.category;
-                arr.forEach(function (element) {
-                    if(element == value._id){
-                        exist = true;
-                        return;
-                    }
-                }, this);
-            
-            if (!exist) {
-                selectString.push('select:' + value._id);
-                attachments.push(
-                    new builder.HeroCard(session)
-                        .title(value.name)
-                        .images([
-                            builder.CardImage.create(session, value.image)
-                                .tap(builder.CardAction.showImage(session, value.image)),
-                        ])
-                        .buttons([
-                            builder.CardAction.imBack(session, "select:" + value._id, value.name)
-                        ])
-                );
-            }
-        });
-        callback(null, msg, attachments, selectString);
-    }
+                if (arr === undefined) {
+                    exist = false;
+                }
+                else {
+                    arr.forEach(function (element) {
+                        if (element == value._id) {
+                            exist = true;
+                            return;
+                        }
+                    }, this);
+                }
+                if (!exist) {
+                    selectString.push('select:' + value._id);
+                    attachments.push(
+                        new builder.HeroCard(session)
+                            .title(value.name)
+                            .images([
+                                builder.CardImage.create(session, value.image)
+                                    .tap(builder.CardAction.showImage(session, value.image)),
+                            ])
+                            .buttons([
+                                builder.CardAction.imBack(session, "select:" + value._id, value.name)
+                            ])
+                    );
+                }
+            });
+            callback(null, msg, attachments, selectString);
+        }
 
         function sendMessage(msg, attachments, selectString, callback) {
-        msg
-            .textFormat(builder.TextFormat.xml)
-            .attachmentLayout(builder.AttachmentLayout.carousel)
-            .attachments(attachments);
-        callback(null, msg, selectString);
-    }
+            msg
+                .textFormat(builder.TextFormat.xml)
+                .attachmentLayout(builder.AttachmentLayout.carousel)
+                .attachments(attachments);
+            callback(null, msg, selectString);
+        }
 
     },
     function (session, results, next) {
