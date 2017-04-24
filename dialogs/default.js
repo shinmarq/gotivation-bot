@@ -39,14 +39,14 @@ module.exports = [
                         var createParams = {
                             entity: entity
                         };
-                        parser.queries.createQuery(createParams, function(err, response, body) {
+                        // parser.queries.createQuery(createParams, function(err, response, body) {
 
-                        });
+                        // });
                         session.endDialog();
                     } else {
-                        var reply = body.reply[Math.floor(Math.random()*body.reply.length)]
-                        builder.Prompts.text(session,reply);
-                        session.endDialog();
+                        // var reply = body.reply[Math.floor(Math.random()*body.reply.length)]
+                        // builder.Prompts.text(session,reply);
+                        // session.endDialog();
                     }
                 });
             }

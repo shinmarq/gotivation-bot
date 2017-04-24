@@ -284,17 +284,17 @@ module.exports = [
             }
 
 
-            parser.member.updatemember(params, function (err, statusCode) {
-                if (!err && statusCode == 200) {
-                    var attachments = [];
-                    var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
+            // parser.member.updatemember(params, function (err, statusCode) {
+            //     if (!err && statusCode == 200) {
+            //         var attachments = [];
+            //         var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
 
-                    callback(null, msgString);
-                } else {
-                    console.log(statusCode);
-                    session.send('Something went wrong and your session is not saved. Please try again');
-                }
-            });
+            //         callback(null, msgString);
+            //     } else {
+            //         console.log(statusCode);
+            //         session.send('Something went wrong and your session is not saved. Please try again');
+            //     }
+            // });
             builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation tomorrow. Let’s do this!`);
 
         }
