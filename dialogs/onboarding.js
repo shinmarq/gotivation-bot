@@ -108,12 +108,12 @@ module.exports = [
     },
     function (session, results, next) {
         //var choice = results.response ? true : false;
-
         if (results.response) {
             session.beginDialog('/onboarding', session.dialogData);
         }
         else {
-            session.beginDialog('/first-run', session.dialogData);
+            // console.log(session.dialogData);
+            // session.beginDialog('/first-run', session.dialogData);
             var options = [
                 "7:30am", "11:30am", "4:30pm"
             ]
