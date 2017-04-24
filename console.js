@@ -28,9 +28,9 @@ var bot = new builder.UniversalBot(consoleConnector);
 
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 var Onboarding = require('./dialogs/onboarding'),
- Default = require('./dialogs/default'),
- Validatecoach = require('./dialogs/validatecoach'),
- FirstRun = require('./dialogs/first-run');
+    Default = require('./dialogs/default'),
+    Validatecoach = require('./dialogs/validatecoach'),
+    FirstRun = require('./dialogs/first-run');
 
 
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
@@ -69,7 +69,7 @@ bot.use({
             },
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
-                        
+
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
                             .title('GOtivation bot')
@@ -89,7 +89,7 @@ bot.use({
                             headers: { 'Content-Type': 'application/json' }
                         },
                             function (error, response, body) {
-                             
+
                                 body = JSON.parse(body);
                                 if (!error && response.statusCode == 200) {
                                     session.send(`Hi ${body.first_name} - Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
@@ -102,11 +102,11 @@ bot.use({
                                 }
                             });
                     }
-
+                     
                 });
 
         } else {
-            
+
             next();
 
         }
@@ -140,20 +140,19 @@ bot.dialog('/get-coachcode', [
             session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name.first}.`;
             session.dialogData.coach.image = results.response.image;
             console.log(session.dialogData.coach.image);
-               var msg = new builder.Message(session)
-            .text(`${session.dialogData.prefix}`)
-            .attachments([{
-                contentType: "image/jpeg",
-                contentUrl: session.dialogData.coach.image
-            }]);
+            var msg = new builder.Message(session)
+                .text(`${session.dialogData.prefix}`)
+                .attachments([{
+                    contentType: "image/jpeg",
+                    contentUrl: session.dialogData.coach.image
+                }]);
+
+            session.send(msg);
 
         }
-        else
-        {
+        else {
             session.send(session.dialogData.prefix);
         }
-        console.log(msg.attachments);
-        session.send(msg);
         session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
         session.beginDialog('/onboarding', session.dialogData);
     }

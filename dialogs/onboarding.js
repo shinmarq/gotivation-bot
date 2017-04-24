@@ -19,6 +19,7 @@ module.exports = [
 
     function (session, results, next) {
         session.dialogData.category = results.response.category;
+        console.log(session.dialogData.category);
         var options = {
         }
         var msg = new builder.Message(session);
@@ -56,43 +57,45 @@ module.exports = [
         }
 
         function formatBody(body, msg, callback) {
+
             var attachments = [];
             var selectString = [];
 
             body.map(function (value, index) {
-                var exist;
+                var exist = false;
                 var arr = session.dialogData.category;
-                for (i = 0; i <= arr.length - 1; i++) {
-                    if (arr[i] == value._id) {
-                        exist = true
+                arr.forEach(function (element) {
+                    if(element == value._id){
+                        exist = true;
+                        return;
                     }
-                }
-                if (!exist) {
-
-                    selectString.push('select:' + value._id);
-                    attachments.push(
-                        new builder.HeroCard(session)
-                            .title(value.name)
-                            .images([
-                                builder.CardImage.create(session, value.image)
-                                    .tap(builder.CardAction.showImage(session, value.image)),
-                            ])
-                            .buttons([
-                                builder.CardAction.imBack(session, "select:" + value._id, value.name)
-                            ])
-                    );
-                }
-            });
-            callback(null, msg, attachments, selectString);
-        }
+                }, this);
+            
+            if (!exist) {
+                selectString.push('select:' + value._id);
+                attachments.push(
+                    new builder.HeroCard(session)
+                        .title(value.name)
+                        .images([
+                            builder.CardImage.create(session, value.image)
+                                .tap(builder.CardAction.showImage(session, value.image)),
+                        ])
+                        .buttons([
+                            builder.CardAction.imBack(session, "select:" + value._id, value.name)
+                        ])
+                );
+            }
+        });
+        callback(null, msg, attachments, selectString);
+    }
 
         function sendMessage(msg, attachments, selectString, callback) {
-            msg
-                .textFormat(builder.TextFormat.xml)
-                .attachmentLayout(builder.AttachmentLayout.carousel)
-                .attachments(attachments);
-            callback(null, msg, selectString);
-        }
+        msg
+            .textFormat(builder.TextFormat.xml)
+            .attachmentLayout(builder.AttachmentLayout.carousel)
+            .attachments(attachments);
+        callback(null, msg, selectString);
+    }
 
     },
     function (session, results, next) {
@@ -105,22 +108,20 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        session.sendTyping();
-        if (results.response) {
-            var choice = results.response ? 'yes' : 'no';
-            if (choice === "yes") {
-                session.beginDialog('/onboarding', session.dialogData);
-            }
-            else {
-                var options = [
-                    "7:30am", "11:30am", "4:30pm"
-                ]
-                builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?", options, {
-                    listStyle: builder.ListStyle.button,
-                    retryPrompt: `For now let's stick with the given time options.`
-                });
-            }
+        //var choice = results.response ? true : false;
 
+        if (results.response) {
+            session.beginDialog('/onboarding', session.dialogData);
+        }
+        else {
+            session.beginDialog('/first-run', session.dialogData);
+            var options = [
+                "7:30am", "11:30am", "4:30pm"
+            ]
+            builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?", options, {
+                listStyle: builder.ListStyle.button,
+                retryPrompt: `For now let's stick with the given time options.`
+            });
         }
     },
 
