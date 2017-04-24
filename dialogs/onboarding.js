@@ -19,7 +19,6 @@ module.exports = [
 
     function (session, results, next) {
         session.dialogData.category = results.response.category;
-        console.log(session.dialogData.category);
         var options = {
         }
         var msg = new builder.Message(session);

@@ -19,7 +19,6 @@ module.exports =
                 coach_code: results.response,
             }
 
-            console.log(params);
             //uncomment this is how to get code
             parser.users.getuser(params, function(error, statusCode, body) {
                 

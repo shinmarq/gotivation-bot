@@ -32,6 +32,7 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
+
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 var Onboarding = require('./dialogs/onboarding'),
     Default = require('./dialogs/default'),
@@ -90,7 +91,7 @@ bot.use({
 
                         request({
                             url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
-                            // url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
+                            //url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
                         },
@@ -108,7 +109,7 @@ bot.use({
                                 }
                             });
                     }
-
+                     
                 });
 
         } else {
@@ -154,6 +155,7 @@ bot.dialog('/get-coachcode', [
                 }]);
 
             session.send(msg);
+
         }
         else {
             session.send(session.dialogData.prefix);
