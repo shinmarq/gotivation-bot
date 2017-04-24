@@ -24,7 +24,6 @@ module.exports =
             parser.users.getuser(params, function(error, statusCode, body) {
                 
                 if(!error && body.length > 0) {
-                    console.log(body);
                     var result = _.findWhere(body, {coach_code: params.coach_code});
                     session.dialogData.coach._id = result._id;
                     session.dialogData.coach.name = result.name;

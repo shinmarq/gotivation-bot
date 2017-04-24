@@ -138,6 +138,8 @@ bot.dialog('/get-coachcode', [
             session.dialogData.coach.name = results.response.name;
             session.dialogData.coach._id = results.response._id;
             session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name.first}.`;
+            session.dialogData.coach.image = results.response.image;
+            console.log(session.dialogData.coach.image);
                var msg = new builder.Message(session)
             .text(`${session.dialogData.prefix}`)
             .attachments([{
@@ -150,7 +152,7 @@ bot.dialog('/get-coachcode', [
         {
             session.send(session.dialogData.prefix);
         }
-     
+        console.log(msg.attachments);
         session.send(msg);
         session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
         session.beginDialog('/onboarding', session.dialogData);
