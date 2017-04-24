@@ -9,131 +9,119 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session, args, next) {
-
-        var prefix = args.prefix;
         session.dialogData.coach = {};
-
         session.dialogData.coach.name = args.name || "";
-        session.dialogData.coach._id = args._id | "";
-        var selectArray = [
-            "Body-Building",
-            "Cross-Training",
-            "Group-Classes",
-            "Healthy-Eating",
-            "Individual-Sports",
-            "Running-&-Walking",
-            "Team-Sports",
-            "Strength-Training",
-            "Yoga-&-Pilates"
-        ];
+        session.dialogData.coach._id = args._id || "";
+        session.dialogData.category = args.category || "";
+        session.beginDialog('/first-run', session.dialogData);
 
-        var cards = getCardsAttachments();
-        var reply = new builder.Message(session)
-            .attachmentLayout(builder.AttachmentLayout.carousel)
-            .attachments(cards);
-        session.send(`${prefix} Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
-        session.send(`Pick the fitness category I can help you with.`);
-        builder.Prompts.choice(session, reply, selectArray, { maxRetries: 0 });
+    },
 
-        function getCardsAttachments(session) {
-            return [
+    function (session, results, next) {
+        session.dialogData.category = results.response.category;
+        var options = {
+        }
+        var msg = new builder.Message(session);
+        async.waterfall([
+            async.apply(getcategory, options, msg),
+            formatBody,
+            sendMessage
+        ],
+            function (err, msg, selectString) {
+                if (err) {
+                    session.send(err);
+                    session.reset();
+                }
+                else {
+                    session.send('Pick the fitness category I can help you with.');
+                    builder.Prompts.choice(session, msg, selectString, { retryPrompt: `Select from the given categories` });
+                }
+            }
 
-                //body building
-                new builder.HeroCard(session)
-                    .title('Body Building')
-                    .images([
-                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974346/Gotivation/Bodybuilding_SM_j3xidb.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Body-Building", "Body Building")
-                    ]),
-                //cross training
-                new builder.HeroCard(session)
-                    .title('Cross Training')
-                    .images([
-                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974358/Gotivation/Cross_Training_SM_q0av2q.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Cross-Training", "Cross Training")
-                    ]),
-                //Group Classes
-                new builder.HeroCard(session)
-                    .title('Group Classes')
-                    .images([
-                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974348/Gotivation/Group_Fitness_SM_umwfd0.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Group-Classes", "Group Classes")
-                    ]),
-                //Healthy Eating
-                new builder.HeroCard(session)
-                    .title('Healthy Eating')
-                    .images([
-                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974362/Gotivation/Healthy_Eating_SM_d91toc.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Healthy-Eating", "Healthy Eating")
-                    ]),
-                //Individual Sports
-                new builder.HeroCard(session)
-                    .title('Individual Sports')
-                    .images([
-                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974349/Gotivation/Individual_Sports_SM_ihmxyi.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Individual-Sports", "Individual Sports")
-                    ]),
-                //Running & Walking
-                new builder.HeroCard(session)
-                    .title('Running & Walking')
-                    .images([
-                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974353/Gotivation/Running-Walking_SM_rbvnzi.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Running-&-Walking", "Running & Walking")
-                    ]),
-                //Team Sports
-                new builder.HeroCard(session)
-                    .title('Team Sports')
-                    .images([
-                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974362/Gotivation/Team_Sports_SM_xcpgji.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Team-Sports", "Team Sports")
-                    ]),
-                //Strength Training
-                new builder.HeroCard(session)
-                    .title('Strength Training')
-                    .images([
-                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974362/Gotivation/Strength_Training_SM_gcwpcs.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Strength-Training", "Strength Training")
-                    ]),
-                //Yoga & Pilates
-                new builder.HeroCard(session)
-                    .title('Yoga & Pilates')
-                    .images([
-                        builder.CardImage.create(session).url(`http://res.cloudinary.com/hobwovvya/image/upload/v1491974365/Gotivation/Yoga_Pilates_SM_t7b73d.png`)
-                    ])
-                    .buttons([
-                        builder.CardAction.imBack(session, "Yoga-&-Pilates", "Yoga & Pilates")
-                    ]),
-            ]
+        );
+
+        function getcategory(organisationId, msg, callback) {
+            parser.category.getcategory(organisationId, function (err, res, body) {
+                if (!err && res.statusCode == 200) {
+                    if (body.length > 0) {
+                        callback(null, body, msg);
+                    } else {
+                        callback("No categories yet", [], null);
+                    }
+                }
+                else {
+                    callback(body, res.statusCode, []);
+                }
+            });
+        }
+
+        function formatBody(body, msg, callback) {
+            var attachments = [];
+            var selectString = [];
+
+            body.map(function (value, index) {
+                var exist;
+                var arr = session.dialogData.category;
+                for (i = 0; i <= arr.length - 1; i++) {
+                    if (arr[i] == value._id) {
+                        exist = true
+                    }
+                }
+                if (!exist) {
+
+                    selectString.push('select:' + value._id);
+                    attachments.push(
+                        new builder.HeroCard(session)
+                            .title(value.name)
+                            .images([
+                                builder.CardImage.create(session, value.image)
+                                    .tap(builder.CardAction.showImage(session, value.image)),
+                            ])
+                            .buttons([
+                                builder.CardAction.imBack(session, "select:" + value._id, value.name)
+                            ])
+                    );
+                }
+            });
+            callback(null, msg, attachments, selectString);
+        }
+
+        function sendMessage(msg, attachments, selectString, callback) {
+            msg
+                .textFormat(builder.TextFormat.xml)
+                .attachmentLayout(builder.AttachmentLayout.carousel)
+                .attachments(attachments);
+            callback(null, msg, selectString);
+        }
+
+    },
+    function (session, results, next) {
+        if (results.response) {
+            session.dialogData.category = results.response.entity.split(':')[1];
+
+            builder.Prompts.confirm(session, `Would you like to select another categories?`);
+        } else {
+            session.replaceDialog('/default');
         }
     },
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
-            session.dialogData.category = results.response.entity;
-            var options = [
-                "7:30am", "11:30am", "4:30pm"
-            ]
-            builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?", options, {
-                listStyle: builder.ListStyle.button,
-                retryPrompt: `For now let's stick with the given time options.`
-            });
-        } 
+            var choice = results.response ? 'yes' : 'no';
+            if (choice === "yes") {
+                session.beginDialog('/onboarding', session.dialogData);
+            }
+            else {
+                var options = [
+                    "7:30am", "11:30am", "4:30pm"
+                ]
+                builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?", options, {
+                    listStyle: builder.ListStyle.button,
+                    retryPrompt: `For now let's stick with the given time options.`
+                });
+            }
+
+        }
     },
 
     function (session, results, next) {
@@ -195,7 +183,7 @@ module.exports = [
             }
 
             session.dialogData.grit = grit;
-            var options =["Completely", "A lot", "Moderate", "A little", "Not at all"]
+            var options = ["Completely", "A lot", "Moderate", "A little", "Not at all"]
             builder.Prompts.choice(session,
                 "I am able to give up temporary pleasures such as sweets in order to pursue my fitness/health goals.",
                 options, {
@@ -242,14 +230,14 @@ module.exports = [
             var options = ["1", "2", "3", "4", "5"]
             builder.Prompts.choice(session,
                 `Please select the point on the scale that best describes you:\n
-    1) Greatly anticipate feelings of achievement when meeting your goal.
-    2) Somewhat anticipate feelings of achievement when meeting your goal.
-    3) Neutral.
-    4) Somewhat fear failing to meet your goal.
-    5) Greatly fear failing to meet your goal. `,
+    1) Greatly anticipate feelings of achievement when meeting your goal
+    2) Somewhat anticipate feelings of achievement when meeting your goal
+    3) Neutral
+    4) Somewhat fear failing to meet your goal
+    5) Greatly fear failing to meet your goal `,
                 options, {
                     listStyle: builder.ListStyle.button,
-                    retryPrompt: `That's not on the options please tap button that corresponds your answer ragarding scale that describes you.`
+                    retryPrompt: `That's not on the options please tap button that corresponds your answer regarding scale that best describes you.`
                 });
 
         }
@@ -285,7 +273,7 @@ module.exports = [
                 channel: session.message.address.channelId,
                 facebook_page_access_token: FB_PAGE_ACCESS_TOKEN,
                 coaches: [{ coach_id: session.dialogData.coach._id }],
-                category: [{categoryId: session.dialogData.category}],
+                // category: [{ categoryId: session.dialogData.category }],
                 recurrence: { timeofday: session.dialogData.recurrence, timezone: "" },
                 conscientiousness: session.dialogData.conscientiousness,
                 grit: session.dialogData.grit,
@@ -294,24 +282,25 @@ module.exports = [
                 fearoffailurevsachievement: session.dialogData.ffa,
                 construals: session.dialogData.construals
             }
-          
-           builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation tomorrow. Let’s do this!`);
-            // parser.member.createmember(params, function(err,statusCode) {
-            //     if(!err && statusCode == 200) { 
-            //         var attachments = [];
-            //         var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
-                    
-            //         callback(null, msgString);
-            //     } else {
-            //         console.log(statusCode);
-            //         session.send('Something went wrong and your session is not saved. Please try again');
-            //     }
-            // });
+
+
+            parser.member.updatemember(params, function (err, statusCode) {
+                if (!err && statusCode == 200) {
+                    var attachments = [];
+                    var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
+
+                    callback(null, msgString);
+                } else {
+                    console.log(statusCode);
+                    session.send('Something went wrong and your session is not saved. Please try again');
+                }
+            });
+            builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation tomorrow. Let’s do this!`);
 
         }
     },
-    function(session,results){
-         if (results.response) {
+    function (session, results) {
+        if (results.response) {
             session.replaceDialog('/default');
         }
     }

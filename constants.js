@@ -1,10 +1,10 @@
 // ./dialogs/constants.js
 module.exports.FB_PAGE_ACCESS_TOKEN = "EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD";
-module.exports.BASE_URL = (process.env.NODE_ENV !== "production")? "http://localhost:5000" : "https://gotivation-bot.herokuapp.com";
+module.exports.BASE_URL = (process.env.NODE_ENV !== "production")? "http://localhost:3000" : "https://gotivation-bot.herokuapp.com";
 
 module.exports.SUCCESS = 200;
 module.exports.CREATED = 201;
-module.exports.BASE_PATH = 'https://gotivation-client.herokuapp.com/';
+module.exports.BASE_PATH = 'https://9d0831fc.ngrok.io';
 module.exports.API_PATH = '/api';
 module.exports.CLOUDINARY_CLOUD_NAME = 'hobwovvya'; //change
 module.exports.CLOUDINARY_API_KEY = '954985777471899'; //change 

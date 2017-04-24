@@ -8,26 +8,19 @@ var request = require('request'),
 
 const URL = constants.BASE_PATH + constants.API_PATH + "/";
 
-
-exports.getuser = function (params, callback) {
+exports.getcategory = function (params, callback) {
 	var options = {};
-	if (params.userId) {
+	if (params.categoryId) {
 		options = {
-			url: URL + "/users/" + params.userId,
+			url: URL + "/category/" + params.categoryId,
 			qs: params
 		};
-	} 
-	else if(params.coach_code){
+	} else {
 		options = {
-			url: URL + "/users/coach/" + params.coach_code,
+			url: URL + "/category/",
 			qs: params
 		};
-	}
-	else {
-		options = {
-			url: URL + "/users/",
-			qs: params
-		};
+
 	}
 
 	request.get(options, function (err, res, body) {
@@ -41,8 +34,8 @@ exports.getuser = function (params, callback) {
 	});
 };
 
-exports.createuser = function (params, callback) {
-	var postUrl = URL + "/users";
+exports.createcategory = function (params, callback) {
+	var postUrl = URL + "/category";
 	var newParams = params;
 	var options = {
 		method: 'post',
@@ -62,9 +55,9 @@ exports.createuser = function (params, callback) {
 	});
 };
 
-exports.updateuser = function (params, callback) {
-	var putUrl = URL + "/users/" + params.user;
-	var newParams = _.omit(params, ['user']);
+exports.updatecategory = function (params, callback) {
+	var putUrl = URL + "/category/" + params.member;
+	var newParams = _.omit(params, ['category']);
 	var options = {
 		method: 'put',
 		body: newParams,
@@ -82,26 +75,3 @@ exports.updateuser = function (params, callback) {
 		}
 	});
 };
-
-// exports.sendMessageTousers = function(params, callback) {
-// 	var postUrl = URL + "/users/send-message";
-// 	var newParams = params;
-
-// 	var options = {
-// 		method: 'post',
-// 		body: newParams,
-// 		json: true,
-// 		url: postUrl
-// 	};
-
-// 	// console.log(options);
-// 	request(options, function(err, res, body){
-// 		if(err == null && res.statusCode == constants.SUCCESS) {
-// 			var mapResponse = new MapResponse(body);
-// 			var newBody = mapResponse.mapData();
-// 			callback(null, res, newBody);
-// 		} else {
-// 			callback(err, res, null);
-// 		}
-// 	});
-// };

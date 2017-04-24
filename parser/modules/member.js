@@ -27,7 +27,8 @@ exports.getmember = function (params, callback) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
 			callback(null, res, newBody);
-		} else {
+		} 
+		else {
 			callback(err, res, null);
 		}
 	});
@@ -55,13 +56,13 @@ exports.createmember = function (params, callback) {
 };
 
 exports.updatemember = function (params, callback) {
-	var putUrl = URL + "/members/" + params.member;
+	var putUrl = URL + "/members/" + params.memberId;
 	var newParams = _.omit(params, ['member']);
 	var options = {
 		method: 'put',
 		body: newParams,
 		json: true,
-		url: putUrl
+		url: putUrl  
 	};
 
 	request(options, function (err, res, body) {

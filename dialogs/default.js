@@ -35,7 +35,6 @@ module.exports = [
                         builder.Prompts.text(session,
                             'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
                             'In the mean time, pick from categories if you want to find out the cool things I can do for you!');
-                        
                             
                         var createParams = {
                             entity: entity
@@ -45,7 +44,8 @@ module.exports = [
                         });
                         session.endDialog();
                     } else {
-                        builder.Prompts.text(session,body.reply);
+                        var reply = body.reply[Math.floor(Math.random()*body.reply.length)]
+                        builder.Prompts.text(session,reply);
                         session.endDialog();
                     }
                 });

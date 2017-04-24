@@ -18,24 +18,25 @@ module.exports =
             var params = {
                 coach_code: results.response,
             }
+
+            console.log(params);
             //uncomment this is how to get code
-            // getcoach(params, function(error, statusCode, body) {
-            //     if(statusCode == 200 && body.length > 0) {
-            //         var result = _.findWhere(body, {coach_code: params.coach_code});
-            //         session.dialogData.coach._id = result._id;
-            //         session.dialogData.coach.name = result.name;
-            //         session.dialogData.coach.coachCode = result.coach_code;
-            //         session.dialogData.coach.validCode = true;
-            //         next();
-            //     } else {
-            //         next();
-            //     }
-            // });
-            session.dialogData.coach._id =0;
-            session.dialogData.coach.coachCode ="113";
-            session.dialogData.coach.name = 'Ivy';
-            session.dialogData.coach.validCode =true;
-            next();
+            parser.users.getuser(params, function(error, statusCode, body) {
+                
+                if(!error && body.length > 0) {
+                    console.log(body);
+                    var result = _.findWhere(body, {coach_code: params.coach_code});
+                    session.dialogData.coach._id = result._id;
+                    session.dialogData.coach.name = result.name;
+                    session.dialogData.coach.coachCode = result.coach_code;
+                    session.dialogData.coach.image = result.image;
+                    session.dialogData.coach.validCode = true;
+                    next();
+                } else {
+                    console.log(error);
+                    next();
+                }
+            });
         }
         else {
             next();
