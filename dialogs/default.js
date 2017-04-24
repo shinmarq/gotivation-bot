@@ -25,30 +25,34 @@ module.exports = [
              else if((/^thanks|thank|ty/i.test(entity))){
                 session.send(`You're welcome!` )
              }
+             else if((/^nice|good job|well done/i.test(entity))){
+                session.send(`I appreciate it! Thanks` )
+             }
             else {
                var params = {
                     entity: entity
                 };
-
-                parser.queries.getQueryForBot(params, function(err, response, body) {
-                    if(err) {
-                        builder.Prompts.text(session,
-                            'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
-                            'In the mean time, pick from categories if you want to find out the cool things I can do for you!');
+                 session.send('Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
+                             'In the mean time, pick from categories if you want to find out the cool things I can do for you!');
+                // parser.queries.getQueryForBot(params, function(err, response, body) {
+                //     if(err) {
+                //         builder.Prompts.text(session,
+                //             'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n'+
+                //             'In the mean time, pick from categories if you want to find out the cool things I can do for you!');
                             
-                        var createParams = {
-                            entity: entity
-                        };
-                        // parser.queries.createQuery(createParams, function(err, response, body) {
+                //         var createParams = {
+                //             entity: entity
+                //         };
+                //         parser.queries.createQuery(createParams, function(err, response, body) {
 
-                        // });
-                        session.endDialog();
-                    } else {
-                        // var reply = body.reply[Math.floor(Math.random()*body.reply.length)]
-                        // builder.Prompts.text(session,reply);
-                        // session.endDialog();
-                    }
-                });
+                //         });
+                //         session.endDialog();
+                //     } else {
+                //         var reply = body.reply[Math.floor(Math.random()*body.reply.length)]
+                //         builder.Prompts.text(session,reply);
+                //         session.endDialog();
+                //     }
+                // });
             }
         }
     },
