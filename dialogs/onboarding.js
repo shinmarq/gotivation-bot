@@ -9,18 +9,15 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session, args, next) {
-        session.dialogData.coach = {};
-        session.dialogData.coach.name = args.name || "";
-        session.dialogData.coach._id = args._id || "";
+        console.log(args);
+        session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
         session.dialogData.category = args.category || "";
         session.beginDialog('/first-run', session.dialogData);
 
     },
 
     function (session, results, next) {
-        console.log(results.response);
         session.dialogData.category = results.response.category;
-        console.log(session.dialogData.category);
         var options = {
         }
         var msg = new builder.Message(session);
@@ -119,19 +116,22 @@ module.exports = [
         }
         else {
             // console.log(session.dialogData);
-            // session.beginDialog('/first-run', session.dialogData);
-            var options = [
-                "7:30am", "11:30am", "4:30pm"
-            ]
-            builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?", options, {
-                listStyle: builder.ListStyle.button,
-                retryPrompt: `For now let's stick with the given time options.`
-            });
+            session.beginDialog('/first-run', session.dialogData);
         }
+    },
+    function (session, results, next) {
+        var options = [
+            "7:30am", "11:30am", "4:30pm"
+        ]
+        builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?", options, {
+            listStyle: builder.ListStyle.button,
+            retryPrompt: `For now let's stick with the given time options.`
+        });
     },
 
     function (session, results, next) {
         session.sendTyping();
+        console.log(results.response);
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             session.dialogData.recurrence = results.response.entity;
@@ -274,11 +274,11 @@ module.exports = [
         if (results.response) {
             session.dialogData.construals = results.response
             let params = {
-                memberfbid: session.message.address.user.id,
+                memberid: session.message.address.user.id,
                 name: session.message.address.user.name,
                 channel: session.message.address.channelId,
                 facebook_page_access_token: FB_PAGE_ACCESS_TOKEN,
-                coaches: [{ coach_id: session.dialogData.coach._id }],
+                // coaches: [{ coach_id: session.dialogData.coach._id }],
                 // category: [{ categoryId: session.dialogData.category }],
                 recurrence: { timeofday: session.dialogData.recurrence, timezone: "" },
                 conscientiousness: session.dialogData.conscientiousness,
@@ -290,19 +290,18 @@ module.exports = [
             }
 
 
-            // parser.member.updatemember(params, function (err, statusCode) {
-            //     if (!err && statusCode == 200) {
-            //         var attachments = [];
-            //         var msgString = `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`;
+            parser.member.updatemember(updateParams, function (err, res, body) {
+                if (!err && res.statusCode == 200) {
+                    console.log(body);
+                    session.send(`You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`);
 
-            //         callback(null, msgString);
-            //     } else {
-            //         console.log(statusCode);
-            //         session.send('Something went wrong and your session is not saved. Please try again');
-            //     }
-            // });
-            builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation tomorrow. Let’s do this!`);
+                }
+                else {
+                    console.log(err);
+                    session.send('Something went wrong and your session is not saved. Please try again');
 
+                }
+            });
         }
     },
     function (session, results) {
@@ -310,7 +309,4 @@ module.exports = [
             session.replaceDialog('/default');
         }
     }
-
-
-
 ]
