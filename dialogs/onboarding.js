@@ -271,8 +271,10 @@ module.exports = [
     },
     function (session, results, next) {
         session.sendTyping();
+
         if (results.response) {
             session.dialogData.construals = results.response
+            console.log(session.dialogData);
             let params = {
                 memberid: session.message.address.user.id,
                 name: session.message.address.user.name,
@@ -280,7 +282,8 @@ module.exports = [
                 facebook_page_access_token: FB_PAGE_ACCESS_TOKEN,
                 // coaches: [{ coach_id: session.dialogData.coach._id }],
                 // category: [{ categoryId: session.dialogData.category }],
-                recurrence: { timeofday: session.dialogData.recurrence, timezone: "" },
+                recurrence: { timeofday: session.dialogData.recurrence },
+                timezome: "",
                 conscientiousness: session.dialogData.conscientiousness,
                 grit: session.dialogData.grit,
                 selfcontrol: session.dialogData.selfcontrol,
@@ -290,11 +293,10 @@ module.exports = [
             }
 
 
-            parser.member.updatemember(updateParams, function (err, res, body) {
+            parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
                     console.log(body);
-                    session.send(`You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`);
-
+                    builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`);
                 }
                 else {
                     console.log(err);
