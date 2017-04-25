@@ -2,7 +2,7 @@ var builder = builder = require('botbuilder'),
     parser = require('../parser'),
     Constants = require('../constants');
 module.exports = [
-    function (session, args) {
+    function (session, args, next) {
         var category = args.category;
         var membercategory = []
         var params = {
@@ -11,11 +11,14 @@ module.exports = [
         parser.member.getmember(params, function (error, response, getbody) {
             if (!error && response.statusCode == 200) {
                 membercategory = getbody.category;
+
                 if (category != "")
                     membercategory.push(category);
-                    
+
                 if (category == []) {
                     session.dialogData.category = membercategory;
+                    next();
+
                 }
                 else {
                     updateParams = {
@@ -26,18 +29,17 @@ module.exports = [
                     parser.member.updatemember(updateParams, function (err, res, body) {
                         if (!err && res.statusCode == 200) {
                             session.dialogData.category = body.category;
+                            next();
+
                         }
                         else {
                             console.log(err);
+                            next();
+
                         }
                     });
                 }
-
-
-
             } else {
-                if (category != "")
-                    membercategory.push(category);
                 var createParams = {
                     memberid: session.message.address.user.id,
                     channel: session.message.address.channelId,
@@ -46,15 +48,20 @@ module.exports = [
                 parser.member.createmember(createParams, function (err, res, body) {
                     if (!err && res.statusCode == 200) {
                         session.dialogData.category = body.category;
-                        console.log('create ' + body.category)
+                        next();
                     }
                     else {
                         console.log(err);
+                        next();
+
                     }
                 });
             }
-
-            session.endDialogWithResult({ response: session.dialogData });
         });
+    },
+    function (session, results) {
+        if(session.dialogData.category){
+            session.endDialogWithResult({ response: session.dialogData });
+        }
     }
 ]
