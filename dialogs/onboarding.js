@@ -133,9 +133,11 @@ module.exports = [
     function (session, results, next) {
         session.sendTyping();
         console.log(results.response);
+
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            session.dialogData.recurrence = results.response.entity;
+            session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
+            console.log(session.dialogData.recurrence);
             if (session.dialogData.recurrence) {
                 builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
                 next();
@@ -252,7 +254,7 @@ module.exports = [
         session.sendTyping();
         if (results.response) {
             var ffa = results.response.entity;
-            if (ffa === "1" || ffa ==="2")
+            if (ffa === "1" || ffa === "2")
                 ffa = "Driven by Fear of Failure";
             else if (ffa === "3")
                 ffa = "Balanced Achiever";
@@ -274,10 +276,10 @@ module.exports = [
                 memberid: session.message.address.user.id,
                 name: session.message.address.user.name,
                 channel: session.message.address.channelId,
-                facebook_page_access_token:[FB_PAGE_ACCESS_TOKEN],
+                facebook_page_access_token: [FB_PAGE_ACCESS_TOKEN],
                 // coaches: [{ coach_id: session.dialogData.coach._id }],
                 // category: [{ categoryId: session.dialogData.category }],
-                recurrence:  session.dialogData.recurrence ,
+                recurrence: session.dialogData.recurrence,
                 timezome: "",
                 conscientiousness: session.dialogData.conscientiousness,
                 grit: session.dialogData.grit,

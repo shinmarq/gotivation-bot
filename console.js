@@ -93,7 +93,8 @@ bot.use({
                                 body = JSON.parse(body);
                                 if (!error && response.statusCode == 200) {
                                     session.send(`Hi ${body.first_name} - Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
-                                    session.beginDialog('/get-coachcode');
+                                    // session.beginDialog('/get-coachcode');
+                                    session.beginDialog('/default');
                                 }
                                 else {
                                     // TODO: Handle errors
@@ -158,7 +159,7 @@ bot.dialog('/get-coachcode', [
 
 ]);
 
-bot.dialog('/', intentDialog);
+bot.dialog('/', Default);
 bot.dialog('/first-run', FirstRun);
 bot.dialog('/onboarding', Onboarding);
 bot.dialog('/default', Default);
