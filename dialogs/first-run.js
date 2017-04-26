@@ -37,6 +37,7 @@ module.exports = [
                             category: membercategory
                         };
                     }
+                    console.log(updateParams);
                     parser.member.updatemember(updateParams, function (err, res, body) {
                         if (!err && res.statusCode == 200) {
                             session.dialogData.category = body.category;

@@ -120,13 +120,14 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        var options = [
-            "7:30am", "11:30am", "4:30pm"
-        ]
-        builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?", options, {
-            listStyle: builder.ListStyle.button,
-            retryPrompt: `For now let's stick with the given time options.`
-        });
+        // var options = [
+        //     "7:30am", "11:30am", "4:30pm"
+        // ]
+        builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation?");
+        // builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?", options, {
+        //     listStyle: builder.ListStyle.button,
+        //     retryPrompt: `For now let's stick with the given time options.`
+        // });
     },
 
     function (session, results, next) {
@@ -155,14 +156,12 @@ module.exports = [
         if (results.response) {
             console.log(results.response);
             var conscientiousness = results.response.entity;
-            switch (conscientiousness) {
-                case "Completely" | "A lot":
-                    conscientiousness = "Hard Worker";
-                case "Moderate":
-                    conscientiousness = "Inconsistent Effort";
-                case "Not at all" | "A little":
-                    conscientiousness = "Low Effort";
-            }
+            if (conscientiousness === "A lot" || conscientiousness === "Completely")
+                conscientiousness = "Hard Worker";
+            else if (conscientiousness === "Moderate")
+                conscientiousness = "Inconsistent Effort";
+            else if (conscientiousness === "Not at all" || conscientiousness === "A little")
+                conscientiousness = "Low Effort";
 
             session.dialogData.conscientiousness = conscientiousness;
             var options = ["Completely", "A lot", "Moderate", "A little", "Not at all"]
@@ -179,14 +178,12 @@ module.exports = [
         session.sendTyping();
         if (results.response) {
             var grit = results.response.entity;
-            switch (grit) {
-                case "Completely" | "A lot":
-                    grit = "Committed";
-                case "Moderate":
-                    grit = "Semi-Committed";
-                case "Not at all" | "A little":
-                    grit = "Gives Up Easily";
-            }
+            if (grit === "A lot" || grit === "Completely")
+                grit = "Committed";
+            else if (grit === "Moderate")
+                grit = "Semi-Committed";
+            else if (grit === "Not at all" || grit === "A little")
+                grit = "Gives Up Easily";
 
             session.dialogData.grit = grit;
             var options = ["Completely", "A lot", "Moderate", "A little", "Not at all"]
@@ -204,12 +201,13 @@ module.exports = [
         session.sendTyping();
         if (results.response) {
             var selfcontrol = results.response.entity;
-            switch (selfcontrol) {
-                case "Completely" | "A lot":
-                    selfcontrol = "High Self Control";
-                case "Moderate" | "Not at all" | "A little":
-                    selfcontrol = "Low Self Control";
-            }
+
+            if (selfcontrol === "A lot" || selfcontrol === "Completely")
+                selfcontrol = "High Self Control";
+            else if (selfcontrol === "Not at all" || selfcontrol === "A little" || selfcontrol === "Moderate")
+                selfcontrol = "Low Self Control";
+
+
 
             session.dialogData.selfcontrol = selfcontrol;
             var options = ["Completely", "A lot", "Moderate", "A little", "Not at all"]
@@ -225,12 +223,11 @@ module.exports = [
         session.sendTyping();
         if (results.response) {
             var locusofcontrol = results.response.entity;
-            switch (locusofcontrol) {
-                case "Completely" | "A lot":
-                    locusofcontrol = "In Control";
-                case "Moderate" | "Not at all" | "A little":
-                    locusofcontrol = "Out Of My Control";
-            }
+            if (locusofcontrol === "A lot" || locusofcontrol === "Completely")
+                locusofcontrol = "In Control";
+            else if (locusofcontrol === "Not at all" || locusofcontrol === "A little")
+                locusofcontrol = "Out Of My Control";
+
 
             session.dialogData.locusofcontrol = locusofcontrol;
             var options = ["1", "2", "3", "4", "5"]
@@ -255,14 +252,12 @@ module.exports = [
         session.sendTyping();
         if (results.response) {
             var ffa = results.response.entity;
-            switch (ffa) {
-                case 4 | 5:
-                    ffa = "Glory Seeker";
-                case 3:
-                    ffa = "Balanced Achiever";
-                case 1 | 2:
-                    ffa = "Driven by Fear of Failure";
-            }
+            if (ffa === "1" || ffa ==="2")
+                ffa = "Driven by Fear of Failure";
+            else if (ffa === "3")
+                ffa = "Balanced Achiever";
+            else if (ffa === "4" | ffa === "5")
+                ffa = "Glory Seeker";
 
             session.dialogData.ffa = ffa;
             builder.Prompts.text(session, `In 1-2 sentences, write WHY you want to achieve your healthy eating and fitness goals? `)
@@ -279,10 +274,10 @@ module.exports = [
                 memberid: session.message.address.user.id,
                 name: session.message.address.user.name,
                 channel: session.message.address.channelId,
-                facebook_page_access_token: FB_PAGE_ACCESS_TOKEN,
+                facebook_page_access_token:[FB_PAGE_ACCESS_TOKEN],
                 // coaches: [{ coach_id: session.dialogData.coach._id }],
                 // category: [{ categoryId: session.dialogData.category }],
-                recurrence: { timeofday: session.dialogData.recurrence },
+                recurrence:  session.dialogData.recurrence ,
                 timezome: "",
                 conscientiousness: session.dialogData.conscientiousness,
                 grit: session.dialogData.grit,
@@ -291,7 +286,7 @@ module.exports = [
                 fearoffailurevsachievement: session.dialogData.ffa,
                 construals: session.dialogData.construals
             }
-
+            console.log(params);
 
             parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
