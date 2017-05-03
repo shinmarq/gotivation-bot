@@ -3,7 +3,7 @@ var builder = builder = require('botbuilder'),
     Constants = require('../constants');
 module.exports = [
     function (session, args, next) {
-        console.log(args);
+        var user = args.user
         var category = args.category;
         var parcoach_id = args.coach_id || "";
         var membercategory = []
@@ -27,7 +27,8 @@ module.exports = [
                             member_id: getbody._id,
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
                             category: membercategory,
-                            coaches: [{ coach_id: parcoach_id }]
+                            coaches: [{ coach_id: parcoach_id }],
+
                         };
                     }
                     else {
@@ -36,9 +37,7 @@ module.exports = [
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
                             category: membercategory
                         };
-                    }
-                    console.log(updateParams);
-                    parser.member.updatemember(updateParams, function (err, res, body) {
+                    } parser.member.updatemember(updateParams, function (err, res, body) {
                         if (!err && res.statusCode == 200) {
                             session.dialogData.category = body.category;
                             next();
@@ -57,14 +56,25 @@ module.exports = [
                         memberid: session.message.address.user.id,
                         channel: session.message.address.channelId,
                         facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
-                        coaches: [{ coach_id: parcoach_id }]
+                        coaches: [{ coach_id: parcoach_id }],
+                        name: {
+                            first_name: user.first_name,
+                            last_name: user.last_name
+                        },
+                        gender: user.gender
+
                     };
                 }
                 else {
                     var createParams = {
                         memberid: session.message.address.user.id,
                         channel: session.message.address.channelId,
-                        facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN
+                        facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
+                        name: {
+                            first_name: user.first_name,
+                            last_name: user.last_name
+                        },
+                        gender: user.gender
                     };
                 }
                 parser.member.createmember(createParams, function (err, res, body) {

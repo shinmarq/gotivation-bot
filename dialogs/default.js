@@ -18,21 +18,25 @@ module.exports = [
                 entity: entity
             };
             parser.queries.getQueryForBot(params, function (err, response, body) {
-                if (err) {
-                    builder.Prompts.text(session,
-                        'Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.\n' +
-                        'In the mean time, pick from categories if you want to find out the cool things I can do for you!');
 
+                if (!err) {
+                    var reply = body.reply[Math.floor(Math.random() * body.reply.length)]
+                    builder.Prompts.text(session, reply);
+                    session.endDialog();
+
+                } else {
+                    var defaultreplies = ["Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference.", 
+                    "I think you might have misspelled something but let me save that word so I can pick that up later.",
+                    "Sorry, I don't understand what you are trying to say."
+                    ]
+                    var reply = defaultreplies[Math.floor(Math.random() * defaultreplies.length)]
+                    builder.Prompts.text(session, reply);
+                    session.endDialog();
                     var createParams = {
                         entity: entity
                     };
                     parser.queries.createQuery(createParams, function (err, response, body) {
-
                     });
-                    session.endDialog();
-                } else {
-                    var reply = body.reply[Math.floor(Math.random() * body.reply.length)]
-                    builder.Prompts.text(session, reply);
                     session.endDialog();
                 }
             });

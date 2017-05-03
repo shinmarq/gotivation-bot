@@ -83,8 +83,8 @@ bot.use({
                             .addAttachment(welcomeCard));
 
                         request({
-                            //url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
-                            url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
+                            //url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
+                            url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name,gender,last_name&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
                         },
@@ -92,9 +92,14 @@ bot.use({
 
                                 body = JSON.parse(body);
                                 if (!error && response.statusCode == 200) {
+                                    session.userData.user ={};
+                                    session.userData.user.first_name = body.first_name;
+                                    session.userData.user.gender = body.gender;
+                                    session.userData.user.last_name = body.last_name;
+
                                     session.send(`Hi ${body.first_name} - Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
-                                    // session.beginDialog('/get-coachcode');
-                                    session.beginDialog('/default');
+                                    session.beginDialog('/get-coachcode',session.userData);
+                                    //session.beginDialog('/default');
                                 }
                                 else {
                                     // TODO: Handle errors
@@ -103,7 +108,7 @@ bot.use({
                                 }
                             });
                     }
-                     
+
                 });
 
         } else {
@@ -132,8 +137,8 @@ bot.dialog('/get-coachcode', [
         }
     },
     function (session, results) {
-
         if (results.response && results.response.validCode == true) {
+        
             session.dialogData.coach.name = results.response.name;
             session.dialogData.coach._id = results.response._id;
             session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name.first}.`;
@@ -151,6 +156,7 @@ bot.dialog('/get-coachcode', [
         else {
             session.send(session.dialogData.prefix);
         }
+        session.dialogData.user = session.userData.user
         session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
         session.beginDialog('/onboarding', session.dialogData);
     }

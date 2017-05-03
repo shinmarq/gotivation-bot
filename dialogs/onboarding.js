@@ -9,9 +9,9 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session, args, next) {
-        console.log(args);
         session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
         session.dialogData.category = args.category || "";
+        session.dialogData.user = args.user === undefined ? "" : args.user;
         session.beginDialog('/first-run', session.dialogData);
 
     },
@@ -115,7 +115,6 @@ module.exports = [
             session.beginDialog('/onboarding', session.dialogData);
         }
         else {
-            // console.log(session.dialogData);
             session.beginDialog('/first-run', session.dialogData);
         }
     },
@@ -132,12 +131,9 @@ module.exports = [
 
     function (session, results, next) {
         session.sendTyping();
-        console.log(results.response);
-
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            console.log(session.dialogData.recurrence);
             if (session.dialogData.recurrence) {
                 builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
                 next();
@@ -156,7 +152,6 @@ module.exports = [
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
-            console.log(results.response);
             var conscientiousness = results.response.entity;
             if (conscientiousness === "A lot" || conscientiousness === "Completely")
                 conscientiousness = "Hard Worker";
@@ -206,7 +201,7 @@ module.exports = [
 
             if (selfcontrol === "A lot" || selfcontrol === "Completely")
                 selfcontrol = "High Self Control";
-            else if (selfcontrol === "Not at all" || selfcontrol === "A little" || selfcontrol === "Moderate")
+            else
                 selfcontrol = "Low Self Control";
 
 
@@ -226,9 +221,9 @@ module.exports = [
         if (results.response) {
             var locusofcontrol = results.response.entity;
             if (locusofcontrol === "A lot" || locusofcontrol === "Completely")
-                locusofcontrol = "In Control";
-            else if (locusofcontrol === "Not at all" || locusofcontrol === "A little")
-                locusofcontrol = "Out Of My Control";
+                locusofcontrol = "Internally Controlled";
+            else
+                locusofcontrol = "Externally Controlled";
 
 
             session.dialogData.locusofcontrol = locusofcontrol;
@@ -271,7 +266,7 @@ module.exports = [
 
         if (results.response) {
             session.dialogData.construals = results.response
-            console.log(session.dialogData);
+          
             let params = {
                 memberid: session.message.address.user.id,
                 name: session.message.address.user.name,
@@ -288,11 +283,9 @@ module.exports = [
                 fearoffailurevsachievement: session.dialogData.ffa,
                 construals: session.dialogData.construals
             }
-            console.log(params);
 
             parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
-                    console.log(body);
                     builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`);
                 }
                 else {
