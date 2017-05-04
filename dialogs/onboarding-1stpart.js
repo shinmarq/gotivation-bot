@@ -32,7 +32,7 @@ module.exports = [
                     session.reset();
                 }
                 else {
-                    if (selectString.length!=0) {
+                    if (selectString.length != 0) {
                         session.send('Pick the fitness category I can help you with.');
                         builder.Prompts.choice(session, msg, selectString, { retryPrompt: `Select from the given categories` });
                     }
@@ -99,13 +99,13 @@ module.exports = [
         }
 
         function sendMessage(msg, attachments, selectString, callback) {
-            console.log(attachments,selectString);
+            console.log(attachments, selectString);
             if (attachments.length != 0) {
                 msg
                     .textFormat(builder.TextFormat.xml)
                     .attachmentLayout(builder.AttachmentLayout.carousel)
                     .attachments(attachments);
-                
+
             }
             callback(null, msg, selectString);
         }
@@ -127,9 +127,7 @@ module.exports = [
         }
         else {
             session.beginDialog('/first-run', session.dialogData);
+            session.replaceDialog('/onboarding-2ndpart');
         }
-    },
-    function (session) {
-        session.replaceDialog('/onboarding-2ndpart');
     }
 ]
