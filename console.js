@@ -7,8 +7,8 @@ var restify = require('restify'),
     fs = require('fs'),
     util = require('util'),
     request = require('request'),
-    path = require('path');
-
+    path = require('path'),
+    dict = require('./profiledictionary');
 const CONSTANTS = require('./constants');
 var parser = require('./parser');
 
@@ -27,7 +27,8 @@ var consoleConnector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(consoleConnector);
 
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
-var Onboarding = require('./dialogs/onboarding'),
+var Onboarding1 = require('./dialogs/onboarding-1stpart'),
+    Onboarding2 = require('./dialogs/onboarding-2ndpart'),
     Default = require('./dialogs/default'),
     Validatecoach = require('./dialogs/validatecoach'),
     FirstRun = require('./dialogs/first-run');
@@ -92,13 +93,13 @@ bot.use({
 
                                 body = JSON.parse(body);
                                 if (!error && response.statusCode == 200) {
-                                    session.userData.user ={};
+                                    session.userData.user = {};
                                     session.userData.user.first_name = body.first_name;
                                     session.userData.user.gender = body.gender;
                                     session.userData.user.last_name = body.last_name;
 
                                     session.send(`Hi ${body.first_name} - Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
-                                    session.beginDialog('/get-coachcode',session.userData);
+                                    session.beginDialog('/get-coachcode', session.userData);
                                     //session.beginDialog('/default');
                                 }
                                 else {
@@ -116,6 +117,7 @@ bot.use({
         }
     }
 });
+
 
 bot.dialog('/get-coachcode', [
 
@@ -138,7 +140,7 @@ bot.dialog('/get-coachcode', [
     },
     function (session, results) {
         if (results.response && results.response.validCode == true) {
-        
+
             session.dialogData.coach.name = results.response.name;
             session.dialogData.coach._id = results.response._id;
             session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name.first}.`;
@@ -158,7 +160,7 @@ bot.dialog('/get-coachcode', [
         }
         session.dialogData.user = session.userData.user
         session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
-        session.beginDialog('/onboarding', session.dialogData);
+        session.beginDialog('/onboarding-1stpart', session.dialogData);
     }
 
 
@@ -167,6 +169,7 @@ bot.dialog('/get-coachcode', [
 
 bot.dialog('/', Default);
 bot.dialog('/first-run', FirstRun);
-bot.dialog('/onboarding', Onboarding);
+bot.dialog('/onboarding-1stpart', Onboarding1);
+bot.dialog('/onboarding-2ndpart', Onboarding2);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
