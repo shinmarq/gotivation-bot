@@ -204,8 +204,6 @@ module.exports = [
                 name: session.message.address.user.name,
                 channel: session.message.address.channelId,
                 facebook_page_access_token: [FB_PAGE_ACCESS_TOKEN],
-                // coaches: [{ coach_id: session.dialogData.coach._id }],
-                // category: [{ categoryId: session.dialogData.category }],
                 recurrence: session.dialogData.recurrence,
                 timezome: "",
                 profiletype: userprofile,
