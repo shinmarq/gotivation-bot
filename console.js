@@ -31,7 +31,7 @@ var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     Onboarding2 = require('./dialogs/onboarding-2ndpart'),
     Default = require('./dialogs/default'),
     Validatecoach = require('./dialogs/validatecoach'),
-    FirstRun = require('./dialogs/first-run');
+    MemberSession = require('./dialogs/member-session');
 
 
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
@@ -168,7 +168,7 @@ bot.dialog('/get-coachcode', [
 ]);
 
 bot.dialog('/', Default);
-bot.dialog('/first-run', FirstRun);
+bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1);
 bot.dialog('/onboarding-2ndpart', Onboarding2);
 bot.dialog('/default', Default);

@@ -12,7 +12,7 @@ module.exports = [
         session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
         session.dialogData.category = args.category || "";
         session.dialogData.user = args.user === undefined ? "" : args.user;
-        session.beginDialog('/first-run', session.dialogData);
+        session.beginDialog('/member-session', session.dialogData);
 
     },
 
@@ -74,7 +74,7 @@ module.exports = [
                 }
                 else {
                     arr.forEach(function (element) {
-                        if (element == value._id) {
+                        if (element.category == value._id) {
                             exist = true;
                             return;
                         }
@@ -126,8 +126,26 @@ module.exports = [
             session.beginDialog('/onboarding-1stpart', session.dialogData);
         }
         else {
-            session.beginDialog('/first-run', session.dialogData);
-            session.replaceDialog('/onboarding-2ndpart');
+
+
+            async.waterfall([
+                _function1,
+                _function2
+            ], function (error, success) {
+                if (error) { console.log('Something is wrong!'); }
+                console.log('Done!');
+            });
+
+            function _function1(callback) {
+                session.replaceDialog('/member-session', session.dialogData);
+
+                callback(null, 'success');
+            }
+
+            function _function2(arg1,callback) {
+                session.replaceDialog('/onboarding-2ndpart');
+                callback(null, 'success');
+            }
         }
     }
 ]

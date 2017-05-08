@@ -12,10 +12,10 @@ module.exports = [
         }
         parser.member.getmember(params, function (error, response, getbody) {
             if (!error && response.statusCode == 200) {
-                membercategory = getbody.category;
+                membercategory = getbody.categories;
 
                 if (category != "")
-                    membercategory.push(category);
+                    membercategory.push({category : category});
 
                 if (membercategory == []) {
                     session.dialogData.category = membercategory;
@@ -26,7 +26,7 @@ module.exports = [
                         updateParams = {
                             member_id: getbody._id,
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
-                            category: membercategory,
+                            categories: membercategory,
                             coaches: [{ coach_id: parcoach_id }],
 
                         };
@@ -35,11 +35,11 @@ module.exports = [
                         updateParams = {
                             member_id: getbody._id,
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
-                            category: membercategory
+                            categories: membercategory
                         };
                     } parser.member.updatemember(updateParams, function (err, res, body) {
                         if (!err && res.statusCode == 200) {
-                            session.dialogData.category = body.category;
+                            session.dialogData.category = body.categories;
                             next();
 
                         }
@@ -79,7 +79,7 @@ module.exports = [
                 }
                 parser.member.createmember(createParams, function (err, res, body) {
                     if (!err && res.statusCode == 200) {
-                        session.dialogData.category = body.category;
+                        session.dialogData.category = body.categories;
                         next();
                     }
                     else {

@@ -11,21 +11,16 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session) {
-        // var options = [
-        //     "7:30am", "11:30am", "4:30pm"
-        // ]
         builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation?");
-        // builder.Prompts.choice(session, "Alright! What time would you prefer to receive your daily motivation?", options, {
-        //     listStyle: builder.ListStyle.button,
-        //     retryPrompt: `For now let's stick with the given time options.`
-        // });
     },
 
     function (session, results, next) {
         session.sendTyping();
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
+            var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
+            recurrence = recurrence.getHours() +':'+ recurrence.getMinutes();
+            session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
                 next();
@@ -190,7 +185,7 @@ module.exports = [
         if (results.response) {
             session.dialogData.construals = results.response
             var dictionary = dict;
-            var profileresult =session.dialogData.profile;
+            var profileresult = session.dialogData.profile;
             var userprofile;
 
             for (var x = 0; x < dictionary.profiles.length + 1; x++) {
@@ -244,7 +239,7 @@ module.exports = [
 
     //     console.log(userprofile);
     // }
-    
+
 
 ]
 function arraysEqual(arr1, arr2) {
