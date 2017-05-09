@@ -199,7 +199,7 @@ module.exports = [
                 name: session.message.address.user.name,
                 channel: session.message.address.channelId,
                 facebook_page_access_token: [FB_PAGE_ACCESS_TOKEN],
-                recurrence: session.dialogData.recurrence,
+                recurrencetime: session.dialogData.recurrence,
                 timezome: "",
                 profiletype: userprofile,
                 conscientiousness: session.dialogData.conscientiousness,
@@ -212,7 +212,7 @@ module.exports = [
 
             parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
-                    builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation tomorrow…let’s do this!`);
+                    builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation. Let’s do this! 💪💪`);
                 }
                 else {
                     console.log(err);
