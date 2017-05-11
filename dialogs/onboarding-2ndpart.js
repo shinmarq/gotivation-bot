@@ -19,7 +19,7 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            recurrence = recurrence.getHours() +':'+ recurrence.getMinutes();
+            recurrence = recurrence.getUTCHours() +':'+ recurrence.getUTCMinutes();
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
