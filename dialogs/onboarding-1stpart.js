@@ -126,6 +126,7 @@ module.exports = [
             session.beginDialog('/onboarding-1stpart', session.dialogData);
         }
         else {
+            
             async.waterfall([
                 _function1,
                 _function2
