@@ -13,7 +13,6 @@ module.exports = [
     function (session) {
         builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation?");
     },
-
     function (session, results, next) {
         //session.sendTyping();
         if (results.response) {
