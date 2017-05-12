@@ -128,12 +128,12 @@ bot.use({
 bot.dialog('/get-coachcode', [
 
     function (session, args, next) {
-        session.sendTyping();
+        //session.sendTyping();
         builder.Prompts.confirm(session, `Before we proceed, do you have a coach code?`);
 
     },
     function (session, results, next) {
-        session.sendTyping();
+        //session.sendTyping();
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
             session.dialogData.coach = {};
