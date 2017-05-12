@@ -122,7 +122,6 @@ module.exports = [
     },
     function (session, results, next) {
         //var choice = results.response ? true : false;
-        console.log('ANSWER => %s', results.response)
         if (results.response) {
             session.beginDialog('/onboarding-1stpart', session.dialogData);
         }
