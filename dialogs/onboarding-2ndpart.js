@@ -15,7 +15,7 @@ module.exports = [
     },
 
     function (session, results, next) {
-        session.sendTyping();
+        //session.sendTyping();
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
@@ -37,7 +37,7 @@ module.exports = [
     },
 
     function (session, results, next) {
-        session.sendTyping();
+        //session.sendTyping();
         if (results.response) {
 
             var profile = [];
@@ -67,7 +67,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        session.sendTyping();
+        //session.sendTyping();
         var profile = session.dialogData.profile;
         if (results.response) {
             var grit = results.response.entity;
@@ -97,7 +97,7 @@ module.exports = [
     },
 
     function (session, results, next) {
-        session.sendTyping();
+        //session.sendTyping();
         if (results.response) {
             var selfcontrol = results.response.entity;
             var profile = session.dialogData.profile;
@@ -123,7 +123,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        session.sendTyping();
+        //session.sendTyping();
         if (results.response) {
             var locusofcontrol = results.response.entity;
             var profile = session.dialogData.profile;
@@ -157,7 +157,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        session.sendTyping();
+        //session.sendTyping();
         if (results.response) {
             var ffa = results.response.entity;
             var profile = session.dialogData.profile;
@@ -180,7 +180,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        session.sendTyping();
+        //session.sendTyping();
 
         if (results.response) {
             session.dialogData.construals = results.response
