@@ -128,9 +128,10 @@ module.exports = [
         else {
 
             async.waterfall([
-                async.apply(
+                
                 _function1,
-                _function2)    
+                _function2
+                   
             ], function (error, success) {
                 if (error) { console.log('Something is wrong!'); }
                 console.log('Done!');
@@ -142,7 +143,6 @@ module.exports = [
             }
 
             function _function2(arg1,callback) {
-                console.log('1st');
                 session.replaceDialog('/onboarding-2ndpart');
                 callback(null, 'success');
             }
