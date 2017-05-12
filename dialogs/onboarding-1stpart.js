@@ -123,29 +123,29 @@ module.exports = [
     function (session, results, next) {
         //var choice = results.response ? true : false;
         if (results.response) {
-            session.replaceDialog('/onboarding-1stpart', session.dialogData);
+            session.beginDialog('/onboarding-1stpart', session.dialogData);
         }
         else {
+            // async.waterfall([
+            //     _function1,
+            //     _function2
+            // ], function (error, success) {
+            //     if (error) { console.log('Something is wrong!'); }
+            //     console.log('Done!');
+            // });
 
+            // function _function1(callback) {
+            //     session.replaceDialog('/member-session', session.dialogData);
 
-            async.waterfall([
-                _function1,
-                _function2
-            ], function (error, success) {
-                if (error) { console.log('Something is wrong!'); }
-                console.log('Done!');
-            });
+            //     callback(null, 'success');
+            // }
 
-            function _function1(callback) {
-                session.replaceDialog('/member-session', session.dialogData);
-
-                callback(null, 'success');
-            }
-
-            function _function2(arg1,callback) {
-                session.beginDialog('/onboarding-2ndpart');
-                callback(null, 'success');
-            }
+            // function _function2(arg1,callback) {
+            //     session.replaceDialog('/onboarding-2ndpart');
+            //     callback(null, 'success');
+            // }
+            session.replaceDialog('/member-session', session.dialogData);
+            session.replaceDialog('/onboarding-2ndpart');
         }
     }
 ]
