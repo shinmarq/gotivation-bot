@@ -201,13 +201,13 @@ module.exports = [
                 channel: session.message.address.channelId,
                 facebook_page_access_token: [FB_PAGE_ACCESS_TOKEN],
                 recurrencetime: session.dialogData.recurrence,
-                timezone: "",
+                // timezone: "",
                 profiletype: userprofile,
-                conscientiousness: session.dialogData.conscientiousness,
-                grit: session.dialogData.grit,
-                selfcontrol: session.dialogData.selfcontrol,
-                locusofcontrol: session.dialogData.locusofcontrol,
-                fearoffailurevsachievement: session.dialogData.ffa,
+                // conscientiousness: session.dialogData.conscientiousness,
+                // grit: session.dialogData.grit,
+                // selfcontrol: session.dialogData.selfcontrol,
+                // locusofcontrol: session.dialogData.locusofcontrol,
+                // fearoffailurevsachievement: session.dialogData.ffa,
                 construals: session.dialogData.construals
             }
 
