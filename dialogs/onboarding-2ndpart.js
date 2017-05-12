@@ -223,8 +223,7 @@ module.exports = [
     },
     function (session, results) {
         if (results.response) {
-            session.replaceDialog('/default');
-            session.endConversation();
+            session.beginDialog('/default');
         }
     }
 
