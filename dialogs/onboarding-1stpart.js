@@ -126,10 +126,11 @@ module.exports = [
             session.beginDialog('/onboarding-1stpart', session.dialogData);
         }
         else {
-            
+
             async.waterfall([
+                async.apply(
                 _function1,
-                _function2
+                _function2)    
             ], function (error, success) {
                 if (error) { console.log('Something is wrong!'); }
                 console.log('Done!');
