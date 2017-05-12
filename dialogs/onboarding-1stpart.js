@@ -140,6 +140,7 @@ module.exports = [
             }
 
             function _function2(arg1,callback) {
+                console.log('1st');
                 session.replaceDialog('/onboarding-2ndpart');
                 callback(null, 'success');
             }
