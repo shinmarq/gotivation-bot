@@ -19,6 +19,7 @@ module.exports = [
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var dt = new Date(recurrence);
+            console.log(dt.getHours +':'+dt.getMinutes);
             recurrence = recurrence.getUTCHours() +':'+ recurrence.getUTCMinutes();
             console.log(dt);
             session.dialogData.recurrence = recurrence;
