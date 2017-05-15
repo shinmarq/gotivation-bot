@@ -15,7 +15,7 @@ module.exports = [
                 membercategory = getbody.categories;
 
                 if (category != "")
-                    membercategory.push({category : category});
+                    membercategory.push({ category: category });
 
                 if (membercategory == []) {
                     session.dialogData.category = membercategory;
@@ -27,7 +27,7 @@ module.exports = [
                             member_id: getbody._id,
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
                             categories: membercategory,
-                            coaches: [{ coach_id: parcoach_id }],
+                            coach: parcoach_id,
 
                         };
                     }
@@ -56,7 +56,7 @@ module.exports = [
                         memberid: session.message.address.user.id,
                         channel: session.message.address.channelId,
                         facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
-                        coaches: [{ coach_id: parcoach_id }],
+                        coach: parcoach_id,
                         name: {
                             first_name: user.first_name,
                             last_name: user.last_name
