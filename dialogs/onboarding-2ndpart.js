@@ -196,16 +196,8 @@ module.exports = [
             let params = {
                 memberid: session.message.address.user.id,
                 name: session.message.address.user.name,
-                channel: session.message.address.channelId,
-                facebook_page_access_token: [FB_PAGE_ACCESS_TOKEN],
                 recurrencetime: session.dialogData.recurrence,
-                // timezone: "",
                 profiletype: userprofile,
-                // conscientiousness: session.dialogData.conscientiousness,
-                // grit: session.dialogData.grit,
-                // selfcontrol: session.dialogData.selfcontrol,
-                // locusofcontrol: session.dialogData.locusofcontrol,
-                // fearoffailurevsachievement: session.dialogData.ffa,
                 construals: session.dialogData.construals
             }
 
@@ -216,7 +208,6 @@ module.exports = [
                 else {
                     console.log(err);
                     session.send('Something went wrong and your session is not saved. Please try again');
-
                 }
             });
         }
