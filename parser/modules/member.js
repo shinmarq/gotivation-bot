@@ -56,7 +56,7 @@ exports.createmember = function (params, callback) {
 };
 
 exports.updatemember = function (params, callback) {
-	var putUrl = URL + "/members/" + params.memberId;
+	var putUrl = URL + "/members/" + params.member_id;
 	var newParams = _.omit(params, ['member']);
 	var options = {
 		method: 'post',
