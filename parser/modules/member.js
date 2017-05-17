@@ -59,7 +59,7 @@ exports.updatemember = function (params, callback) {
 	var putUrl = URL + "/members/" + params.member_id;
 	var newParams = _.omit(params, ['member']);
 	var options = {
-		method: 'post',
+		method: 'put',
 		body: newParams,
 		json: true,
 		url: putUrl  
