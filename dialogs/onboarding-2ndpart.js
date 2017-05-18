@@ -202,7 +202,7 @@ module.exports = [
             }
             parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
-                    builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation. Let’s do this! `);
+                    builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation soon. Let’s do this! `);
                 }
                 else {
                     console.log(err);
