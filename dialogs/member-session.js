@@ -3,7 +3,6 @@ var builder = builder = require('botbuilder'),
     Constants = require('../constants');
 module.exports = [
     function (session, args, next) {
-        console.log('RESULT => ', args);
         var user = args.user;
         var category = args.category;
         var parcoach_id = args.coach_id || "";
@@ -94,6 +93,7 @@ module.exports = [
     },
     function (session, results) {
         if (session.dialogData.category) {
+            console.log('RESULT => ', session.dialogData);
             session.endDialogWithResult({ response: session.dialogData });
         }
     }
