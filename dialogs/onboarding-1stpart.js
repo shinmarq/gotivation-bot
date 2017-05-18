@@ -144,7 +144,7 @@ module.exports = [
                 callback(null, 'step1');
             }
 
-            function _function2(arg, callback) { 
+            function _function2(callback) { 
                 session.replaceDialog('/onboarding-2ndpart');
                 callback(null, 'end');
             }
