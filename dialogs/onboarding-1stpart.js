@@ -140,13 +140,13 @@ module.exports = [
             });
 
             function _function1(callback) {
-                var step1 = session.replaceDialog('/member-session', session.dialogData);
-                callback(null, step1);
+                session.replaceDialog('/member-session', session.dialogData);
+                callback(null, 'step1');
             }
 
             function _function2(arg, callback) { 
-                var step2 = session.replaceDialog('/onboarding-2ndpart');
-                callback(null, step2);
+                session.replaceDialog('/onboarding-2ndpart');
+                callback(null, 'end');
             }
             
         }
