@@ -127,7 +127,7 @@ module.exports = [
         }
         else {
 
-            async.waterfall([ async.apply( _function1, _function2 )], 
+            async.waterfall([  _function1 ], 
             function (err, result) {
                 if(err){ 
                     console.error(err); 
@@ -143,9 +143,9 @@ module.exports = [
                 callback(null, 'func1');
             }
 
-            function _function2(arg, callback) { 
-                callback(null, 'func2');
-            }
+            // function _function2(arg, callback) { 
+            //     callback(null, 'func2');
+            // }
         }
     }
 ]
