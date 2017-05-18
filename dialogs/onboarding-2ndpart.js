@@ -200,7 +200,6 @@ module.exports = [
                 profiletype: userprofile,
                 construals: session.dialogData.construals
             }
-            console.log('RESULT PARAMS => ', params);
             parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
                     builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation. Let’s do this! `);

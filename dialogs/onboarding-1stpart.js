@@ -121,27 +121,25 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        console.log(session.dialogData);
         //var choice = results.response ? true : false;
         if (results.response) {
             session.beginDialog('/onboarding-1stpart', session.dialogData);
         }
         else {
 
-            async.waterfall([
-                async.apply(_function1, _function2)   
-            ], function (error, result) {
+            async.waterfall([ async.apply(_function1, _function2) ], 
+            function (error, result) {
                 !error ? console.log(result) : console.log(error);
             });
 
             function _function1(callback) {
                 session.replaceDialog('/member-session', session.dialogData);
-                callback(null, 'success');
+                return callback(null, 'success');
             }
 
-            function _function2(arg1,callback) {
+            function _function2(arg1, callback) {
                 session.replaceDialog('/onboarding-2ndpart');
-                callback(null, 'success');
+                return callback(null, 'success');
             }
         }
     }
