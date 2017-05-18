@@ -127,7 +127,7 @@ module.exports = [
         }
         else {
 
-            async.waterfall([ _function1, async.apply(_function2) ], 
+            async.waterfall([ async.apply(session.replaceDialog('/member-session', session.dialogData), session.replaceDialog('/onboarding-2ndpart')) ], 
             function (err, result) {
                 if(err){ 
                     console.error(err); 
@@ -136,15 +136,15 @@ module.exports = [
                 console.log(result);
             });
 
-            function _function1(callback) {
-                session.replaceDialog('/member-session', session.dialogData);
-                callback(null, 'func1');
-            }
+            // function _function1(callback) {
+            //     session.replaceDialog('/member-session', session.dialogData);
+            //     callback(null, 'func1');
+            // }
 
-            function _function2(arg, callback) { 
-                session.replaceDialog('/onboarding-2ndpart');
-                callback(null, 'func2');
-            }
+            // function _function2(arg, callback) { 
+            //     session.replaceDialog('/onboarding-2ndpart');
+            //     callback(null, 'func2');
+            // }
             
         }
     }
