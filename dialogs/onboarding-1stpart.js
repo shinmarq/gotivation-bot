@@ -127,7 +127,7 @@ module.exports = [
         }
         else {
 
-            async.parallel([ _function1, _function2 ], 
+            async.parallel([ async.apply(_function1, _function2) ], 
             function (err, result) {
                 if(err){ 
                     console.error(err); 
