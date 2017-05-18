@@ -8,7 +8,7 @@ var request = require('request'),
 
 const URL = constants.BASE_PATH + constants.API_PATH + "/";
 
-module.exports.getmember = function (params, callback) {
+exports.getmember = function (params, callback) {
 	var options = {};
 	if (params.memberId) {
 		options = {
@@ -34,7 +34,7 @@ module.exports.getmember = function (params, callback) {
 	});
 };
 
-module.exports.createmember = function (params, callback) {
+exports.createmember = function (params, callback) {
 	var postUrl = URL + "/members";
 	var newParams = params;
 	var options = {
@@ -55,7 +55,7 @@ module.exports.createmember = function (params, callback) {
 	});
 };
 
-module.exports.updatemember = function (params, callback) {
+exports.updatemember = function (params, callback) {
 	var putUrl = URL + "/members/" + params.member_id;
 	var newParams = _.omit(params, ['member']);
 	var options = {
