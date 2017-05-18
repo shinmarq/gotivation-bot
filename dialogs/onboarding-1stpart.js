@@ -127,22 +127,21 @@ module.exports = [
         }
         else {
 
-            async.waterfall([ async.apply(_function1, session.replaceDialog('/onboarding-2ndpart')) ], 
+            async.waterfall([ async.apply(_function1, _function2) ], 
             function (err, result) {
                 if(err){ 
                     console.error(err); 
                     return;
                 }else{
                     console.log(result);
-                    return result
                 }
                 
                 
             });
 
-            function _function1(arg, callback) {
+            function _function1(callback) {
                 session.replaceDialog('/member-session', session.dialogData);
-                callback(null, arg);
+                callback(null, 'step1');
             }
 
             function _function2(arg, callback) { 
