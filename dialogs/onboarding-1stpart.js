@@ -146,7 +146,7 @@ module.exports = [
                 callback(null, 'func2');
             }
 
-            Promise.all([ _function1, _function2]).then(function(result){
+            Promise.all([ session.replaceDialog('/member-session', session.dialogData), session.replaceDialog('/onboarding-2ndpart')]).then(function(result){
                 console.log(result);
             }).catch(function(err){
                 console.log(err);
