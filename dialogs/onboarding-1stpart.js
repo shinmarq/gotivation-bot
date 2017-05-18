@@ -128,15 +128,15 @@ module.exports = [
         else {
 
             async.waterfall([
-                async.apply(_function1,_function2)   
+                async.apply(_function1, _function2)  
             ], function (error, success) {
-                if (error) { console.log('Something is wrong!'); }
+                if (error) { console.log(error); }
                 console.log('Done!');
             });
 
             function _function1(callback) {
                 session.replaceDialog('/member-session', session.dialogData);
-                callback(null, session.dialogData);
+                callback(null, 'success');
             }
 
             function _function2(arg1,callback) {
