@@ -127,26 +127,27 @@ module.exports = [
         }
         else {
 
-            async.waterfall([ async.apply( _function1, _function2)], 
-            function (err, result) {
-                if(err){ 
-                    console.error(err); 
-                    return;
-                }
+            // async.waterfall([ async.apply( _function1, _function2)], 
+            // function (err, result) {
+            //     if(err){ 
+            //         console.error(err); 
+            //         return;
+            //     }
                  
-                console.log(result);
-            });
+            //     console.log(result);
+            // });
 
-            function _function1(callback) {
-                session.replaceDialog('/member-session', session.dialogData);
-                callback(null, 'func1');
-            }
+            // function _function1(callback) {
+            //     session.replaceDialog('/member-session', session.dialogData);
+            //     callback(null, 'func1');
+            // }
 
-            function _function2(arg, callback) { 
-                session.replaceDialog('/onboarding-2ndpart');
-                callback(null, 'func2');
-            }
-
+            // function _function2(arg, callback) { 
+            //     session.replaceDialog('/onboarding-2ndpart');
+            //     callback(null, 'func2');
+            // }
+            session.replaceDialog('/member-session', session.dialogData);
+            session.replaceDialog('/onboarding-2ndpart');
             
         }
     }
