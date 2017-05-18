@@ -133,7 +133,8 @@ module.exports = [
                     console.error(err); 
                     return;
                 }else{
-                    return result
+                    result
+                    return;
                 }
                 //console.log(result);
                 
