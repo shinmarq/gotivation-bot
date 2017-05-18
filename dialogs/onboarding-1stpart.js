@@ -133,7 +133,7 @@ module.exports = [
                     console.error(err); 
                     return;
                 }
-                session.replaceDialog('/onboarding-2ndpart'); 
+                 
                 console.log(result);
             });
 
@@ -143,6 +143,7 @@ module.exports = [
             }
 
             function _function2(arg, callback) { 
+                session.replaceDialog('/onboarding-2ndpart');
                 callback(null, 'func2');
             }
 
