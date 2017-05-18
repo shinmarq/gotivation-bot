@@ -129,9 +129,8 @@ module.exports = [
 
             async.waterfall([
                 async.apply(_function1, _function2)  
-            ], function (error, success) {
-                if (error) { console.log(error); }
-                console.log('Done!');
+            ], function (error, result) {
+                !error ? console.log(result) :  console.log(error);
             });
 
             function _function1(callback) {
