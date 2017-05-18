@@ -142,7 +142,7 @@ module.exports = [
                 callback(null, 'func1');
             }
 
-            function _function2(arg, callback) {
+            function _function2(callback) {
                 callback(null, 'func2');
             }
         }
