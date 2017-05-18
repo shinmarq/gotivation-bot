@@ -138,16 +138,16 @@ module.exports = [
 
             function _function1(callback) {
                 session.replaceDialog('/member-session', session.dialogData);
-                callback(null, 'func1');
+                callback(null, 'STEP1');
             }
 
             function _function2(arg, callback) { 
                 session.replaceDialog('/onboarding-2ndpart');
-                callback(null, 'func2');
+                callback(null, 'END');
             }
 
             function _function3(arg, callback){
-                callback(null, 'func3');
+                callback(null, arg);
             }
             
         }
