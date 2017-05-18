@@ -134,7 +134,6 @@ module.exports = [
                     return;
                 }
                 console.log(result);
-                session.replaceDialog('/onboarding-2ndpart');
             });
 
             function _function1(callback) {
@@ -142,7 +141,8 @@ module.exports = [
                 callback(null, 'func1');
             }
 
-            function _function2(arg, callback) {  
+            function _function2(arg, callback) {
+                session.replaceDialog('/onboarding-2ndpart');  
                 callback(null, 'func2');
             }
         }
