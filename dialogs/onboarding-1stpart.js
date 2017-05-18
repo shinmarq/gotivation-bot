@@ -146,10 +146,11 @@ module.exports = [
                 callback(null, 'func2');
             }
 
-            Promise.all([ session.replaceDialog('/member-session', session.dialogData), session.replaceDialog('/onboarding-2ndpart')]).then(function(result){
-                console.log(result);
+            Promise.race([ session.replaceDialog('/member-session', session.dialogData), 
+            session.replaceDialog('/onboarding-2ndpart')]).then(function(result){
+                console.log('success');
             }).catch(function(err){
-                console.log(err);
+                console.log('failed');
             });
 
             
