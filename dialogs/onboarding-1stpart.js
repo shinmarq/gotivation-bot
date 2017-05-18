@@ -127,27 +127,26 @@ module.exports = [
         }
         else {
 
-            async.waterfall([ _function1, _function2, _function3 ], 
+            async.waterfall([ _function1, _function2 ], 
             function (err, result) {
                 if(err){ 
                     console.error(err); 
                     return;
+                }else{
+                    return result
                 }
-                console.log(result);
+                //console.log(result);
+                
             });
 
             function _function1(callback) {
-                session.replaceDialog('/member-session', session.dialogData);
-                callback(null, 'STEP1');
+                var step1 = session.replaceDialog('/member-session', session.dialogData);
+                callback(null, step1);
             }
 
             function _function2(arg, callback) { 
-                session.replaceDialog('/onboarding-2ndpart');
-                callback(null, 'END');
-            }
-
-            function _function3(arg, callback){
-                callback(null, arg);
+                var step2 = session.replaceDialog('/onboarding-2ndpart');
+                callback(null, step2);
             }
             
         }
