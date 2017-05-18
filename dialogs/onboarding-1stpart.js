@@ -133,9 +133,9 @@ module.exports = [
                     console.error(err); 
                     return;
                 }else{
-                    return result
+                    console.log(result);
                 }
-                //console.log(result);
+                
                 
             });
 
