@@ -127,13 +127,12 @@ module.exports = [
         }
         else {
 
-            async.waterfall([ _function1, _function2], 
+            async.waterfall([ _function1, async.apply(_function2) ], 
             function (err, result) {
                 if(err){ 
                     console.error(err); 
                     return;
                 }
-                 
                 console.log(result);
             });
 
@@ -143,7 +142,7 @@ module.exports = [
             }
 
             function _function2(arg, callback) { 
-                session.replaceDialog('/onboarding-2ndpart', {retryPrompt: 0});
+                session.replaceDialog('/onboarding-2ndpart');
                 callback(null, 'func2');
             }
             
