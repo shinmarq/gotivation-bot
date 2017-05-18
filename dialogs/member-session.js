@@ -93,7 +93,6 @@ module.exports = [
     },
     function (session, results) {
         if (session.dialogData.category) {
-            console.log('RESULT => ', session.dialogData);
             session.endDialogWithResult({ response: session.dialogData });
         }
     }
