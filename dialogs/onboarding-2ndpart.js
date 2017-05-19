@@ -11,7 +11,7 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session) {
-        builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation?");
+        builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 10:00AM");
     },
     function (session, results, next) {
         //session.sendTyping();
@@ -200,10 +200,9 @@ module.exports = [
                 profiletype: userprofile,
                 construals: session.dialogData.construals
             }
-
             parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
-                    builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation. Let’s do this! `);
+                    builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation soon. Let’s do this! `);
                 }
                 else {
                     console.log(err);

@@ -3,7 +3,7 @@ var builder = builder = require('botbuilder'),
     Constants = require('../constants');
 module.exports = [
     function (session, args, next) {
-        var user = args.user
+        var user = args.user;
         var category = args.category;
         var parcoach_id = args.coach_id || "";
         var membercategory = []
