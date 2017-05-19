@@ -4,12 +4,9 @@ module.exports.BASE_URL = (process.env.NODE_ENV !== "production")? "http://local
 
 module.exports.SUCCESS = 200;
 module.exports.CREATED = 201;
-<<<<<<< HEAD
-//module.exports.BASE_PATH = 'https://gotivation-api.herokuapp.com/';
-module.exports.BASE_PATH = 'https://df19ea99.ngrok.io/';
-=======
 module.exports.BASE_PATH = 'https://gotivation-api.herokuapp.com/';
->>>>>>> bc2b08366a1eaf14c188eadca9bfeabd37c73630
+module.exports.BASE_PATH = 'https://df19ea99.ngrok.io/';
+//module.exports.BASE_PATH = 'https://gotivation-api.herokuapp.com/';
 
 module.exports.API_PATH = '/api';
 module.exports.CLOUDINARY_CLOUD_NAME = 'hobwovvya'; //change
