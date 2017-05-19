@@ -59,8 +59,7 @@ exports.updatemember = function (params, callback) {
 	if(member_id)
 	var putUrl = URL + "/members/" + params.member_id;
 	else
-	var putUrl = URL + "/members/" + params.memberid;
-	
+	var putUrl = URL + "/members/";
 	var newParams = _.omit(params, ['member']);
 	var options = {
 		method: 'put',
