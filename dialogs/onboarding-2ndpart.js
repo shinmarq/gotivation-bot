@@ -181,6 +181,7 @@ module.exports = [
     function (session, results, next) {
         if (results.response) {
             session.dialogData.construals = results.response.entity;
+            console.log(session.dialogData);
             var msg = new builder.Message(session)
                 .text(`By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`)
                 .addAttachment({
@@ -213,10 +214,8 @@ module.exports = [
         }
     },
     function (session, results) {
-        if (results.response.entity != "I Agree") {
-            console.log("test");
-        }
-        else {
+        if (results.response.entity == "I Agree") {
+
             var dictionary = dict;
             var profileresult = session.dialogData.profile;
             var userprofile;
