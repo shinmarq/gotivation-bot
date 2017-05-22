@@ -183,17 +183,15 @@ module.exports = [
 
         if (results.response) {
             session.dialogData.construals = results.response;
-            var msg = {
-                "type": "message",
-                "text": "# Welcome to **Botland**\n\nPlease visit [my blog](https://blogs.msdn.microsoft.com/tsmatsuz).\n\n---\n\nThis is a test."
-            }
-            session.send(msg);
-            // builder.Prompts.text(session, 'By "I Agree", you agree to our [Terms of Service and Privacy Policy](http://gotivation.co/privacy-policy/).');
+            builder.Prompts.choice(session,
+                'By clicking "I Agree", you agree to our [Terms of Service and Privacy Policy]\n\n(http://gotivation.co/privacy-policy/).',
+                ["I Agree"],
+                { retryPrompt: `Your onboarding will not proceed unless you agree with terms and policy` })
         }
     },
     function (session, results) {
-        if (results.response.entity != "Agree") {
-
+        if (results.response.entity != "I Agree") {
+            console.log("test");
         }
         else {
             var dictionary = dict;
