@@ -181,14 +181,25 @@ module.exports = [
     function (session, results, next) {
         if (results.response) {
             var msg = {
-                "buttons": [
+
+                "type": "message",
+                "text": "Sample with a receipt card",
+                "attachments": [
                     {
-                        "type": "web_url",
-                        "url": "https://petersfancyapparel.com/classic_white_tshirt",
-                        "title": "View Item",
-                        "webview_height_ratio": "compact"
+                        "contentType": "application/vnd.microsoft.card.receipt",
+                        "content": {
+                            "title": "I'm a receipt card",
+                            "buttons": [
+                                {
+                                    "type": "openUrl",
+                                    "title": "Go to my site",
+                                    "value": "https://blogs.msdn.microsoft.com/tsmatsuz"
+                                }
+                            ]
+                        }
                     }
                 ]
+
             }
             session.send(msg);
         }
