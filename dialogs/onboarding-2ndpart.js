@@ -185,7 +185,7 @@ module.exports = [
             session.dialogData.construals = results.response;
             var msg = {
                 "type": "message",
-                "text": "Welcome to <b>Botland</b>. Please visit <a href=\"https://blogs.msdn.microsoft.com/tsmatsuz\">my blog</a>."
+                "text": "# Welcome to **Botland**\n\nPlease visit [my blog](https://blogs.msdn.microsoft.com/tsmatsuz).\n\n---\n\nThis is a test."
             }
             session.send(msg);
             // builder.Prompts.text(session, 'By "I Agree", you agree to our [Terms of Service and Privacy Policy](http://gotivation.co/privacy-policy/).');
