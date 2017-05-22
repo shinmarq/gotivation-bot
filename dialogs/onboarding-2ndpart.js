@@ -180,6 +180,7 @@ module.exports = [
     },
     function (session, results, next) {
         if (results.response) {
+            session.dialogData.construals = results.response.entity;
             var msg = new builder.Message(session)
                 .text('By clicking "I Agree", you agree with our Terms of Service and Privacy Policy')
                 .addAttachment({
@@ -196,12 +197,17 @@ module.exports = [
                                 "title": "Privacy Policy",
                                 "value": "http://gotivation.co/terms-of-service/"
                             },
+                            {
+                                "type": "action",
+                                "title": "I Agree",
+                                "value": "I Agree"
+                            }
 
                         ]
                     }
                 });
             session.send(msg);
-            
+            builder.Prompts.choice(session,"","I Agree",{retryPrompt: msg})
         }
     },
     function (session, results) {
