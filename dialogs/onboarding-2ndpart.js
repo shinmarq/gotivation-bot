@@ -183,7 +183,18 @@ module.exports = [
 
         if (results.response) {
             session.dialogData.construals = results.response;
-            builder.Prompts.text(session, 'By "I Agree", you agree to our [Terms of Service and Privacy Policy](http://gotivation.co/privacy-policy/).');
+            var msg = {
+                "buttons": [
+                    {
+                        "type": "web_url",
+                        "url": "https://petersfancyapparel.com/classic_white_tshirt",
+                        "title": "View Item",
+                        "webview_height_ratio": "compact"
+                    }
+                ]
+            }
+            session.send(msg);
+          //  builder.Prompts.text(session, 'By "I Agree", you agree to our [Terms of Service and Privacy Policy](http://gotivation.co/privacy-policy/).');
         }
     },
     function (session, results) {
