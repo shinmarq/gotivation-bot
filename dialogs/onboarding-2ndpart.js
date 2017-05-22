@@ -182,7 +182,7 @@ module.exports = [
         if (results.response) {
             session.dialogData.construals = results.response.entity;
             var msg = new builder.Message(session)
-                .text("")
+                .text(`By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`)
                 .addAttachment({
                     contentType: "application/vnd.microsoft.card",
                     content: {
@@ -203,7 +203,7 @@ module.exports = [
                 });
             session.send(msg);
             builder.Prompts.choice(session,
-                `By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`,
+                `Click "I Agree" to proceed`,
                 ["I Agree"], {
                     listStyle: builder.ListStyle.button,
                     retryPrompt: `Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy`
