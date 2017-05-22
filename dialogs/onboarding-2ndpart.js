@@ -183,8 +183,12 @@ module.exports = [
 
         if (results.response) {
             session.dialogData.construals = results.response;
-           
-            builder.Prompts.text(session, 'By "I Agree", you agree to our [Terms of Service and Privacy Policy(http://gotivation.co/privacy-policy/)].');
+            var msg = {
+                "type": "message",
+                "text": "Welcome to <b>Botland</b>. Please visit <a href=\"https://blogs.msdn.microsoft.com/tsmatsuz\">my blog</a>."
+            }
+            session.send(msg);
+            // builder.Prompts.text(session, 'By "I Agree", you agree to our [Terms of Service and Privacy Policy](http://gotivation.co/privacy-policy/).');
         }
     },
     function (session, results) {
