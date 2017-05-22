@@ -250,18 +250,26 @@ module.exports = [
                 });
             var msg = new builder.Message(session)
                 .addAttachment({
+                    text: `By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`,
                     contentType: "application/vnd.microsoft.card",
                     content: {
                         "buttons": [
                             {
                                 "type": "openUrl",
-                                "title": "Go to my site",
-                                "value": "https://blogs.msdn.microsoft.com/tsmatsuz"
-                            }
+                                "title": "Terms of Service",
+                                "value": "http://gotivation.co/privacy-policy/"
+                            },
+                            {
+                                "type": "openUrl",
+                                "title": "Privacy Policy",
+                                "value": "http://gotivation.co/terms-of-service/"
+                            },
+
                         ]
                     }
                 });
             session.send(msg);
+            
         }
     },
     function (session, results) {
