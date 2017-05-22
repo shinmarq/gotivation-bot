@@ -183,7 +183,7 @@ module.exports = [
 
         if (results.response) {
             session.dialogData.construals = results.response;
-            builder.Prompts.text(session, 'By clicking below, you agree to our <a href="http://gotivation.co/privacy-policy/">Terms of Service and Privacy Policy</a> ');
+            builder.Prompts.text(session, 'By "I Agree", you agree to our [Terms of Service and Privacy Policy](http://gotivation.co/privacy-policy/).');
         }
     },
     function (session, results) {
