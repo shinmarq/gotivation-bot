@@ -203,8 +203,7 @@ module.exports = [
                 });
             session.send(msg);
             builder.Prompts.choice(session,
-                "",
-                options, {
+                ["I Agree"], {
                     listStyle: builder.ListStyle.button,
                     retryPrompt: `Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy`
                 });
