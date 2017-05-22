@@ -18,7 +18,7 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            recurrence = recurrence.getUTCHours() +':'+ recurrence.getUTCMinutes();
+            recurrence = recurrence.getUTCHours() + ':' + recurrence.getUTCMinutes();
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
@@ -183,6 +183,22 @@ module.exports = [
 
         if (results.response) {
             session.dialogData.construals = results.response
+            var msg = new builder.Message(session)
+                .addAttachment({
+                    contentUrl: 'http://gotivation.co/privacy-policy/',
+                    contentType: 'text',
+                    name: 'Terms of service'
+                });
+
+            session.send(msg);
+            builder.Prompts.choice(session, 'By clicking below, you agree to our Terms of Service and Privacy Policy');
+        }
+    },
+    function (session, results) {
+        if (results.response.entity != "Agree") {
+
+        }
+        else {
             var dictionary = dict;
             var profileresult = session.dialogData.profile;
             var userprofile;
@@ -238,6 +254,5 @@ function arraysEqual(arr1, arr2) {
         if (arr1[i] !== arr2[i])
             return false;
     }
-
     return true;
 }
