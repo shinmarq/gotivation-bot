@@ -182,16 +182,8 @@ module.exports = [
         //session.sendTyping();
 
         if (results.response) {
-            session.dialogData.construals = results.response
-            var msg = new builder.Message(session)
-                .addAttachment({
-                    contentUrl: 'http://gotivation.co/privacy-policy/',
-                    contentType: 'image/png',
-                    name: 'Terms of service'
-                });
-
-            session.send(msg);
-            builder.Prompts.choice(session, 'By clicking below, you agree to our Terms of Service and Privacy Policy');
+            session.dialogData.construals = results.response;
+            builder.Prompts.text(session, 'By clicking below, you agree to our <a href="http://gotivation.co/privacy-policy/">Terms of Service and Privacy Policy</a> ');
         }
     },
     function (session, results) {
