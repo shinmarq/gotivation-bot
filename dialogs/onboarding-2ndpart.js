@@ -182,6 +182,7 @@ module.exports = [
         if (results.response) {
             session.dialogData.construals = results.response.entity;
             var msg = new builder.Message(session)
+                .text("")
                 .addAttachment({
                     contentType: "application/vnd.microsoft.card",
                     content: {
