@@ -186,39 +186,14 @@ module.exports = [
                 "text": "Sample with a receipt card",
                 "attachments": [
                     {
-                        "contentType": "application/vnd.microsoft.card.receipt",
-                        "content": {
-                            "title": "I'm a receipt card",
-                            "items": [
-                                {
-                                    "title": "Sushi",
-                                    "subtitle": "2 piece",
-                                    "image": {
-                                        "url": "https://mydeploy.azurewebsites.net/sushi.png"
-                                    },
-                                    "price": "16.25",
-                                    "quantity": "1"
-                                },
-                                {
-                                    "title": "Tenpura",
-                                    "subtitle": "1 dish",
-                                    "image": {
-                                        "url": "https://mydeploy.azurewebsites.net/tenpura.jpg"
-                                    },
-                                    "price": "34.50",
-                                    "quantity": "2"
-                                }
-                            ],
-                            "total": "275.25",
-                            "tax": "27.52",
-                            "buttons": [
-                                {
-                                    "type": "openUrl",
-                                    "title": "Go to my site",
-                                    "value": "https://blogs.msdn.microsoft.com/tsmatsuz"
-                                }
-                            ]
-                        }
+                        "buttons": [
+                            {
+                                "type": "openUrl",
+                                "title": "Go to my site",
+                                "value": "http://gotivation.co/terms-of-service/"
+                            }
+                        ]
+
                     }
                 ]
 
