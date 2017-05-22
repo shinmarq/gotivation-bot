@@ -184,9 +184,9 @@ module.exports = [
         if (results.response) {
             session.dialogData.construals = results.response;
             builder.Prompts.choice(session,
-                'By clicking "I Agree", you agree to our [Terms of Service and Privacy Policy]\n\n(http://gotivation.co/privacy-policy/).',
+                'By clicking "I Agree", you agree to our Terms of Service\n\nhttp://gotivation.co/terms-of-service/ \n\nPrivacy Policy\n\nhttp://gotivation.co/privacy-policy/.',
                 ["I Agree"],
-                { retryPrompt: `Your onboarding will not proceed unless you agree with terms and policy` })
+                { retryPrompt: `Your onboarding will not proceed unless you agree with our terms and policy` })
         }
     },
     function (session, results) {
