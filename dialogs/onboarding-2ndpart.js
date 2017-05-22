@@ -186,7 +186,7 @@ module.exports = [
             var msg = new builder.Message(session)
                 .addAttachment({
                     contentUrl: 'http://gotivation.co/privacy-policy/',
-                    contentType: 'text',
+                    contentType: 'image/png',
                     name: 'Terms of service'
                 });
 
