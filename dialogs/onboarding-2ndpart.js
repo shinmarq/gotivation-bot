@@ -179,14 +179,18 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        //session.sendTyping();
-
         if (results.response) {
-            session.dialogData.construals = results.response;
-            builder.Prompts.choice(session,
-                'By clicking "I Agree", you agree to our\n\nTerms of Service\n\nhttp://gotivation.co/terms-of-service/ \n\nPrivacy Policy\n\nhttp://gotivation.co/privacy-policy/.',
-                ["I Agree"],
-                { retryPrompt: `Your onboarding will not proceed unless you agree with our\n\nTerms of Service\n\nhttp://gotivation.co/terms-of-service/ \n\nPrivacy Policy\n\nhttp://gotivation.co/privacy-policy/.` })
+            var msg = {
+                "buttons": [
+                    {
+                        "type": "web_url",
+                        "url": "https://petersfancyapparel.com/classic_white_tshirt",
+                        "title": "View Item",
+                        "webview_height_ratio": "compact"
+                    }
+                ]
+            }
+            session.send(msg);
         }
     },
     function (session, results) {
