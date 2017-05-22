@@ -196,18 +196,13 @@ module.exports = [
                                 "type": "openUrl",
                                 "title": "Privacy Policy",
                                 "value": "http://gotivation.co/terms-of-service/"
-                            },
-                            {
-                                "type": "action",
-                                "title": "I Agree",
-                                "value": "I Agree"
                             }
 
                         ]
                     }
                 });
             session.send(msg);
-            builder.Prompts.choice(session,"","I Agree",{retryPrompt: msg})
+            builder.Prompts.choice(session,"",["I Agree"],{retryPrompt: "Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy"})
         }
     },
     function (session, results) {
