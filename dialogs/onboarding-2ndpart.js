@@ -181,28 +181,34 @@ module.exports = [
     function (session, results, next) {
         if (results.response) {
             session.dialogData.construals = results.response.entity;
-            // var msg = new builder.Message(session)
-            //     .text('By clicking "I Agree", you agree with our Terms of Service and Privacy Policy')
-            //     .addAttachment({
-            //         contentType: "application/vnd.microsoft.card",
-            //         content: {
-            //             "buttons": [
-            //                 {
-            //                     "type": "openUrl",
-            //                     "title": "Terms of Service",
-            //                     "value": "http://gotivation.co/privacy-policy/"
-            //                 },
-            //                 {
-            //                     "type": "openUrl",
-            //                     "title": "Privacy Policy",
-            //                     "value": "http://gotivation.co/terms-of-service/"
-            //                 }
+            var msg = new builder.Message(session)
+                .text('By clicking "I Agree", you agree with our Terms of Service and Privacy Policy')
+                .addAttachment({
+                    contentType: "application/vnd.microsoft.card",
+                    content: {
+                        "buttons": [
+                            {
+                                "type": "openUrl",
+                                "title": "Terms of Service",
+                                "value": "http://gotivation.co/privacy-policy/"
+                            },
+                            {
+                                "type": "openUrl",
+                                "title": "Privacy Policy",
+                                "value": "http://gotivation.co/terms-of-service/"
+                            }
 
-            //             ]
-            //         }
-            //     });
-            // session.send(msg);
-            builder.Prompts.choice(session,"",["I Agree"],{retryPrompt: "Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy"})
+                        ]
+                    }
+                });
+            session.send(msg);
+            builder.Prompts.choice(session,
+                options, {
+                    listStyle: builder.ListStyle.button,
+                    retryPrompt: `Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy`
+                });
+            //Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy
+
         }
     },
     function (session, results) {
