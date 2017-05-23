@@ -1,5 +1,5 @@
 // ./dialogs/constants.js
-module.exports.FB_PAGE_ACCESS_TOKEN = "EAAXL7443DqQBALDJgwPBXXKrmlcg76RczcLkD0Bin1zGeO2wmSFa3vyLOSrdqnpRYzQLTltxiIRBUyb6s616wJwFINeZBoONQCU0zAryK06GXDoSHzCEdobZBGdZBJGZBDyZCQBiKKKcNZBx9qUn1hUuWFZB5OBKn2j7FRsPSB9FwZDZD";
+module.exports.FB_PAGE_ACCESS_TOKEN = "EAAXL7443DqQBAMvIgNZAwP0pvK0qpEtpIiYcKerngwZASBdCZCmTeKhER9j5oXygUrySRyJreMvdyAnkynaGiWqcUyGsM5ZBMzz24YJXYjOY5MBR4bNhZAWcWpCrbARi2E2f26ZCxXoAu1oWtYOUXNwFo27LLilwpv5BOe16mwewZDZD";
 //module.exports.BASE_URL = (process.env.NODE_ENV !== "production")? "http://localhost:3000" : "https://gotivation-bot.herokuapp.com";
 module.exports.BASE_URL = (process.env.NODE_ENV !== "production")? "http://localhost:3000" : "http://gotivation-bot.azurewebsites.net/";
 
