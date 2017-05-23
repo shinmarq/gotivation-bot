@@ -119,8 +119,8 @@ bot.use({
                 });
 
         } else {
-            //next();
-            session.replaceDialog('/default');
+            next();
+            //session.replaceDialog('/default');
         }
     }
 });

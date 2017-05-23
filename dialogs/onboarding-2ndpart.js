@@ -240,18 +240,19 @@ module.exports = [
                 }
                 else {
                     console.log(err);
-                   // session.send('Something went wrong and your session is not saved. Please try again');
-                    builder.Prompts.text(session, `You’re all set !  I’ll be ready with your first motivation soon. Let’s do this! `);
+                    session.send('You’re all set !  I’ll be ready with your first motivation soon. Let’s do this!');
+                    session.endDialog();
+                    //builder.Prompts.text(session, `You’re all set !  I’ll be ready with your first motivation soon. Let’s do this! `);
                     
                 }
             });
         }
-    },
-    function (session, results) {
-        if (results.response) {
-            session.replaceDialog('/default');
-        }
     }
+    // function (session, results) {
+    //     if (results.response) {
+    //         session.replaceDialog('/default');
+    //     }
+    // }
 
     // function getprofile(profileresult) {
     //     var userprofile;
