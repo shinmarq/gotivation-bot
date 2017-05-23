@@ -234,21 +234,17 @@ module.exports = [
             }
             parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
-                    builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation soon. Let’s do this! `);
+                    session.send('You’re all set !  I’ll be ready with your first motivation soon. Let’s do this!');
+                    session.endDialog();
                 }
                 else {
                     console.log(err);
-                    session.send('You’re all set !  I’ll be ready with your first motivation soon. Let’s do this!');
-                    session.endDialog();
+                    // session.send('You’re all set !  I’ll be ready with your first motivation soon. Let’s do this!');
+                    // session.endDialog();
                 }
             });
         }
     }
-    // function (session, results) {
-    //     if (results.response) {
-    //         session.replaceDialog('/default');
-    //     }
-    // }
 
     // function getprofile(profileresult) {
     //     var userprofile;

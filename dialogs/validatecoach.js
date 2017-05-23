@@ -3,13 +3,13 @@ var builder = require('botbuilder'),
     _ = require('underscore');
 module.exports = 
 [
-    function (session, args) {
+    function (session, args, next) {
         session.dialogData.coach = args.coach;
 
         if (!session.dialogData.coach.coachCode) {
             builder.Prompts.text(session, `Please enter your coach code :`);
         } else {
-            //next();
+            next();
         }
     },
     function (session, results, next) {
