@@ -119,7 +119,8 @@ bot.use({
                 });
 
         } else {
-            next();
+            //next();
+            session.replaceDialog('/default');
         }
     }
 });
