@@ -31,7 +31,7 @@ module.exports = [
                     ]
                     var reply = defaultreplies[Math.floor(Math.random() * defaultreplies.length)]
                     builder.Prompts.text(session, reply);
-                    session.endDialog();
+                    //session.endDialog();
                     var createParams = {
                         entity: entity
                     };
