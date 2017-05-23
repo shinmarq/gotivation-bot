@@ -21,21 +21,21 @@ module.exports = [
             recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
-                //builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
-                session.send('Got it! Please indicate how much the following statements describe you.');
+                builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
                 next();
             }
         }
 
     },
-    function (session, results) {
+    function (session, results, next) {
         var options = ["Completely", "A lot", "Moderate", "A little", "Not at all"]
         builder.Prompts.choice(session, "When I say I'm going to work out at a specific time, I always follow through.", options, {
             listStyle: builder.ListStyle.button,
             retryPrompt: `It's much easier if you tap button corresponds your answer regarding following work out time.`
         });
     },
-    function (session, results) {
+
+    function (session, results, next) {
         //session.sendTyping();
         if (results.response) {
 
@@ -65,7 +65,7 @@ module.exports = [
 
         }
     },
-    function (session, results) {
+    function (session, results, next) {
         //session.sendTyping();
         var profile = session.dialogData.profile;
         if (results.response) {
@@ -94,7 +94,8 @@ module.exports = [
 
         }
     },
-    function (session, results) {
+
+    function (session, results, next) {
         //session.sendTyping();
         if (results.response) {
             var selfcontrol = results.response.entity;
@@ -120,7 +121,7 @@ module.exports = [
                 });
         }
     },
-    function (session, results) {
+    function (session, results, next) {
         //session.sendTyping();
         if (results.response) {
             var locusofcontrol = results.response.entity;
@@ -139,11 +140,11 @@ module.exports = [
             var options = ["1", "2", "3", "4", "5"]
             builder.Prompts.choice(session,
                 `Please select the point on the scale that best describes you:\n
-                1) Greatly anticipate feelings of achievement when meeting your goal
-                2) Somewhat anticipate feelings of achievement when meeting your goal
-                3) Neutral
-                4) Somewhat fear failing to meet your goal
-                5) Greatly fear failing to meet your goal `,
+    1) Greatly anticipate feelings of achievement when meeting your goal
+    2) Somewhat anticipate feelings of achievement when meeting your goal
+    3) Neutral
+    4) Somewhat fear failing to meet your goal
+    5) Greatly fear failing to meet your goal `,
                 options, {
                     listStyle: builder.ListStyle.button,
                     retryPrompt: `That's not on the options please tap button that corresponds your answer regarding scale that best describes you.`
@@ -154,7 +155,7 @@ module.exports = [
             session.beginDialog('/default');
         }
     },
-    function (session, results) {
+    function (session, results, next) {
         //session.sendTyping();
         if (results.response) {
             var ffa = results.response.entity;
@@ -177,7 +178,7 @@ module.exports = [
 
         }
     },
-    function (session, results) {
+    function (session, results, next) {
         if (results.response) {
             session.dialogData.construals = results.response.entity;
             console.log(session.dialogData);
@@ -234,15 +235,20 @@ module.exports = [
             }
             parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
-                    session.send('You’re all set !  I’ll be ready with your first motivation soon. Let’s do this!');
-                    session.endDialog();
+                    builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation soon. Let’s do this! `);
                 }
                 else {
                     console.log(err);
-                    // session.send('You’re all set !  I’ll be ready with your first motivation soon. Let’s do this!');
-                    // session.endDialog();
+                   // session.send('Something went wrong and your session is not saved. Please try again');
+                    builder.Prompts.text(session, `You’re all set !  I’ll be ready with your first motivation soon. Let’s do this! `);
+                    
                 }
             });
+        }
+    },
+    function (session, results) {
+        if (results.response) {
+            session.replaceDialog('/default');
         }
     }
 

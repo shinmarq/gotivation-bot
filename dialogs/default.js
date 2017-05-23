@@ -10,7 +10,7 @@ var builder = require('botbuilder');
 //var defaultDialog = require('./defaultDialog.js');
 
 module.exports = [
-    function (session, args) {
+    function (session, args, next) {
         var entity = session.message.text;
         if (entity && entity.length > 0) {
             // session.dialogData.party = results.response.split(/[,\n]+/).map(function (x) { return x.trim(); }) || [];    
@@ -30,15 +30,14 @@ module.exports = [
                         "Sorry, I don't understand what you are trying to say but let me save that so I can pick that up later."
                     ]
                     var reply = defaultreplies[Math.floor(Math.random() * defaultreplies.length)]
-                    session.endConversation(reply);
-                    //builder.Prompts.text(session, reply);
-                    //session.endDialog();
+                    builder.Prompts.text(session, reply);
+                    session.endDialog();
                     var createParams = {
                         entity: entity
                     };
                     parser.queries.createQuery(createParams, function (err, response, body) {
                     });
-                    //session.endDialog();
+                    session.endDialog();
                 }
             });
         }

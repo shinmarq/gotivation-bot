@@ -8,14 +8,15 @@ var builder = require('botbuilder'),
 const CONSTANTS = require('../constants');
 const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 module.exports = [
-    function (session, args) {
+    function (session, args, next) {
         session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
         session.dialogData.category = args.category || "";
         session.dialogData.user = args.user === undefined ? "" : args.user;
         session.beginDialog('/member-session', session.dialogData);
 
     },
-    function (session, results) {
+
+    function (session, results, next) {
         session.dialogData.category = results.response.category;
         var options = {
         }
@@ -110,7 +111,7 @@ module.exports = [
         }
 
     },
-    function (session, results) {
+    function (session, results, next) {
         if (results.response) {
             session.dialogData.category = results.response.entity.split(':')[1];
 
@@ -119,7 +120,7 @@ module.exports = [
             session.replaceDialog('/default');
         }
     },
-    function (session, results) {
+    function (session, results, next) {
         //var choice = results.response ? true : false;
         if (results.response) {
             session.beginDialog('/onboarding-1stpart', session.dialogData);
@@ -144,6 +145,20 @@ module.exports = [
                     console.log(result);
                 }
             });
+
+            // async.waterfall([async.apply(_function1, _function2)],
+            //     function (err, result) {
+
+            //     });
+
+            // function _function1(callback) {
+            //     session.replaceDialog('/member-session', session.dialogData);
+            //     callback(null, 'success');
+            // }
+
+            // function _function2(arg, callback) {
+            //     callback(null, 'success');
+            // }
 
         }
     }
