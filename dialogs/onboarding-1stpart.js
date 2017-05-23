@@ -126,29 +126,40 @@ module.exports = [
             session.beginDialog('/onboarding-1stpart', session.dialogData);
         }
         else {
-
-            async.waterfall([ async.apply(_function1, _function2) ], 
-            function (err, result) {
-                if(err){ 
-                    console.error(err); 
+            async.waterfall([
+                function (callback) {
+                    session.replaceDialog('/member-session', session.dialogData);
+                    callback(null, 'success');
+                },
+                function (arg1, callback) {
+                    // arg1 now equals 'three'
+                    session.replaceDialog('/onboarding-2ndpart');
+                    callback(null, 'done');
+                }
+            ], function (err, result) {
+                // result now equals 'done'
+                if (err) {
+                    console.error(err);
                     return;
-                }else{
+                } else {
                     console.log(result);
                 }
-                
-                
             });
 
-            function _function1(callback) {
-                session.replaceDialog('/member-session', session.dialogData);
-                callback(null, 'step1');
-            }
+            // async.waterfall([async.apply(_function1, _function2)],
+            //     function (err, result) {
 
-            function _function2(arg, callback) { 
-                session.replaceDialog('/onboarding-2ndpart');
-                callback(null, 'end');
-            }
-            
+            //     });
+
+            // function _function1(callback) {
+            //     session.replaceDialog('/member-session', session.dialogData);
+            //     callback(null, 'success');
+            // }
+
+            // function _function2(arg, callback) {
+            //     callback(null, 'success');
+            // }
+
         }
     }
 ]
