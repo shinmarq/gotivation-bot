@@ -138,7 +138,7 @@ bot.dialog('/get-coachcode', [
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
             session.dialogData.coach = {};
-            session.beginDialog('/validatecoach', session.dialogData);
+            session.replaceDialog('/validatecoach', session.dialogData);
 
         } else {
             session.dialogData.prefix = `That's okay.`;
