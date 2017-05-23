@@ -122,7 +122,7 @@ module.exports = [
     function (session, results) {
         //var choice = results.response ? true : false;
         if (results.response) {
-            session.beginDialog('/onboarding-1stpart', session.dialogData);
+            session.replaceDialog('/onboarding-1stpart', session.dialogData);
         }
         else {
             async.waterfall([
