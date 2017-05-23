@@ -10,7 +10,7 @@ var builder = require('botbuilder');
 //var defaultDialog = require('./defaultDialog.js');
 
 module.exports = [
-    function (session, args, next) {
+    function (session, args) {
         var entity = session.message.text;
         if (entity && entity.length > 0) {
             // session.dialogData.party = results.response.split(/[,\n]+/).map(function (x) { return x.trim(); }) || [];    
