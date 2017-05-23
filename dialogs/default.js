@@ -37,7 +37,7 @@ module.exports = [
                     };
                     parser.queries.createQuery(createParams, function (err, response, body) {
                     });
-                    session.endDialog();
+                    //session.endDialog();
                 }
             });
         }
