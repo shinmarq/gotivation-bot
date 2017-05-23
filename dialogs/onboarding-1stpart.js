@@ -15,7 +15,6 @@ module.exports = [
         session.beginDialog('/member-session', session.dialogData);
 
     },
-
     function (session, results) {
         session.dialogData.category = results.response.category;
         var options = {
