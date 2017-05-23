@@ -30,7 +30,8 @@ module.exports = [
                         "Sorry, I don't understand what you are trying to say but let me save that so I can pick that up later."
                     ]
                     var reply = defaultreplies[Math.floor(Math.random() * defaultreplies.length)]
-                    builder.Prompts.text(session, reply);
+                    session.endConversation(reply);
+                    //builder.Prompts.text(session, reply);
                     //session.endDialog();
                     var createParams = {
                         entity: entity
