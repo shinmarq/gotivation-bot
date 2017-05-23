@@ -9,7 +9,7 @@ module.exports =
         if (!session.dialogData.coach.coachCode) {
             builder.Prompts.text(session, `Please enter your coach code :`);
         } else {
-            next();
+            //next();
         }
     },
     function (session, results, next) {
