@@ -120,7 +120,6 @@ bot.use({
 
         } else {
             next();
-            //session.replaceDialog('/default');
         }
     }
 });
@@ -128,7 +127,7 @@ bot.use({
 
 bot.dialog('/get-coachcode', [
 
-    function (session, args) {
+    function (session, args, next) {
         //session.sendTyping();
         builder.Prompts.confirm(session, `Before we proceed, do you have a coach code?`);
 
@@ -138,7 +137,7 @@ bot.dialog('/get-coachcode', [
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
             session.dialogData.coach = {};
-            session.replaceDialog('/validatecoach', session.dialogData);
+            session.beginDialog('/validatecoach', session.dialogData);
 
         } else {
             session.dialogData.prefix = `That's okay.`;
@@ -169,6 +168,9 @@ bot.dialog('/get-coachcode', [
         session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
         session.beginDialog('/onboarding-1stpart', session.dialogData);
     }
+
+
+
 ]);
 
 bot.dialog('/', Default);

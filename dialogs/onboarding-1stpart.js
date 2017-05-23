@@ -12,7 +12,7 @@ module.exports = [
         session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
         session.dialogData.category = args.category || "";
         session.dialogData.user = args.user === undefined ? "" : args.user;
-        session.replaceDialog('/member-session', session.dialogData);
+        session.beginDialog('/member-session', session.dialogData);
 
     },
     function (session, results) {
