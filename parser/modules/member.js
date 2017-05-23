@@ -79,6 +79,29 @@ exports.updatemember = function (params, callback) {
 	});
 };
 
+exports.delete = function (params, callback) {
+	
+	var putUrl = URL + "/members/" + params.memberid;
+	
+	var newParams = _.omit(params, ['member']);
+	var options = {
+		method: 'delete',
+		body: newParams,
+		json: true,
+		url: putUrl  
+	};
+
+	request(options, function (err, res, body) {
+		if (err == null && res.statusCode == constants.SUCCESS) {
+			var mapResponse = new MapResponse(body);
+			var newBody = mapResponse.mapData();
+			callback(null, res, newBody);
+		} else {
+			callback(err, res, null);
+		}
+	});
+};
+
 // exports.sendMessageTomembers = function(params, callback) {
 // 	var postUrl = URL + "/members/send-message";
 // 	var newParams = params;
