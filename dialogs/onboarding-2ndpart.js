@@ -181,8 +181,7 @@ module.exports = [
     },
     function (session, results, next) {
         if (results.response) {
-            session.dialogData.construals = results.response.entity;
-            console.log(session.dialogData);
+            session.dialogData.construals = results.response
             var msg = new builder.Message(session)
                 .text(`By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`)
                 .addAttachment({
@@ -204,6 +203,7 @@ module.exports = [
                     }
                 });
             session.send(msg);
+            console.log(session.dialogData);
             builder.Prompts.choice(session,
                 `Click "I Agree" to proceed`,
                 ["I Agree"], {
