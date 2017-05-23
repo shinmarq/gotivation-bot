@@ -105,7 +105,7 @@ bot.use({
                                     session.userData.user.last_name = body.last_name;
 
                                     session.send(`Hi ${body.first_name} - Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
-                                    session.replaceDialog('/get-coachcode', session.userData);
+                                    session.beginDialog('/get-coachcode', session.userData);
                                     //session.beginDialog('/default');
                                 }
                                 else {
