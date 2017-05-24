@@ -22,8 +22,9 @@
   "dependencies": {
     "async": "*",
     "botbuilder": "*",
-    "mongoose": "*",
     "mongodb": "*",
+    "mongoose": "*",
+    "node-wit": "^4.2.0",
     "request": "*",
     "restify": "*",
     "underscore": "*"
