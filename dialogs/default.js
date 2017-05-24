@@ -42,6 +42,25 @@ module.exports = [
             //         session.endDialog();
             //     }
             // });
+
+            const client = new Wit({accessToken: WIT_TOKEN});
+
+            client.message(entity, {})
+            .then((data) => {
+                var results = data;
+                var entities = results.entities;
+
+                if(Object.keys(entities).length == 0){
+                    if(entity !== 'GET_STARTED'){session.send('Sorry, I didn’t quite understand that yet since I’m still a learning bot. Let me store that for future reference. In the mean time, you may contact \n\nValkyrie - +639176808888 \n\nPool Club - +639176898888 \n\nRevel - +639175508888 or type “Menu” if you want to find out the cool things I can do for you!');}
+                }else{
+                    var intent = entities.intent[0].value;
+                    if(('inquiry_type' in entities)){var inquiry_type = entities.inquiry_type[0].value;}
+                    if(('emotion' in entities)){var emotion = entities.emotions[0].value;}
+                    getWitIntents(intent, inquiry_type, emotion, session);
+                    
+                }
+            })
+            .catch(console.error);
         }
     },
 
