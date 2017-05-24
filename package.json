@@ -1,0 +1,32 @@
+{
+  "name": "gotivation-bot",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "console": "./node_modules/.bin/nodemon console.js",
+    "dev": "./node_modules/.bin/nodemon app.js",
+    "test": "jslint ./app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.heroku.com/gotivation-bot.git"
+  },
+  "author": "B3nch",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.18.0",
+    "jslint": "*",
+    "nodemon": "*"
+  },
+  "dependencies": {
+    "async": "*",
+    "botbuilder": "*",
+    "mongoose": "*",
+    "mongodb": "*",
+    "request": "*",
+    "restify": "*",
+    "underscore": "*"
+  },
+  "description": ""
+}
