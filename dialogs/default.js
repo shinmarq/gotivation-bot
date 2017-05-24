@@ -169,7 +169,7 @@ function getWitIntents(intent, inquiry_type, emotion, session){
                         '\n\Type - "Message GOtivation" if you want to leave me or your coach feedback');
         break;
 
-        case 'get_emotions':
+        case 'get_emotion':
             setEmotionReply(emotion, session);
         break;
 
