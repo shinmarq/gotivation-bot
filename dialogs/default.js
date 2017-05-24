@@ -62,7 +62,7 @@ module.exports = [
                 }else{
                     var intent = entities.intent[0].value;
                     if(('inquiry_type' in entities)){var inquiry_type = entities.inquiry_type[0].value;}
-                    if(('emotion' in entities)){var emotion = entities.emotions[0].value;}
+                    if(('emotion' in entities)){var emotion = entities.emotion[0].value;}
                     getWitIntents(intent, inquiry_type, emotion, session);
                     
                 }
