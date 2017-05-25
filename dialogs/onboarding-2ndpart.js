@@ -21,8 +21,7 @@ module.exports = [
             recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
-                //builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
-                session.send('Got it! Please indicate how much the following statements describe you.');
+                builder.Prompts.text(session, "Got it! Please indicate how much the following statements describe you.");
                 next();
             }
         }
