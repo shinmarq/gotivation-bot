@@ -99,7 +99,6 @@ module.exports = [
         }
 
         function sendMessage(msg, attachments, selectString, callback) {
-            console.log(attachments, selectString);
             if (attachments.length != 0) {
                 msg
                     .textFormat(builder.TextFormat.xml)
