@@ -32,6 +32,7 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
+
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     Onboarding2 = require('./dialogs/onboarding-2ndpart'),
@@ -163,11 +164,10 @@ bot.dialog('/get-coachcode', [
         }
         else {
             session.send(session.dialogData.prefix);
-            session.dialogData.user = session.userData.user
-            session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
-            session.beginDialog('/onboarding-1stpart', session.dialogData);
         }
-        
+        session.dialogData.user = session.userData.user
+        session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
+        session.beginDialog('/onboarding-1stpart', session.dialogData);
     }
 
 
@@ -180,4 +180,6 @@ bot.dialog('/onboarding-1stpart', Onboarding1);
 bot.dialog('/onboarding-2ndpart', Onboarding2);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
+
+
 
