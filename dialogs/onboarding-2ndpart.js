@@ -5,7 +5,7 @@ var builder = require('botbuilder'),
     _ = require('underscore'),
     parser = require('../parser'),
     dict = require('../profiledictionary');
-
+    moment = require('moment');
 const CONSTANTS = require('../constants');
 const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
@@ -18,6 +18,8 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
+            console.log(recurrence);
+            console.log(recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence));
             recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
