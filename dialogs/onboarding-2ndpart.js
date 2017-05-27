@@ -21,8 +21,10 @@ module.exports = [
 
             // var utcMoment = moment.utc();
             // var scheduletime = utcMoment.format('HH:mm');
+            console.log(recurrence);
             var utc_offset = recurrence.getTimezoneOffset();
-            recurrence.setMinutes(recurrence.getMinutes() + utc_offset);
+            recurrence.setMinutes(recurrence.getMinutes() - utc_offset);
+            console.log(recurrence);
             recurrence = moment.utc(recurrence).format("HH:mm");
 
             // recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
