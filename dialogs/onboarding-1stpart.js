@@ -27,6 +27,7 @@ module.exports = [
             sendMessage
         ],
             function (err, msg, selectString) {
+                session.sendTyping();
                 if (err) {
                     session.send(err);
                     session.reset();
@@ -47,6 +48,7 @@ module.exports = [
         );
 
         function getcategory(organisationId, msg, callback) {
+            session.sendTyping();
             parser.category.getcategory(organisationId, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
                     if (body.length > 0) {
@@ -111,6 +113,7 @@ module.exports = [
 
     },
     function (session, results, next) {
+        session.sendTyping();
         if (results.response) {
             session.dialogData.category = results.response.entity.split(':')[1];
 
@@ -120,6 +123,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
+        session.sendTyping();
         //var choice = results.response ? true : false;
         if (results.response) {
             session.beginDialog('/onboarding-1stpart', session.dialogData);

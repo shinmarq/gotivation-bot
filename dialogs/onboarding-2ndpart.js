@@ -14,7 +14,7 @@ module.exports = [
         builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 10:00AM");
     },
     function (session, results, next) {
-        //session.sendTyping();
+        session.sendTyping();
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
@@ -38,7 +38,7 @@ module.exports = [
     },
 
     function (session, results, next) {
-        //session.sendTyping();
+        session.sendTyping();
         if (results.response) {
 
             var profile = [];
@@ -124,7 +124,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        //session.sendTyping();
+        session.sendTyping();
         if (results.response) {
             var locusofcontrol = results.response.entity;
             var profile = session.dialogData.profile;
@@ -158,7 +158,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        //session.sendTyping();
+        session.sendTyping();
         if (results.response) {
             var ffa = results.response.entity;
             var profile = session.dialogData.profile;
@@ -181,6 +181,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
+        session.sendTyping();
         if (results.response) {
             session.dialogData.construals = results.response
             var msg = new builder.Message(session)
@@ -216,6 +217,7 @@ module.exports = [
         }
     },
     function (session, results) {
+        session.sendTyping();
         if (results.response.entity == "I Agree") {
 
             var dictionary = dict;
@@ -235,6 +237,7 @@ module.exports = [
                 profiletype: userprofile,
                 construals: session.dialogData.construals
             }
+            session.sendTyping();
             parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
                     builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation soon. Let’s do this! `);
@@ -249,6 +252,7 @@ module.exports = [
         }
     },
     function (session, results) {
+        session.sendTyping();
         if (results.response) {
             session.replaceDialog('/default');
         }
