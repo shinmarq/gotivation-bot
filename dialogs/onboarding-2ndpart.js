@@ -5,7 +5,7 @@ var builder = require('botbuilder'),
     _ = require('underscore'),
     parser = require('../parser'),
     dict = require('../profiledictionary');
-    moment = require('moment');
+moment = require('moment');
 const CONSTANTS = require('../constants');
 const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
@@ -18,9 +18,12 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            recurrence = moment.utc(recurrence).format("HH:mm");
-            // console.log(recurrence);
+            var offset = moment.parseZone(recurrence).utcOffset();
+            //recurrence = moment.utc(recurrence).format();
+            recurrence = moment.utc(recurrence).utcOffset(+offset).format("HH:mm")
+            console.log(recurrence);
             //recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
+            // var offset = moment.utc(recurrence).utcOffset;
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
@@ -68,7 +71,7 @@ module.exports = [
         }
     },
     function (session, results, next) {
-        //session.sendTyping();
+        session.sendTyping();
         var profile = session.dialogData.profile;
         if (results.response) {
             var grit = results.response.entity;
@@ -98,7 +101,7 @@ module.exports = [
     },
 
     function (session, results, next) {
-        //session.sendTyping();
+        session.sendTyping();
         if (results.response) {
             var selfcontrol = results.response.entity;
             var profile = session.dialogData.profile;
@@ -246,7 +249,7 @@ module.exports = [
                     console.log(err);
                     session.send('Something went wrong and your session is not saved. Please try again');
                     //builder.Prompts.text(session, `You’re all set !  I’ll be ready with your first motivation soon. Let’s do this! `);
-                    
+
                 }
             });
         }
