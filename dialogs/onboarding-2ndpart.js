@@ -5,7 +5,7 @@ var builder = require('botbuilder'),
     _ = require('underscore'),
     parser = require('../parser'),
     dict = require('../profiledictionary');
-    moment = require('moment');
+moment = require('moment');
 const CONSTANTS = require('../constants');
 const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
@@ -18,9 +18,13 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            console.log(recurrence);
-            console.log(recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence));
-            recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
+            // console.log(recurrence);
+            // console.log(recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence));
+            // var x = moment.utc(recurrence).format("YYYY-MM-DD HH:mm:ssZ");
+            // console.log(x);
+            var varoffset = moment.parseZone(recurrence).utcOffset(); 
+            var recurrence= moment.utc(recurrence).utcOffset(+varoffset).format('HH:mm');
+            // recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
@@ -243,7 +247,7 @@ module.exports = [
                     console.log(err);
                     session.send('Something went wrong and your session is not saved. Please try again');
                     //builder.Prompts.text(session, `You’re all set !  I’ll be ready with your first motivation soon. Let’s do this! `);
-                    
+
                 }
             });
         }
