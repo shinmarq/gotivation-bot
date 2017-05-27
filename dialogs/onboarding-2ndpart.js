@@ -18,13 +18,13 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            // console.log(recurrence);
-            // console.log(recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence));
-            // var x = moment.utc(recurrence).format("YYYY-MM-DD HH:mm:ssZ");
-            // console.log(x);
-            var utc_offset = recurrence.getTimezoneOffset();
-            recurrence.setMinutes(recurrence.getMinutes() + utc_offset);
+
+            // var utcMoment = moment.utc();
+            // var scheduletime = utcMoment.format('HH:mm');
+            // var utc_offset = recurrence.getTimezoneOffset();
+            // recurrence.setMinutes(recurrence.getMinutes() + utc_offset);
             recurrence = moment.utc(recurrence).format("HH:mm");
+            
             // recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
