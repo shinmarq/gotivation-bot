@@ -21,10 +21,10 @@ module.exports = [
 
             // var utcMoment = moment.utc();
             // var scheduletime = utcMoment.format('HH:mm');
-            // var utc_offset = recurrence.getTimezoneOffset();
-            // recurrence.setMinutes(recurrence.getMinutes() + utc_offset);
+            var utc_offset = recurrence.getTimezoneOffset();
+            recurrence.setMinutes(recurrence.getMinutes() + utc_offset);
             recurrence = moment.utc(recurrence).format("HH:mm");
-            
+
             // recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
