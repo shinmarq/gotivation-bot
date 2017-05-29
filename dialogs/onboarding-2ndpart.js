@@ -295,11 +295,12 @@ function convertUTCDateToLocalDate(date) {
 
 function getRecurrenceDate(session,date) {
     session.send(date.toString())
-    let recurrence;
-    let localdate = convertUTCDateToLocalDate(recurrence)
-    let utctime = moment.utc(recurrence).format();
-    let offset = localdate.getTimezoneOffset();
-    session.send(offset.toString());
+    date = convertUTCDateToLocalDate(date);
+    // let recurrence;
+    // let localdate = convertUTCDateToLocalDate(recurrence)
+    // let utctime = moment.utc(recurrence).format();
+    // let offset = localdate.getTimezoneOffset();
+    // session.send(offset.toString());
     recurrence = moment(utctime).add(-8, "hours").format("HH:mm");
     session.send(recurrence);
     return recurrence;
