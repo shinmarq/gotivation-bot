@@ -22,7 +22,7 @@ module.exports = [
             let utctime = moment.utc(recurrence).format();
             let offset = recurrence.getTimezoneOffset() / 60;
             console.log(offset);
-            recurrence = moment(utctime).add(offset, "hours").format("HH:mm");
+            recurrence = moment(utctime).add(8, "hours").format("HH:mm");
             console.log(recurrence);
             //console.log(newTest);
             // console.log(test);
