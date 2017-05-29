@@ -19,9 +19,9 @@ module.exports = [
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             // console.log(recurrence);
-            var offset = moment.parseZone(recurrence).utcOffset();
+            // var offset = moment.parseZone(recurrence).utcOffset();
             // //recurrence = moment.utc(recurrence).format();
-            recurrence = moment(recurrence).format("HH:mm");
+            recurrence = moment.utc(recurrence).format("HH:mm");
             console.log(recurrence);
             //recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
             // var offset = moment.utc(recurrence).utcOffset;
