@@ -24,7 +24,7 @@ module.exports = [
 
             let newTime = moment(test).subtract(offset, "hours").format("HH:mm");
         
-            session.send(newTest);
+            session.send(newTime);
             session.dialogData.recurrence = newTime;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
