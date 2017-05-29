@@ -296,9 +296,9 @@ function convertUTCDateToLocalDate(date) {
 function getRecurrenceDate(session, date) {
     session.send(date.toString())
     // let recurrence;
-    // let localdate = convertUTCDateToLocalDate(recurrence)
+    let localdate = convertUTCDateToLocalDate(date)
     // let utctime = moment.utc(recurrence).format();
-    let offset = date.getTimezoneOffset();
+    let offset = localdate.getTimezoneOffset();
     session.send(offset.toString());
     recurrence = moment(utctime).add(-8, "hours").format("HH:mm");
     session.send(recurrence);
