@@ -18,7 +18,7 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            recurrence = getRecurrenceDate(session,recurrence);
+            recurrence = getRecurrenceDate(session, recurrence);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
@@ -293,14 +293,13 @@ function convertUTCDateToLocalDate(date) {
     return newDate;
 }
 
-function getRecurrenceDate(session,date) {
+function getRecurrenceDate(session, date) {
     session.send(date.toString())
-    date = convertUTCDateToLocalDate(date);
     // let recurrence;
     // let localdate = convertUTCDateToLocalDate(recurrence)
     // let utctime = moment.utc(recurrence).format();
-    // let offset = localdate.getTimezoneOffset();
-    // session.send(offset.toString());
+    let offset = date.getTimezoneOffset();
+    session.send(offset.toString());
     recurrence = moment(utctime).add(-8, "hours").format("HH:mm");
     session.send(recurrence);
     return recurrence;
