@@ -18,9 +18,11 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            var isoDate = new Date(recurrence).toISOString();
-            isoDate = moment.utc(isoDate).format("HH:mm");
-            session.send(isoDate);
+            let test = moment(recurrence).utc().format("HH:mm");
+            // console.log(test);
+            // var isoDate = new Date(recurrence).toISOString();
+            // isoDate = moment.utc(isoDate).format("HH:mm");
+            session.send(test);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
