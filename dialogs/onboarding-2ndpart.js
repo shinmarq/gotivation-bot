@@ -22,7 +22,7 @@ module.exports = [
             let test = moment.utc(recurrence).format();
             
 
-            let newTime = moment(test).subtract(offset, "hours").format("HH:mm");
+            let newTime = moment(test).add(offset, "hours").format("HH:mm");
         
             session.send(newTime);
             session.dialogData.recurrence = newTime;
