@@ -18,11 +18,14 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            let offset = recurrence.getTimezoneOffset();
-            let newtime = moment.utc(recurrence).format();
-            recurrence = moment(newtime).add(offset, "minutes").format("HH:mm");
-            session.send(recurrence);
-            session.dialogData.recurrence = recurrence;
+            let offset = recurrence.getTimezoneOffset()/60;
+            let test = moment.utc(recurrence).format();
+            
+
+            let newTime = moment(test).subtract(offset, "hours").format("HH:mm");
+        
+            session.send(newTest);
+            session.dialogData.recurrence = newTime;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
                 next();
