@@ -18,9 +18,9 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-
+            let localdate = convertUTCDateToLocalDate(recurrence)
             let utctime = moment.utc(recurrence).format();
-            let offset = moment.parseZone(recurrence.local()).utcOffset();
+            let offset = localdate.getTimezoneOffset();
             session.send(offset.toString());
             recurrence = moment(utctime).add(-8, "hours").format("HH:mm");
             console.log(recurrence);
@@ -289,4 +289,16 @@ function arraysEqual(arr1, arr2) {
             return false;
     }
     return true;
+}
+
+
+function convertUTCDateToLocalDate(date) {
+    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+
+    newDate.setHours(hours - offset);
+
+    return newDate;   
 }
