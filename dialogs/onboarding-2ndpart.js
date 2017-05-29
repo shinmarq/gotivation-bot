@@ -18,10 +18,11 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            let offset = recurrence.getTimezoneOffset();
+            let offset = recurrence.getTimezoneOffset()/60;
+            console.log(offset);
             let test = moment.utc(recurrence).format();
 
-            let newTest = moment(test).add(offset, "minutes").format("HH:mm");
+            let newTest = moment(test).add(offset, "hours").format("HH:mm");
             //console.log(newTest);
             // console.log(test);
             // var isoDate = new Date(recurrence).toISOString();
