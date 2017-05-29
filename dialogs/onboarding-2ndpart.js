@@ -21,7 +21,7 @@ module.exports = [
             // console.log(recurrence);
             // var offset = moment.parseZone(recurrence).utcOffset();
             // //recurrence = moment.utc(recurrence).format();
-            recurrence = moment.utc(recurrence).format("HH:mm");
+            recurrence = moment(recurrence).format("HH:mm");
             console.log(recurrence);
             //recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
             // var offset = moment.utc(recurrence).utcOffset;
@@ -247,6 +247,7 @@ module.exports = [
                     builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation soon. Let’s do this! `);
                 }
                 else {
+                    console.log(res.statusCode);
                     console.log(err);
                     session.send('Something went wrong and your session is not saved. Please try again');
                     //builder.Prompts.text(session, `You’re all set !  I’ll be ready with your first motivation soon. Let’s do this! `);
