@@ -21,7 +21,7 @@ module.exports = [
 
             let utctime = moment.utc(recurrence).format();
             let offset = utctime.getTimezoneOffset() / 60;
-            session.send(offset);
+            session.send(offset.toString());
             recurrence = moment(utctime).add(-8, "hours").format("HH:mm");
             console.log(recurrence);
             //console.log(newTest);
