@@ -25,6 +25,7 @@
     "moment": "^2.18.1",
     "mongodb": "*",
     "mongoose": "*",
+    "node-wit": "^4.2.0",
     "request": "*",
     "restify": "*",
     "underscore": "*"
