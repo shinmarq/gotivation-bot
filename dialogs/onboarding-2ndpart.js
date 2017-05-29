@@ -18,13 +18,7 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            // console.log(recurrence);
-            // var offset = moment.parseZone(recurrence).utcOffset();
-            // //recurrence = moment.utc(recurrence).format();
-            recurrence = moment(recurrence).format("HH:mm");
-            console.log(recurrence);
-            //recurrence = recurrence.getUTCHours(recurrence) + ':' + recurrence.getUTCMinutes(recurrence);
-            // var offset = moment.utc(recurrence).utcOffset;
+            recurrence = recurrence.getUTCHours() + ":" + recurrence.getUTCMinutes();
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
