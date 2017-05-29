@@ -19,11 +19,8 @@ module.exports = [
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
 
-            var localTime = moment.utc(recurrence).toDate();
-            moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-            var offset = moment.parseZone(localTime).utcOffset();
-            localTime.setMinutes(localTime.getMinutes() + (offset));
-            session.send(localTime);
+           recurrence= moment.utc(recurrence).format("HH:mm");
+            console.log(recurrence);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
