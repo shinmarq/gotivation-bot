@@ -21,6 +21,7 @@ module.exports = [
             let offset = recurrence.getTimezoneOffset();
             let newtime = moment.utc(recurrence).format();
             recurrence = moment(newtime).add(offset, "minutes").format("HH:mm");
+            session.send(recurrence);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
