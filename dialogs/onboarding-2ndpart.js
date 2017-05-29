@@ -21,7 +21,7 @@ module.exports = [
             let offset = recurrence.getTimezoneOffset();
             let test = moment.utc(recurrence).format();
 
-            let newTest = moment(test).subtract(offset, "minutes").format("HH:mm");
+            let newTest = moment(test).add(offset, "minutes").format("HH:mm");
             //console.log(newTest);
             // console.log(test);
             // var isoDate = new Date(recurrence).toISOString();
