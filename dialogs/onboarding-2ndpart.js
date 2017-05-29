@@ -294,6 +294,7 @@ function convertUTCDateToLocalDate(date) {
 }
 
 function getRecurrenceDate(session, date) {
+    date = moment(date).local();
     session.send(date.toString())
     // let recurrence;
     let localdate = convertUTCDateToLocalDate(date)
