@@ -18,17 +18,7 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            let localdate = convertUTCDateToLocalDate(recurrence)
-            let utctime = moment.utc(recurrence).format();
-            let offset = localdate.getTimezoneOffset();
-            session.send(offset.toString());
-            recurrence = moment(utctime).add(-8, "hours").format("HH:mm");
-            console.log(recurrence);
-            //console.log(newTest);
-            // console.log(test);
-            // var isoDate = new Date(recurrence).toISOString();
-            // isoDate = moment.utc(isoDate).format("HH:mm");
-            session.send(recurrence);
+            recurrence = getRecurrenceDate(session,recurrence);
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
@@ -293,12 +283,24 @@ function arraysEqual(arr1, arr2) {
 
 
 function convertUTCDateToLocalDate(date) {
-    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+    var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
     var offset = date.getTimezoneOffset() / 60;
     var hours = date.getHours();
 
     newDate.setHours(hours - offset);
 
-    return newDate;   
+    return newDate;
+}
+
+function getRecurrenceDate(session,date) {
+    session.send(date.toString())
+    let recurrence;
+    let localdate = convertUTCDateToLocalDate(recurrence)
+    let utctime = moment.utc(recurrence).format();
+    let offset = localdate.getTimezoneOffset();
+    session.send(offset.toString());
+    recurrence = moment(utctime).add(-8, "hours").format("HH:mm");
+    session.send(recurrence);
+    return recurrence;
 }
