@@ -20,7 +20,7 @@ module.exports = [
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
 
             let utctime = moment.utc(recurrence).format();
-            let offset = utctime.getTimezoneOffset() / 60;
+            let offset = recurrence.getTimezoneOffset() / 60;
             session.send(offset.toString());
             recurrence = moment(utctime).add(-8, "hours").format("HH:mm");
             console.log(recurrence);
