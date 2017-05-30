@@ -284,6 +284,8 @@ function arraysEqual(arr1, arr2) {
 
 
 function getRecurrenceDate(session, date) {
+    var hours = new Date(date).getHours();
+    session.send(hours.toString());
     date = date.toISOString();
     console.log(date);
     let recurrence = moment(date).format("HH:mm");
