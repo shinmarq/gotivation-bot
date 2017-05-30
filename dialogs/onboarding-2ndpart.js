@@ -285,8 +285,8 @@ function arraysEqual(arr1, arr2) {
 
 function getRecurrenceDate(session, date) {
     
-    recurrence = moment(date).format("HH:mm");
-    recurrence1 = moment.utc(date).format("HH:mm");
+    let recurrence = moment(date).format("HH:mm");
+    let recurrence1 = moment.utc(date).format("HH:mm");
     session.send(recurrence.toString());
     session.send(recurrence1.toString());
     return recurrence;
