@@ -284,9 +284,8 @@ function arraysEqual(arr1, arr2) {
 
 
 function getRecurrenceDate(session, date) {
-    let offset = localdate.getTimezoneOffset();
-    session.send(offset.toString());
-    recurrence = moment(utctime).add(-8, "hours").format("HH:mm");
+    
+    recurrence = moment(date).format("HH:mm");
     session.send(recurrence);
     return recurrence;
 }
