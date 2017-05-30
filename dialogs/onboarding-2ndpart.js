@@ -18,7 +18,7 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            recurrence = getRecurrenceDate(session, recurrence);
+            recurrence = recurrence.toISOString();
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
@@ -282,13 +282,3 @@ function arraysEqual(arr1, arr2) {
 }
 
 
-
-function getRecurrenceDate(session, date) {
-    let recurrence = moment(date).format("HH:mm");
-    let recurrence1 = new Date(Date.UTC(date));
-    var hours = date.getUTCHours();
-    session.send(recurrence.toString());
-    session.send(recurrence1.toString());
-    session.send(hours.toString());
-    return recurrence;
-}
