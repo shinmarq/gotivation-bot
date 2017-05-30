@@ -286,6 +286,6 @@ function arraysEqual(arr1, arr2) {
 function getRecurrenceDate(session, date) {
     
     recurrence = moment(date).format("HH:mm");
-    session.send(recurrence);
+    session.send(recurrence.toString());
     return recurrence;
 }
