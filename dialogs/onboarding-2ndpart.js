@@ -284,13 +284,11 @@ function arraysEqual(arr1, arr2) {
 
 
 function getRecurrenceDate(session, date) {
-    var hours = new Date(date).getHours();
-    session.send(hours.toString());
-    date = date.toISOString();
-    console.log(date);
     let recurrence = moment(date).format("HH:mm");
-    let recurrence1 = moment(date).format("HH:mm");
+    let recurrence1 = new Date(Date.UTC(date));
+    var hours = date.getUTCHours();
     session.send(recurrence.toString());
     session.send(recurrence1.toString());
+    session.send(hours.toString());
     return recurrence;
 }
