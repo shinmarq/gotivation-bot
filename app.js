@@ -77,7 +77,7 @@ bot.use({
             },
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
-                        console.log(session);
+                        console.log(session.message.user.id);
                     //    var params= {
                     //         member_id: '',
                     //     }
