@@ -79,7 +79,7 @@ bot.use({
                     if (!error && response.statusCode == 200) {
                         console.log(session.message.user.id);
                        var params= {
-                            member_id: session.message.user.id,
+                            memberid: session.message.user.id,
                         }
                         parser.member.delete(params, function(err, res, body){
                             !err ? console.log('success') : console.log('error occur..');
