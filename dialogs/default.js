@@ -87,7 +87,7 @@ function getWitIntents(intent, inquiry_type, emotion, session){
                                 'Oh, hello!' ]
             var greetReply = randomReply[Math.floor(Math.random() * randomReply.length)];
 
-            session.send(greetReply);
+            session.endConversation(greetReply);
         break;
 
         case 'get_farewell':
@@ -98,7 +98,7 @@ function getWitIntents(intent, inquiry_type, emotion, session){
                                 'Later!' ]
             var farewellReply = randomReply[Math.floor(Math.random() * randomReply.length)];
 
-            session.send(farewellReply);
+            session.endConversation(farewellReply);
         break;
 
         case 'get_YoureWelcome':
@@ -109,7 +109,7 @@ function getWitIntents(intent, inquiry_type, emotion, session){
                                 'You\'re totally welcome!' ]
             var appreciateReply = randomReply[Math.floor(Math.random() * randomReply.length)];
 
-            session.send(appreciateReply);
+            session.endConversation(appreciateReply);
         break;
 
         case 'get_profanity':
@@ -118,7 +118,7 @@ function getWitIntents(intent, inquiry_type, emotion, session){
                                 'Ha - I can take a hint! See ya.' ]
             var profanityReply = randomReply[Math.floor(Math.random() * randomReply.length)];
 
-            session.send(profanityReply);
+            session.endConversation(profanityReply);
         break;
 
         case 'get_inquiry':
@@ -131,7 +131,7 @@ function getWitIntents(intent, inquiry_type, emotion, session){
 
                 case 'delivery_time':
                     console.log('delivery_time');
-                    session.send('Easy! Just type "Change Time" and you can adjust when I send you motivation.');
+                    session.endConversation('Easy! Just type "Change Time" and you can adjust when I send you motivation.');
                 break;
 
                 case 'profile':
@@ -140,7 +140,7 @@ function getWitIntents(intent, inquiry_type, emotion, session){
                                         'I saved your profile based on the onboarding questions you answered. If you want to change your profile, just re-answer the questions by typing "Redo Questions"' ]
                     var profanityReply = randomReply[Math.floor(Math.random() * randomReply.length)];
 
-                    session.send(profanityReply);
+                    session.endConversation(profanityReply);
                 break;
 
                 case 'overview':
@@ -154,14 +154,14 @@ function getWitIntents(intent, inquiry_type, emotion, session){
                                 'Ok, now I feel like a dumb dumb. Want me to pass that along to your coach?' ]
                     var defaultReply = randomReply[Math.floor(Math.random() * randomReply.length)];
 
-                    session.send(defaultReply);
+                    session.endConversation(defaultReply);
                 break;
             }
 
         break;
 
         case 'get_help':
-            session.send('I\'d be happy to give you a spot ;) What sort of help do you need?' + 
+            session.endConversation('I\'d be happy to give you a spot ;) What sort of help do you need?' + 
                         '\n\nType - "Start Over" if you want to redo ALL of your onboarding questions (including coach code)' +
                         '\n\nType - "Redo Questions" if you want to re-answer your profile questions.' +
                         '\n\nType - "Change Time" if you want to change when I send you motivation' +
@@ -179,7 +179,7 @@ function getWitIntents(intent, inquiry_type, emotion, session){
                                 'Ok, now I feel like a dumb dumb. Want me to pass that along to your coach?' ]
             var defaultReply = randomReply[Math.floor(Math.random() * randomReply.length)];
 
-            session.send(defaultReply);
+            session.endConversation(defaultReply);
         break;
 
     }
@@ -193,7 +193,7 @@ function setEmotionReply(emotion, session){
 
     if(emotion == 'excited'){
         var excitedReply = reply.excited[Math.floor(Math.random() * reply.excited.length)];
-        session.send(excitedReply);
+        session.endConversation(excitedReply);
     }
 
 }
