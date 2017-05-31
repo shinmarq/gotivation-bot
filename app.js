@@ -78,10 +78,10 @@ bot.use({
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
                         console.log(session.message.user.id);
-                    //    var params= {
-                    //         member_id: '',
-                    //     }
-                    //     parser.member.delete();
+                       var params= {
+                            member_id: session.message.user.id,
+                        }
+                        parser.member.delete(params.member_id);
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
                             .title('GOtivation bot')
