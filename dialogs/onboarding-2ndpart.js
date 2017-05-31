@@ -239,11 +239,12 @@ module.exports = [
             parser.member.updatemember(params, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
                     builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation soon. Let’s do this! `);
-                    var card = new builder.CardImage(session)
-                        .images([
-                            builder.CardImage.create(session, "http://res.cloudinary.com/hobwovvya/image/upload/v1496212599/First_Step_GTV_jdxnkn.png")
-                        ]);
-                    var msg = new builder.Message(session).attachments([card]);
+
+                    var imgMsg = new builder.Message(session)
+                    .attachments([{
+                        contentType: "image/jpeg",
+                        contentUrl: "http://res.cloudinary.com/hobwovvya/image/upload/v1496212599/First_Step_GTV_jdxnkn.png"
+                    }]);
                     session.send(msg);
 
                 }
