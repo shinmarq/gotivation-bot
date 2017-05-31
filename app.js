@@ -77,12 +77,9 @@ bot.use({
             },
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
-                        console.log(session.message.user.id);
-                       var params= {
-                            memberid: session.message.user.id,
-                        }
-                        parser.member.delete(params, function(err, res, body){
-                            !err ? console.log('success') : console.log('error occur..');
+                        var params = { memberid: session.message.address.user.id }
+                        parser.member.delete(params, function (err, res, body) {
+                            console.log(res.statusCode);
                         });
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
