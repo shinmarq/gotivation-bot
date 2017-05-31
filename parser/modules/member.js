@@ -81,7 +81,7 @@ exports.updatemember = function (params, callback) {
 
 exports.delete = function (params, callback) {
 	
-	var putUrl = URL + "/members/" + params.memberid;
+	var putUrl = URL + "/members/";
 	
 	var newParams = _.omit(params, ['member']);
 	var options = {
