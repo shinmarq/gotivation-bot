@@ -129,23 +129,24 @@ function getWitIntents(intent, inquiry_type, emotion, session){
                 //     session.send("You may send your resume to careers@thepalacemanila.com");
                 // break;
 
-                case 'delivery_time':
-                    console.log('delivery_time');
-                    session.endConversation('Easy! Just type "Change Time" and you can adjust when I send you motivation.');
-                break;
+                // case 'delivery_time':
+                //     console.log('delivery_time');
+                //     session.endConversation('Easy! Just type "Change Time" and you can adjust when I send you motivation.');
+                // break;
 
                 case 'profile':
-                    var randomReply = [ 'You bet. Just type "Redo Questions" and you can answer the questions again.',
-                                        'Well, your motivation is based on the questions you initially answered. If you want to re-answer the questions, just type "Redo Questions"',
-                                        'I saved your profile based on the onboarding questions you answered. If you want to change your profile, just re-answer the questions by typing "Redo Questions"' ]
-                    var profanityReply = randomReply[Math.floor(Math.random() * randomReply.length)];
+                    // var randomReply = [ 'You bet. Just type "Redo Questions" and you can answer the questions again.',
+                    //                     'Well, your motivation is based on the questions you initially answered. If you want to re-answer the questions, just type "Redo Questions"',
+                    //                     'I saved your profile based on the onboarding questions you answered. If you want to change your profile, just re-answer the questions by typing "Redo Questions"' ]
+                    // var profanityReply = randomReply[Math.floor(Math.random() * randomReply.length)];
 
-                    session.endConversation(profanityReply);
+                    // session.endConversation(profanityReply);
+                    session.endConversation('If you want to redo all of your onboarding questions, click Start Over at the Persistent Menu below ');
                 break;
 
                 case 'overview':
                     console.log('overview');
-                    session.send('I\'m a chatbot that helps you stay motivated on your fitness journey. Once a day, I\'ll message you some personalized motivation based on your goals and cool motivational psychology. Wanna try it out? Just type "Get Started"');
+                    session.send('I\'m a chatbot that helps you stay motivated on your fitness journey. Once a day, I\'ll message you some personalized motivation based on your goals and cool motivational psychology. Wanna try it out? click Start Over at the Persistent Menu below');
                 break;
 
                 default:
@@ -161,12 +162,7 @@ function getWitIntents(intent, inquiry_type, emotion, session){
         break;
 
         case 'get_help':
-            session.endConversation('I\'d be happy to give you a spot ;) What sort of help do you need?' + 
-                        '\n\nType - "Start Over" if you want to redo ALL of your onboarding questions (including coach code)' +
-                        '\n\nType - "Redo Questions" if you want to re-answer your profile questions.' +
-                        '\n\nType - "Change Time" if you want to change when I send you motivation' +
-                        '\n\nType - "GOtivation Website" if you want read more on our website' +
-                        '\n\Type - "Message GOtivation" if you want to leave me or your coach feedback');
+            session.endConversation('If you want to redo all of your onboarding questions, click Start Over at the Persistent Menu below ');
         break;
 
         case 'get_emotion':
