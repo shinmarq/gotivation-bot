@@ -245,7 +245,7 @@ module.exports = [
                         contentType: "image/jpeg",
                         contentUrl: "http://res.cloudinary.com/hobwovvya/image/upload/v1496212599/First_Step_GTV_jdxnkn.png"
                     }]);
-                    session.send(msg);
+                    session.send(imgMsg);
 
                 }
                 else {
