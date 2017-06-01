@@ -23,7 +23,7 @@ module.exports = [
             //console.log('UTCOFFSET SHIT => ', utc_offset)
             recurrence = moment.utc(recurrence).add(session.userData.user.timezone * -1,"hours");
             recurrence = recurrence.format("HH:mm");
-            console.log('RECURRENCE SHIT => ', recurrence)
+            //console.log('RECURRENCE SHIT => ', recurrence)
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
                 session.send("Got it! Please indicate how much the following statements describe you.");
