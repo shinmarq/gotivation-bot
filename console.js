@@ -72,7 +72,7 @@ bot.use({
                     if (!error && response.statusCode == 200) {
                         var params = { memberid: session.message.address.user.id }
                         parser.member.delete(params, function (err, res, body) {
-                           console.log(res.statusCode);
+                            console.log(res.statusCode);
                         });
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
@@ -87,8 +87,8 @@ bot.use({
                             .addAttachment(welcomeCard));
 
                         request({
-                            //url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
-                            url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name,gender,last_name&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
+                            //url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name,locale,timezone&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
+                            url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name,gender,last_name,locale,timezone&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
                         },
@@ -100,7 +100,8 @@ bot.use({
                                     session.userData.user.first_name = body.first_name;
                                     session.userData.user.gender = body.gender;
                                     session.userData.user.last_name = body.last_name;
-
+                                    session.userData.user.locale = body.locale;
+                                    session.userData.user.timezone = body.timezone;
                                     session.send(`Hi ${body.first_name} - Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
                                     session.beginDialog('/get-coachcode', session.userData);
                                     //session.beginDialog('/default');
@@ -125,12 +126,12 @@ bot.use({
 bot.dialog('/get-coachcode', [
 
     function (session, args, next) {
-        //session.sendTyping();
+        session.sendTyping();
         builder.Prompts.confirm(session, `Before we proceed, do you have a coach code?`);
 
     },
     function (session, results, next) {
-        //session.sendTyping();
+        session.sendTyping();
         var choice = results.response ? 'yes' : 'no';
         if (choice === 'yes') {
             session.dialogData.coach = {};
@@ -142,6 +143,7 @@ bot.dialog('/get-coachcode', [
         }
     },
     function (session, results) {
+        session.sendTyping();
         if (results.response && results.response.validCode == true) {
 
             session.dialogData.coach.name = results.response.name;
@@ -162,6 +164,7 @@ bot.dialog('/get-coachcode', [
             session.send(session.dialogData.prefix);
         }
         session.dialogData.user = session.userData.user
+        session.sendTyping();
         session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
         session.beginDialog('/onboarding-1stpart', session.dialogData);
     }
@@ -176,4 +179,3 @@ bot.dialog('/onboarding-1stpart', Onboarding1);
 bot.dialog('/onboarding-2ndpart', Onboarding2);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
-
