@@ -94,7 +94,7 @@ bot.use({
                             .addAttachment(welcomeCard));
 
                         request({
-                            url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
+                            url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name,locale,timezone&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
                             //url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name,gender,last_name&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
@@ -107,7 +107,8 @@ bot.use({
                                     session.userData.user.first_name = body.first_name;
                                     session.userData.user.gender = body.gender;
                                     session.userData.user.last_name = body.last_name;
-
+                                    session.userData.user.locale = body.locale;
+                                    session.userData.user.timezone = body.timezone;
                                     session.send(`Hi ${body.first_name} - Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
                                     session.beginDialog('/get-coachcode', session.userData);
                                     //session.beginDialog('/default');
