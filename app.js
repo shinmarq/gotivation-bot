@@ -55,7 +55,7 @@ var intentDialog = new builder.IntentDialog({
 bot.use({
     botbuilder: function (session, next) {
         //let startOver = /^started|get started|start over/i.test(session.message.text);
-        if (session.message.text === "GET_STARTED" || startOver) {
+        if (session.message.text === "GET_STARTED" ) {
             session.perUserInConversationData = {};
             session.userData = {};
             session.conversationData = {};
