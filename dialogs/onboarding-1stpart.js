@@ -116,7 +116,7 @@ module.exports = [
         session.sendTyping();
         if (results.response) {
             session.dialogData.category = results.response.entity.split(':')[1];
-
+            //changes
             builder.Prompts.confirm(session, `Would you like to select an additional category?`);
         } else {
             session.replaceDialog('/default');
