@@ -19,7 +19,7 @@ module.exports = [
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
-            var utc_offset = moment(recurrence).utcOffset(session.userData.user.timezone);
+            var utc_offset = moment(recurrence).utcOffset(session.userData.user.timezone).format('ZZ');
             console.log('UTCOFFSET SHIT => ', utc_offset)
             recurrence = moment.utc(recurrence).add(session.userData.user.timezone,"hours");
             recurrence = recurrence.format("HH:mm");
