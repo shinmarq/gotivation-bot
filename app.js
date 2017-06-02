@@ -55,7 +55,6 @@ var intentDialog = new builder.IntentDialog({
 
 bot.use({
     botbuilder: function (session, next) {
-        console.log(session);
         var startOver = /^started|get started|start over/i.test(session.message.text);
         var changeTime = /^Change_Time/i.test(session.message.text);
         var retakeSurvey = /^Retake_Survey/i.test(session.message.text);
