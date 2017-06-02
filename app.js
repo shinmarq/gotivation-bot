@@ -175,10 +175,14 @@ bot.dialog('/get-coachcode', [
                     contentUrl: session.dialogData.coach.image
                 }]);
 
+            session.sendTyping();
+            session.sendTyping();
             session.send(msg);
 
         }
         else {
+            session.sendTyping();
+            session.sendTyping();
             session.send(session.dialogData.prefix);
         }
         session.dialogData.user = session.userData.user;
@@ -195,11 +199,11 @@ bot.dialog('/get-coachcode', [
 bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1)
-.triggerAction({
+    .triggerAction({
         matches: [/^Retake_Survey/i]
     });
 bot.dialog('/onboarding-2ndpart', Onboarding2)
-.triggerAction({
+    .triggerAction({
         matches: [/^Change_Time/i]
     });
 bot.dialog('/onboarding-3rdpart', Onboarding3);
