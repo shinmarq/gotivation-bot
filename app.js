@@ -140,8 +140,7 @@ bot.use({
     }
 });
 
-bot.beginDialogAction('Change_Time', '/onboarding-2ndpart', { matches: /^Change_Time/i });
-bot.beginDialogAction('Change_Time', '/onboarding-1stpart', { matches: /^Retake_Survey/i });
+
 bot.dialog('/get-coachcode', [
 
     function (session, args, next) {
@@ -195,7 +194,13 @@ bot.dialog('/get-coachcode', [
 bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1)
+.triggerAction({
+        matches: [/^Retake_Survey/i]
+    });
 bot.dialog('/onboarding-2ndpart', Onboarding2)
+.triggerAction({
+        matches: [/^Change_Time/i]
+    });
 bot.dialog('/onboarding-3rdpart', Onboarding3);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
