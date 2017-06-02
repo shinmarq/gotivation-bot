@@ -40,7 +40,7 @@ module.exports = [
                         }
                         else {
                             session.sendTyping();
-                            builder.Prompts.text(session, `OK, your motivation have been rescheduled every ` + results.response.entiy);
+                            builder.Prompts.text(session, `OK, your motivation have been rescheduled every ` + results.response.entity);
                         }
 
                     }
