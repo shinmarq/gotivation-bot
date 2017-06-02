@@ -42,7 +42,7 @@ var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     MemberSession = require('./dialogs/member-session');
 
 
-bot.use(builder.Middleware.dialogVersion({ version: 1.1, resetCommand: /^reset/i }));
+bot.use(builder.Middleware.dialogVersion({ version: 1.2, resetCommand: /^reset/i }));
 var model = process.env.model ||
     'https://api.projectoxford.ai/luis/v1/application?id=ff6021a2-8bc4-4557-bb0e-3394bc2ae164&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
 var recognizer = new builder.LuisRecognizer(model)
