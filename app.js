@@ -192,7 +192,7 @@ bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1)
 .triggerAction({
-    matches: /^onboarding-1stpart$/,
+    matches: /^Retake_Survey$/,
     onSelectAction: function(session, args, next){
         // Add the help dialog to the dialog stack 
         // (override the default behavior of replacing the stack)
@@ -202,7 +202,7 @@ bot.dialog('/onboarding-1stpart', Onboarding1)
 
 bot.dialog('/onboarding-2ndpart', Onboarding2)
 .triggerAction({
-    matches: /^onboarding-2ndpart$/,
+    matches: /^Change_Time$/,
     onSelectAction: function(session, args, next){
         // Add the help dialog to the dialog stack 
         // (override the default behavior of replacing the stack)
