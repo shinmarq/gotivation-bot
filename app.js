@@ -67,8 +67,8 @@ bot.use({
             session.conversationData = {};
         }
 
-        changeTime ? session.beginDialog('/onboarding-2ndpart') : console.log('skip change time...');
-        retakeSurvey ? session.beginDialog('/onboarding-1stpart') : console.log('skip change time...');
+        changeTime ? session.replaceDialog('/onboarding-2ndpart') : console.log('skip change time...');
+        retakeSurvey ? session.replaceDialog('/onboarding-1stpart') : console.log('skip change survey...');
         if (!session.userData.firstRun) {
             var params = {
                 setting_type: "call_to_actions",
