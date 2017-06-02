@@ -192,21 +192,21 @@ bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1)
 .triggerAction({
-    matches: /^Retake_Survey$/,
+    matches: /^onboarding-1stpart$/,
     onSelectAction: function(session, args, next){
         // Add the help dialog to the dialog stack 
         // (override the default behavior of replacing the stack)
-        session.beginDialog('/onboarding-1stpart');
+        session.beginDialog(args.action, args);
     }
 });
 
 bot.dialog('/onboarding-2ndpart', Onboarding2)
 .triggerAction({
-    matches: /^Change_Time$/,
+    matches: /^onboarding-2ndpart$/,
     onSelectAction: function(session, args, next){
         // Add the help dialog to the dialog stack 
         // (override the default behavior of replacing the stack)
-        session.beginDialog('/onboarding-2ndpart');
+        session.beginDialog(args.action, args);
     }
 });
 bot.dialog('/onboarding-3rdpart', Onboarding3);
