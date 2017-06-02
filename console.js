@@ -29,12 +29,13 @@ var bot = new builder.UniversalBot(consoleConnector);
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     Onboarding2 = require('./dialogs/onboarding-2ndpart'),
+    Onboarding3 = require('./dialogs/onboarding-3rdpart'),
     Default = require('./dialogs/default'),
     Validatecoach = require('./dialogs/validatecoach'),
     MemberSession = require('./dialogs/member-session');
 
 
-bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
+bot.use(builder.Middleware.dialogVersion({ version: 1.1, resetCommand: /^reset/i }));
 var model = process.env.model ||
     'https://api.projectoxford.ai/luis/v1/application?id=ff6021a2-8bc4-4557-bb0e-3394bc2ae164&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
 var recognizer = new builder.LuisRecognizer(model)
@@ -72,7 +73,8 @@ bot.use({
                     if (!error && response.statusCode == 200) {
                         var params = {
                             memberid: session.message.address.user.id,
-                            categories: []
+                            categories: [],
+                            profiletype: ""
                         }
                         parser.member.updatemember(params, function (err, res, body) {
                             console.log(res.statusCode);
@@ -168,7 +170,7 @@ bot.dialog('/get-coachcode', [
         }
         session.dialogData.user = session.userData.user
         session.sendTyping();
-        session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
+        session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 2 minutes.)`);
         session.beginDialog('/onboarding-1stpart', session.dialogData);
     }
 
@@ -180,5 +182,6 @@ bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1);
 bot.dialog('/onboarding-2ndpart', Onboarding2);
+bot.dialog('/onboarding-3rdpart', Onboarding3);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
