@@ -149,20 +149,6 @@ module.exports = [
                 }
             });
 
-            // async.waterfall([async.apply(_function1, _function2)],
-            //     function (err, result) {
-
-            //     });
-
-            // function _function1(callback) {
-            //     session.replaceDialog('/member-session', session.dialogData);
-            //     callback(null, 'success');
-            // }
-
-            // function _function2(arg, callback) {
-            //     callback(null, 'success');
-            // }
-
         }
     }
 ]
