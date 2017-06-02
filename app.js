@@ -56,8 +56,8 @@ var intentDialog = new builder.IntentDialog({
 bot.use({
     botbuilder: function (session, next) {
         var startOver = /^started|get started|start over/i.test(session.message.text);
-        var changeTime = /^Change_Time/i.test(session.message.text);
-        var retakeSurvey = /^Retake_Survey/i.test(session.message.text);
+        //var changeTime = /^Change_Time/i.test(session.message.text);
+        //var retakeSurvey = /^Retake_Survey/i.test(session.message.text);
 
 
         if (session.message.text === "GET_STARTED" || startOver) {
@@ -66,8 +66,8 @@ bot.use({
             session.conversationData = {};
         }
 
-        changeTime ? session.replaceDialog('/onboarding-2ndpart') : console.log('skip change time...');
-        retakeSurvey ? session.replaceDialog('/onboarding-1stpart') : console.log('skip change survey...');
+        //changeTime ? session.replaceDialog('/onboarding-2ndpart') : console.log('skip change time...');
+        //retakeSurvey ? session.replaceDialog('/onboarding-1stpart') : console.log('skip change survey...');
         if (!session.userData.firstRun) {
             var params = {
                 setting_type: "call_to_actions",
@@ -140,7 +140,8 @@ bot.use({
     }
 });
 
-
+bot.beginDialogAction('Change_Time', '/onboarding-2ndpart', { matches: /^Change_Time/i });
+bot.beginDialogAction('Change_Time', '/onboarding-1stpart', { matches: /^Retake_Survey/i });
 bot.dialog('/get-coachcode', [
 
     function (session, args, next) {
@@ -190,7 +191,6 @@ bot.dialog('/get-coachcode', [
 
 
 ]);
-
 
 bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
