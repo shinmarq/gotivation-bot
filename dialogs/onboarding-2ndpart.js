@@ -226,7 +226,7 @@ module.exports = [
             var dictionary = dict;
             var profileresult = session.dialogData.profile;
             var userprofile;
-
+            console.log(profileresult);
             for (var x = 0; x < dictionary.profiles.length + 1; x++) {
                 if (arraysEqual(dictionary.profiles[x].pairs, profileresult)) {
                     userprofile = dictionary.profiles[x].profile;

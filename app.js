@@ -26,8 +26,8 @@ server.listen(process.env.port || process.env.PORT || 3000, function () {
 //console.log("MICROSOFt APP PASSWORD: ", process.env.MICROSOFT_APP_PASSWORD); 
 // Create chat bot""
 var connector = new builder.ChatConnector({
-    appId: '0033295f-64bc-4f3a-8a84-94ec5226a24e',
-    appPassword: 'hG5g9Yng7MXScphOnATNPQO'
+    appId: process.env.MICROSOFT_APP_ID,
+    appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
@@ -41,7 +41,7 @@ var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     MemberSession = require('./dialogs/member-session');
 
 
-bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
+bot.use(builder.Middleware.dialogVersion({ version: 1.1, resetCommand: /^reset/i }));
 var model = process.env.model ||
     'https://api.projectoxford.ai/luis/v1/application?id=ff6021a2-8bc4-4557-bb0e-3394bc2ae164&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
 var recognizer = new builder.LuisRecognizer(model)
@@ -79,8 +79,9 @@ bot.use({
             },
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
-                        var params = { memberid: session.message.address.user.id }
-                        parser.member.delete(params, function (err, res, body) {
+                        var params = { memberid: session.message.address.user.id,
+                        categories: [] }
+                        parser.member.updatemember(params, function (err, res, body) {
                             console.log(res.statusCode);
                         });
                         session.userData.firstRun = true;
