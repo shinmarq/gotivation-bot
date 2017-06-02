@@ -11,11 +11,10 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session) {
-        
+        console.log('SHIN problem=> ', session)
         builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 10:00AM");
     },
     function (session, results, next) {
-        console.log('SHIN problem=> ', results)
         session.sendTyping();
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
