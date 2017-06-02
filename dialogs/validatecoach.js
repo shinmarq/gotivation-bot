@@ -15,7 +15,7 @@ module.exports =
         function (session, results, next) {
             if (results.response) {
                 // session.dialogData.profile.name = results.response;
-                if (results.response == "no code") {
+                if (results.response.toLowerCase() == "no code") {
                     session.dialogData.coach.validCode = false;
                     session.endDialogWithResult({ response: session.dialogData.coach });
                 } else {
