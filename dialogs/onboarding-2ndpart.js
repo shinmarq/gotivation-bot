@@ -20,6 +20,7 @@ module.exports = [
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             //var utc_offset = moment(recurrence).utcOffset(session.userData.user.timezone).format('ZZ');
             //console.log('UTCOFFSET SHIT => ', utc_offset)
+           var concattime = moment(recurrence).format("hh:mm:ss a")
             recurrence = moment.utc(recurrence).add(session.userData.user.timezone * -1, "hours");
             recurrence = recurrence.format("HH:mm");
             //console.log('RECURRENCE SHIT => ', recurrence)
@@ -37,7 +38,7 @@ module.exports = [
                         }
                         else {
                             session.sendTyping();
-                            builder.Prompts.confirm(session, `Do you want to retake the survey part?`);
+                            builder.Prompts.text(session, `OK, your motivation have been rescheduled every ${recurrence}`);
                         }
 
                     }
@@ -51,13 +52,7 @@ module.exports = [
             }
         }
     },
-    function (session, results) {
-        var choice = results.response ? 'yes' : 'no';
-        if (choice === 'yes')
-            session.beginDialog('/onboarding-3rdpart', session.dialogData);
-        else
-            builder.Prompts.text(session, 'OK, your motivation have been rescheduled.')
-    },
+    
     function (session, results) {
         session.sendTyping();
         if (results.response) {
