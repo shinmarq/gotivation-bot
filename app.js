@@ -188,8 +188,6 @@ bot.dialog('/get-coachcode', [
 ]);
 
 
-bot.beginDialogAction('Change_Time', '/onboarding-2ndpart');
-bot.beginDialogAction('Retake_Survey', '/onboarding-1stpart');
 bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1)
@@ -198,7 +196,7 @@ bot.dialog('/onboarding-1stpart', Onboarding1)
     onSelectAction: function(session, args, next){
         // Add the help dialog to the dialog stack 
         // (override the default behavior of replacing the stack)
-        session.beginDialog(args.action, args);
+        session.beginDialog('/onboarding-1stpart');
     }
 });
 
@@ -209,7 +207,7 @@ bot.dialog('/onboarding-2ndpart', Onboarding2)
         // Add the help dialog to the dialog stack 
         // (override the default behavior of replacing the stack)
         console.log(args)
-        session.beginDialog(args.action, args);
+        session.beginDialog('/onboarding-2ndpart');
     }
 });
 bot.dialog('/onboarding-3rdpart', Onboarding3);
