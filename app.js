@@ -36,6 +36,7 @@ server.post('/api/messages', connector.listen());
 var fburl = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=" + CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     Onboarding2 = require('./dialogs/onboarding-2ndpart'),
+    Onboarding3 = require('./dialogs/onboarding-3rdpart'),
     Default = require('./dialogs/default'),
     Validatecoach = require('./dialogs/validatecoach'),
     MemberSession = require('./dialogs/member-session');
@@ -78,8 +79,11 @@ bot.use({
             },
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
-                        var params = { memberid: session.message.address.user.id,
-                        categories: [] }
+                        var params = {
+                            memberid: session.message.address.user.id,
+                            categories: [],
+                            profiletype: ""
+                        }
                         parser.member.updatemember(params, function (err, res, body) {
                             console.log(res.statusCode);
                         });
@@ -97,7 +101,7 @@ bot.use({
 
                         request({
                             url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name,locale,timezone&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
-                            //url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name,gender,last_name&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
+                            //url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name,gender,last_name,locale,timezone&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
                         },
@@ -174,7 +178,7 @@ bot.dialog('/get-coachcode', [
         }
         session.dialogData.user = session.userData.user
         session.sendTyping();
-        session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 3 minutes.)`);
+        session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 2 minutes.)`);
         session.beginDialog('/onboarding-1stpart', session.dialogData);
     }
 
@@ -186,8 +190,10 @@ bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1);
 bot.dialog('/onboarding-2ndpart', Onboarding2);
+bot.dialog('/onboarding-3rdpart', Onboarding3);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
+
 
 
 
