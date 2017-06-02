@@ -57,13 +57,18 @@ bot.use({
     botbuilder: function (session, next) {
         console.log(session);
         var startOver = /^started|get started|start over/i.test(session.message.text);
+        var changeTime = /^Change_Time/i.test(session.message.text);
+        var retakeSurvey = /^Retake_Survey/i.test(session.message.text);
+
+
         if (session.message.text === "GET_STARTED" || startOver) {
             session.perUserInConversationData = {};
             session.userData = {};
             session.conversationData = {};
         }
 
-
+        changeTime ? session.beginDialog('/onboarding-2ndpart') : console.log('skip change time...');
+        retakeSurvey ? session.beginDialog('/onboarding-1stpart') : console.log('skip change time...');
         if (!session.userData.firstRun) {
             var params = {
                 setting_type: "call_to_actions",
@@ -191,24 +196,7 @@ bot.dialog('/get-coachcode', [
 bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1)
-.triggerAction({
-    matches: /^Retake_Survey$/,
-    onSelectAction: function(session, args, next){
-        // Add the help dialog to the dialog stack 
-        // (override the default behavior of replacing the stack)
-        session.beginDialog(args.action, args);
-    }
-});
-
 bot.dialog('/onboarding-2ndpart', Onboarding2)
-.triggerAction({
-    matches: /^Change_Time$/,
-    onSelectAction: function(session, args, next){
-        // Add the help dialog to the dialog stack 
-        // (override the default behavior of replacing the stack)
-        session.beginDialog(args.action, args);
-    }
-});
 bot.dialog('/onboarding-3rdpart', Onboarding3);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
