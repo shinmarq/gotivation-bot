@@ -183,6 +183,9 @@ bot.dialog('/get-coachcode', [
 
 ]);
 
+
+bot.beginDialogAction('Change_Time', '/onboarding-2ndpart');
+bot.beginDialogAction('Retake_Survey', '/onboarding-1stpart');
 bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1);
