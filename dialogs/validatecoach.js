@@ -15,7 +15,7 @@ module.exports =
         function (session, results, next) {
             if (results.response) {
                 // session.dialogData.profile.name = results.response;
-                if (results.response == "no code") {
+                if (results.response.toLowerCase() == "no code") {
                     session.dialogData.coach.validCode = false;
                     session.endDialogWithResult({ response: session.dialogData.coach });
                 } else {
@@ -46,7 +46,7 @@ module.exports =
         },
         function (session, results) {
             if (!session.dialogData.coach.coachCode) {
-                session.send("Invalid Code!(You can type 'no code' to proceed)");
+                session.send("Invalid Code! \n\n(You can type 'no code' to proceed)");
                 session.replaceDialog('/validatecoach', session.dialogData);
             } else {
                 session.endDialogWithResult({ response: session.dialogData.coach });
