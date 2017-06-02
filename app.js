@@ -208,6 +208,7 @@ bot.dialog('/onboarding-2ndpart', Onboarding2)
     onSelectAction: function(session, args, next){
         // Add the help dialog to the dialog stack 
         // (override the default behavior of replacing the stack)
+        console.log(args)
         session.beginDialog(args.action, args);
     }
 });
