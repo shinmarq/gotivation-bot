@@ -46,7 +46,7 @@ module.exports =
         },
         function (session, results) {
             if (!session.dialogData.coach.coachCode) {
-                session.send("Invalid Code! \n(You can type 'no code' to proceed)");
+                session.send("Invalid Code! \n\n(You can type 'no code' to proceed)");
                 session.replaceDialog('/validatecoach', session.dialogData);
             } else {
                 session.endDialogWithResult({ response: session.dialogData.coach });
