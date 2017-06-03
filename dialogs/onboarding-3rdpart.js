@@ -195,6 +195,7 @@ module.exports = [
             parser.member.getmember(params, function (err, res, body) {
                 onboarded = body.onboarded;
             })
+            console.log(onboarded);
             if (!onboarded) {
                 var msg = new builder.Message(session)
                     .text(`By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`)
