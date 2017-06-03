@@ -191,45 +191,43 @@ module.exports = [
             var params = {
                 memberid: session.message.address.user.id
             }
-           var onboarded;
             parser.member.getmember(params, function (err, res, body) {
-                console.log(body);
-                onboarded = body.onboarded;
-            })
-            console.log(onboarded);
-            if (!onboarded) {
-                var msg = new builder.Message(session)
-                    .text(`By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`)
-                    .addAttachment({
-                        contentType: "application/vnd.microsoft.card",
-                        content: {
-                            "buttons": [
-                                {
-                                    "type": "openUrl",
-                                    "title": "Terms of Service",
-                                    "value": "http://gotivation.co/privacy-policy/"
-                                },
-                                {
-                                    "type": "openUrl",
-                                    "title": "Privacy Policy",
-                                    "value": "http://gotivation.co/terms-of-service/"
-                                }
 
-                            ]
-                        }
-                    });
-                session.send(msg);
-                console.log(session.dialogData);
-                builder.Prompts.choice(session,
-                    `Click "I Agree" to proceed`,
-                    ["I Agree"], {
-                        listStyle: builder.ListStyle.button,
-                        retryPrompt: `Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy`
-                    });
-                //Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy
-            }
-            else
-                next();
+                if (!body.onboarded) {
+                    var msg = new builder.Message(session)
+                        .text(`By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`)
+                        .addAttachment({
+                            contentType: "application/vnd.microsoft.card",
+                            content: {
+                                "buttons": [
+                                    {
+                                        "type": "openUrl",
+                                        "title": "Terms of Service",
+                                        "value": "http://gotivation.co/privacy-policy/"
+                                    },
+                                    {
+                                        "type": "openUrl",
+                                        "title": "Privacy Policy",
+                                        "value": "http://gotivation.co/terms-of-service/"
+                                    }
+
+                                ]
+                            }
+                        });
+                    session.send(msg);
+                    console.log(session.dialogData);
+                    builder.Prompts.choice(session,
+                        `Click "I Agree" to proceed`,
+                        ["I Agree"], {
+                            listStyle: builder.ListStyle.button,
+                            retryPrompt: `Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy`
+                        });
+                    //Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy
+                }
+                else
+            })
+
+            next();
         }
     },
     function (session, results) {
