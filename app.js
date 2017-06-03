@@ -90,7 +90,6 @@ bot.use({
                             categories: [],
                             classes: [],
                             construals: "",
-                            coach: "",
                             profiletype: ""
                         }
                         parser.member.updatemember(params, function (err, res, body) {
