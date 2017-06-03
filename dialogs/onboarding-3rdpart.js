@@ -193,6 +193,7 @@ module.exports = [
             }
            var onboarded;
             parser.member.getmember(params, function (err, res, body) {
+                console.log(body);
                 onboarded = body.onboarded;
             })
             console.log(onboarded);
