@@ -11,11 +11,9 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session) {
-        console.log('SHIN problem=> ', session)
         builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 10:00AM");
     },
     function (session, results, next) {
-        console.log('TIME =>', results);
         session.sendTyping();
         if (results.response) {
             // session.dialogData.recurrence = builder.EntityRecognizer.resolveTime([results.response]);
@@ -35,7 +33,7 @@ module.exports = [
                 session.sendTyping();
                 parser.member.updatemember(params, function (err, res, body) {
                     if (!err && res.statusCode == 200) {
-                        if (body.profiletype == '') {
+                        if (body.profiletype == '' || body.profiletype == undefined) {
                             session.replaceDialog('/onboarding-3rdpart');
                         }
                         else {

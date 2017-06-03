@@ -188,80 +188,88 @@ module.exports = [
         session.sendTyping();
         if (results.response) {
             session.dialogData.construals = results.response
-            var msg = new builder.Message(session)
-                .text(`By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`)
-                .addAttachment({
-                    contentType: "application/vnd.microsoft.card",
-                    content: {
-                        "buttons": [
-                            {
-                                "type": "openUrl",
-                                "title": "Terms of Service",
-                                "value": "http://gotivation.co/privacy-policy/"
-                            },
-                            {
-                                "type": "openUrl",
-                                "title": "Privacy Policy",
-                                "value": "http://gotivation.co/terms-of-service/"
-                            }
+            var params = {
+                memberid: session.message.address.user.id
+            }
+           var onboarded;
+            parser.member.getmember(params, function (err, res, body) {
+                onboarded = body.onboarded;
+            })
+            if (!onboarded) {
+                var msg = new builder.Message(session)
+                    .text(`By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`)
+                    .addAttachment({
+                        contentType: "application/vnd.microsoft.card",
+                        content: {
+                            "buttons": [
+                                {
+                                    "type": "openUrl",
+                                    "title": "Terms of Service",
+                                    "value": "http://gotivation.co/privacy-policy/"
+                                },
+                                {
+                                    "type": "openUrl",
+                                    "title": "Privacy Policy",
+                                    "value": "http://gotivation.co/terms-of-service/"
+                                }
 
-                        ]
-                    }
-                });
-            session.send(msg);
-            console.log(session.dialogData);
-            builder.Prompts.choice(session,
-                `Click "I Agree" to proceed`,
-                ["I Agree"], {
-                    listStyle: builder.ListStyle.button,
-                    retryPrompt: `Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy`
-                });
-            //Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy
-
+                            ]
+                        }
+                    });
+                session.send(msg);
+                console.log(session.dialogData);
+                builder.Prompts.choice(session,
+                    `Click "I Agree" to proceed`,
+                    ["I Agree"], {
+                        listStyle: builder.ListStyle.button,
+                        retryPrompt: `Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy`
+                    });
+                //Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy
+            }
+            else
+                next();
         }
     },
     function (session, results) {
         session.sendTyping();
-        if (results.response.entity == "I Agree") {
-
-            var dictionary = dict;
-            var profileresult = session.dialogData.profile;
-            var userprofile;
-            console.log(profileresult);
-            for (var x = 0; x < dictionary.profiles.length + 1; x++) {
-                if (arraysEqual(dictionary.profiles[x].pairs, profileresult)) {
-                    userprofile = dictionary.profiles[x].profile;
-                    break;
-                }
+        var dictionary = dict;
+        var profileresult = session.dialogData.profile;
+        var userprofile;
+        console.log(profileresult);
+        for (var x = 0; x < dictionary.profiles.length + 1; x++) {
+            if (arraysEqual(dictionary.profiles[x].pairs, profileresult)) {
+                userprofile = dictionary.profiles[x].profile;
+                break;
             }
-            let params = {
-                memberid: session.message.address.user.id,
-                profiletype: userprofile,
-                construals: session.dialogData.construals
-            }
-            session.sendTyping();
-            parser.member.updatemember(params, function (err, res, body) {
-                if (!err && res.statusCode == 200) {
-                    builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation soon. Let’s do this! `);
-
-                    var imgMsg = new builder.Message(session)
-                        .attachments([{
-                            contentType: "image/jpeg",
-                            contentUrl: "http://res.cloudinary.com/hobwovvya/image/upload/v1496212599/First_Step_GTV_jdxnkn.png"
-                        }]);
-
-                    session.send(imgMsg);
-
-                }
-                else {
-                    console.log(res.statusCode);
-                    console.log(err);
-                    session.send('Something went wrong and your session is not saved. Please try again');
-                    //builder.Prompts.text(session, `You’re all set !  I’ll be ready with your first motivation soon. Let’s do this! `);
-
-                }
-            });
         }
+        let params = {
+            memberid: session.message.address.user.id,
+            profiletype: userprofile,
+            construals: session.dialogData.construals,
+            onboarded: true
+        }
+        session.sendTyping();
+        parser.member.updatemember(params, function (err, res, body) {
+            if (!err && res.statusCode == 200) {
+                builder.Prompts.text(session, `You’re all set!  I’ll be ready with your first motivation soon. Let’s do this! `);
+
+                var imgMsg = new builder.Message(session)
+                    .attachments([{
+                        contentType: "image/jpeg",
+                        contentUrl: "http://res.cloudinary.com/hobwovvya/image/upload/v1496212599/First_Step_GTV_jdxnkn.png"
+                    }]);
+
+                session.send(imgMsg);
+
+            }
+            else {
+                console.log(res.statusCode);
+                console.log(err);
+                session.send('Something went wrong and your session is not saved. Please try again');
+                //builder.Prompts.text(session, `You’re all set !  I’ll be ready with your first motivation soon. Let’s do this! `);
+
+            }
+        });
     },
     function (session, results) {
         session.sendTyping();
