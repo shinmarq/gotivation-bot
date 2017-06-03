@@ -88,6 +88,9 @@ bot.use({
                             updatetype: "reset",
                             memberid: session.message.address.user.id,
                             categories: [],
+                            classes: [],
+                            construals: "",
+                            coach: "",
                             profiletype: ""
                         }
                         parser.member.updatemember(params, function (err, res, body) {
