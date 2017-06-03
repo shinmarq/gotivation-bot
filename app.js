@@ -85,6 +85,7 @@ bot.use({
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
                         var params = {
+                            updatetype: "reset",
                             memberid: session.message.address.user.id,
                             categories: [],
                             profiletype: ""
