@@ -32,7 +32,9 @@ module.exports = [
     //     }
 
     // },
-    function (session) {
+    function (session, arg) {
+        session.dialogData.onboarded = arg;
+        session.sendTyping();
         session.send("Got it! Please indicate how much the following statements describe you.");
         var options = ["Completely", "A lot", "Moderate", "A little", "Not at all"]
         builder.Prompts.choice(session, "When I say I'm going to work out at a specific time, I always follow through.", options, {
@@ -188,46 +190,39 @@ module.exports = [
         session.sendTyping();
         if (results.response) {
             session.dialogData.construals = results.response
-            var params = {
-                memberid: session.message.address.user.id
+            if (!session.dialogData.onboarded) {
+                var msg = new builder.Message(session)
+                    .text(`By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`)
+                    .addAttachment({
+                        contentType: "application/vnd.microsoft.card",
+                        content: {
+                            "buttons": [
+                                {
+                                    "type": "openUrl",
+                                    "title": "Terms of Service",
+                                    "value": "http://gotivation.co/privacy-policy/"
+                                },
+                                {
+                                    "type": "openUrl",
+                                    "title": "Privacy Policy",
+                                    "value": "http://gotivation.co/terms-of-service/"
+                                }
+
+                            ]
+                        }
+                    });
+                session.send(msg);
+                console.log(session.dialogData);
+                builder.Prompts.choice(session,
+                    `Click "I Agree" to proceed`,
+                    ["I Agree"], {
+                        listStyle: builder.ListStyle.button,
+                        retryPrompt: `Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy`
+                    });
+                //Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy
             }
-            parser.member.getmember(params, function (err, res, body) {
-
-                if (!body.onboarded) {
-                    var msg = new builder.Message(session)
-                        .text(`By clicking "I Agree", you agree with our Terms of Service and Privacy Policy`)
-                        .addAttachment({
-                            contentType: "application/vnd.microsoft.card",
-                            content: {
-                                "buttons": [
-                                    {
-                                        "type": "openUrl",
-                                        "title": "Terms of Service",
-                                        "value": "http://gotivation.co/privacy-policy/"
-                                    },
-                                    {
-                                        "type": "openUrl",
-                                        "title": "Privacy Policy",
-                                        "value": "http://gotivation.co/terms-of-service/"
-                                    }
-
-                                ]
-                            }
-                        });
-                    session.send(msg);
-                    console.log(session.dialogData);
-                    builder.Prompts.choice(session,
-                        `Click "I Agree" to proceed`,
-                        ["I Agree"], {
-                            listStyle: builder.ListStyle.button,
-                            retryPrompt: `Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy`
-                        });
-                    //Your onboarding session will not be saved unless you agree with the Terms of service and Privacy Policy
-                }
-                else
-                    next();
-            })
-
+            else
+                next();
         }
     },
     function (session, results) {

@@ -189,6 +189,9 @@ bot.dialog('/get-coachcode', [
             session.send(session.dialogData.prefix);
         }
         session.dialogData.user = session.userData.user;
+        
+        session.sendTyping();
+        session.sendTyping();
         session.sendTyping();
         session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 2 minutes.)`);
         session.sendTyping();

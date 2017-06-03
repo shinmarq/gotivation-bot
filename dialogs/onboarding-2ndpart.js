@@ -34,7 +34,7 @@ module.exports = [
                 parser.member.updatemember(params, function (err, res, body) {
                     if (!err && res.statusCode == 200) {
                         if (body.profiletype == '' || body.profiletype == undefined) {
-                            session.replaceDialog('/onboarding-3rdpart');
+                            session.replaceDialog('/onboarding-3rdpart',body.onboarded);
                         }
                         else {
                             session.sendTyping();
