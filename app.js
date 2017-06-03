@@ -85,11 +85,9 @@ bot.use({
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
                         var params = {
-                            memberid: session.message.address.user.id,
-                            categories: [],
-                            profiletype: ""
+                            memberid: session.message.address.user.id
                         }
-                        parser.member.updatemember(params, function (err, res, body) {
+                        parser.member.delete(params, function (err, res, body) {
                             console.log(res.statusCode);
                         });
                         session.userData.firstRun = true;
