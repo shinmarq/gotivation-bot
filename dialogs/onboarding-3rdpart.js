@@ -182,6 +182,9 @@ module.exports = [
             }
             session.dialogData.profile = profile;
             session.dialogData.ffa = ffa;
+            session.send(`You're just about done! Last one`);
+            session.sendTyping();
+
             builder.Prompts.text(session, `In 1-2 sentences, write WHY you want to achieve your healthy eating and fitness goals? `)
 
         }
@@ -243,6 +246,7 @@ module.exports = [
             construals: session.dialogData.construals,
             onboarded: true
         }
+        session.sendTyping();        
         session.sendTyping();
         parser.member.updatemember(params, function (err, res, body) {
             if (!err && res.statusCode == 200) {
