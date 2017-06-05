@@ -14,7 +14,7 @@ module.exports = [
         session.dialogData.user = args.user === undefined ? "" : args.user;
         session.beginDialog('/member-session', session.dialogData);
 
-        console.log('if retake? ', session);
+        console.log('if retake? ', session.message.text);
 
     },
 
