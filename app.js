@@ -222,7 +222,7 @@ bot.dialog('/onboarding-1stpart', Onboarding1)
             //session.beginDialog(args.action, args);
         }
     })
-    .beginDialogAction('Retake_Survey', 'onboarding-1stpart', { matches: /^Retake_Survey$/ });;
+    .beginDialogAction('Retake_Survey', 'onboarding-1stpart', { matches: /^Retake_Survey$/ });
 bot.dialog('/onboarding-2ndpart', Onboarding2)
     .triggerAction({
         matches: [/^Change_Time/i]
