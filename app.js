@@ -221,7 +221,8 @@ bot.dialog('/onboarding-1stpart', Onboarding1)
             });
             //session.beginDialog(args.action, args);
         }
-    });
+    })
+    .beginDialogAction('Retake_Survey', 'Help', { matches: /^Retake_Survey$/, dialogArgs: {action: 'onboarding-1stpart'} });;
 bot.dialog('/onboarding-2ndpart', Onboarding2)
     .triggerAction({
         matches: [/^Change_Time/i]
