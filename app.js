@@ -219,7 +219,7 @@ bot.dialog('/onboarding-1stpart', Onboarding1)
             parser.member.updatemember(params, function (err, res, body) {
                 console.log(res.statusCode);
             });
-            session.beginDialog(args.action, args);
+            //session.beginDialog(args.action, args);
         }
     });
 bot.dialog('/onboarding-2ndpart', Onboarding2)
