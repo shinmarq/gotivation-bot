@@ -14,7 +14,21 @@ module.exports = [
         session.dialogData.user = args.user === undefined ? "" : args.user;
         session.beginDialog('/member-session', session.dialogData);
 
-        console.log('if retake? ', session.message.text);
+        // Update member
+        if(session.message.text == 'Retake_Survey'){
+                var params = {
+                                updatetype: "reset",
+                                memberid: session.message.address.user.id,
+                                categories: [],
+                                classes: [],
+                                construals: "",
+                                profiletype: ""
+                            }
+                parser.member.updatemember(params, function (err, res, body) {
+                    console.log(res.statusCode);
+                    console.log('success');
+                });
+        }
 
     },
 
