@@ -218,11 +218,11 @@ bot.dialog('/onboarding-1stpart', Onboarding1)
                         }
             parser.member.updatemember(params, function (err, res, body) {
                 console.log(res.statusCode);
+                session.beginDialog(args.action);
             });
-            //session.beginDialog(args.action, args);
+            
         }
-    })
-    .beginDialogAction('Retake_Survey', 'onboarding-1stpart', { matches: /^Retake_Survey$/ });
+    });
 bot.dialog('/onboarding-2ndpart', Onboarding2)
     .triggerAction({
         matches: [/^Change_Time/i]
