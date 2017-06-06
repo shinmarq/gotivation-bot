@@ -58,7 +58,7 @@ bot.use({
     botbuilder: function (session, next) {
         var startOver = /^started|get started|start over/i.test(session.message.text);
         var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
-
+        // test
         if(retakesurvey){
                 var params = {
                     updatetype: "reset",
