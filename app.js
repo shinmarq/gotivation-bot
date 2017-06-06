@@ -63,7 +63,7 @@ bot.use({
             }
             parser.member.getmember(params, function (error, response, getbody) {
                 if (!error && response.statusCode == 200) {
-                    membercategory = getbody.categories;
+                    var membercategory = getbody.categories;
 
                     console.log('CATEGORY LIST =>', membercategory);
                 } 
