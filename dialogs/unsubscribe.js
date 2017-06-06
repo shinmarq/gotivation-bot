@@ -13,7 +13,18 @@ module.exports = [
                     if(membercategory.length == 0){
                         session.endConversation('Please select first a category.');
                     }else{
-                       console.log('SUCCESSFULLY UNSUBSCRIBED.');
+                       var params = {
+                                updatetype: "unsubscribed",
+                                memberid: session.message.address.user.id,
+                                categories: [],
+                                classes: [],
+                                construals: "",
+                                profiletype: ""
+                            }
+                        parser.member.updatemember(params, function (err, res, body) {
+                            console.log(res.statusCode);
+                            console.log('success unsubscribed');
+                        });
                     }
                 } 
             });
