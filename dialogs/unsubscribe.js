@@ -1,3 +1,5 @@
+var parser = require('../parser');
+
 module.exports = [
     function(session){
         var unsubscribe = /^unsubscribe|unsubscribed|Unsubscribe/i.test(session.message.text);
@@ -13,22 +15,31 @@ module.exports = [
                     if(membercategory.length == 0){
                         session.endConversation('Please select first a category.');
                     }else{
-                       var params = {
-                                updatetype: "unsubscribed",
-                                memberid: session.message.address.user.id,
-                                categories: [],
-                                classes: [],
-                                construals: "",
-                                profiletype: ""
-                            }
-                        parser.member.updatemember(params, function (err, res, body) {
-                            console.log(res.statusCode);
-                            console.log('success unsubscribed');
-                        });
+                       builder.Prompts.confirm(session, `Are you sure you want to unsubscribed?`);
                     }
                 } 
             });
 
         }
+    },
+    function(session, results){
+        if(results.response){
+            var params = {
+                updatetype: "unsubscribed",
+                memberid: session.message.address.user.id,
+                categories: [],
+                classes: [],
+                construals: "",
+                profiletype: ""
+            }
+            parser.member.updatemember(params, function (err, res, body) {
+                console.log(res.statusCode);
+                console.log('success unsubscribed');
+                session.endConversation('Successfully unsubscibed.');
+            });
+        }else{
+            session.endConversation('Okay glad you didn\'t unsubscibed.');
+        }
+        
     }
 ]
