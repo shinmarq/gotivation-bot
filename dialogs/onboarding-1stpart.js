@@ -10,9 +10,7 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 module.exports = [
     function (session, args, next) {
 
-        session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
-        session.dialogData.category = args.category || "";
-        session.dialogData.user = args.user === undefined ? "" : args.user;
+
 
 
         // Update member
@@ -31,8 +29,17 @@ module.exports = [
                 console.log(res.statusCode);
             });
             session.dialogData.category = "";
+            session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
+            session.dialogData.user = args.user === undefined ? "" : args.user;
+            session.beginDialog('/member-session', session.dialogData);
         }
-        session.beginDialog('/member-session', session.dialogData);
+        else {
+            session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
+            session.dialogData.category = args.category || "";
+            session.dialogData.user = args.user === undefined ? "" : args.user;
+            session.beginDialog('/member-session', session.dialogData);
+        }
+
 
 
     },
