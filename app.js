@@ -39,7 +39,8 @@ var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     Onboarding3 = require('./dialogs/onboarding-3rdpart'),
     Default = require('./dialogs/default'),
     Validatecoach = require('./dialogs/validatecoach'),
-    MemberSession = require('./dialogs/member-session');
+    MemberSession = require('./dialogs/member-session'),
+    Unsubscribe = require('./dialogs/unsubscribe');
 
 
 bot.use(builder.Middleware.dialogVersion({ version: 1.2, resetCommand: /^reset/i }));
@@ -56,7 +57,6 @@ var intentDialog = new builder.IntentDialog({
 bot.use({
     botbuilder: function (session, next) {
         var startOver = /^started|get started|start over/i.test(session.message.text);
-        var unsubscribe = /^unsubscribe|Unsubscribed/i.test(session.message.text);
         
         if (session.message.text === "GET_STARTED" || startOver) {
             session.perUserInConversationData = {};
@@ -64,23 +64,7 @@ bot.use({
             session.conversationData = {};
         }
 
-        if(unsubscribe){
-            var params = {
-                memberId: session.message.address.user.id
-            }
-            parser.member.getmember(params, function (error, response, getbody) {
-                if (!error && response.statusCode == 200) {
-                    var membercategory = getbody.categories;
-
-                    if(membercategory.length == 0){
-                        session.endConversation('Please select first a category.');
-                    }else{
-                       console.log('SUCCESSFULLY UNSUBSCRIBED.');
-                    }
-                } 
-            });
-
-        }
+        
 
         if (!session.userData.firstRun) {
             var params = {
@@ -243,6 +227,10 @@ bot.dialog('/onboarding-2ndpart', Onboarding2)
 bot.dialog('/onboarding-3rdpart', Onboarding3);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
+bot.dialog('/unsubscribe', Unsubscribe)
+    .triggerAction({
+        matches: [/^unsubscribe|unsubscribed|Unsubscribe/i]
+    });
 
 
 
