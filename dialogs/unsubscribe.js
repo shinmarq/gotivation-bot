@@ -1,3 +1,4 @@
+var builder = require('botbuilder');
 var parser = require('../parser');
 
 module.exports = [
