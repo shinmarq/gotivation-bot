@@ -11,7 +11,8 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session) {
-        if(session.message.text == 'Change_Time'){
+        var changetime = /^Change_Time|change time|Change time/i.test(session.message.text);
+        if(changetime){
             var params = {
                 memberId: session.message.address.user.id
             }

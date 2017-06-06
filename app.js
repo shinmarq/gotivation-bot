@@ -204,7 +204,7 @@ bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1)
     .triggerAction({
-        matches: [/^Retake_Survey/i]
+        matches: [/^Retake_Survey|retake survey|Retake survey/i]
         // onSelectAction: function(session, args){
         //     var params = {
         //                     updatetype: "reset",
@@ -222,7 +222,7 @@ bot.dialog('/onboarding-1stpart', Onboarding1)
     });
 bot.dialog('/onboarding-2ndpart', Onboarding2)
     .triggerAction({
-        matches: [/^Change_Time/i]
+        matches: [/^Change_Time|change time|Change time/i]
     });
 bot.dialog('/onboarding-3rdpart', Onboarding3);
 bot.dialog('/default', Default);

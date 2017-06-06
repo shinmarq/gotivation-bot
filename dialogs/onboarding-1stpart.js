@@ -15,7 +15,8 @@ module.exports = [
         session.beginDialog('/member-session', session.dialogData);
 
         // Update member
-        if(session.message.text == 'Retake_Survey'){
+        var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
+        if(retakesurvey){
                 var params = {
                                 updatetype: "retake_survey",
                                 memberid: session.message.address.user.id,
