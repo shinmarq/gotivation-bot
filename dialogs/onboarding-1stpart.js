@@ -17,7 +17,7 @@ module.exports = [
         // Update member
         if(session.message.text == 'Retake_Survey'){
                 var params = {
-                                updatetype: "reset",
+                                updatetype: "retake_survey",
                                 memberid: session.message.address.user.id,
                                 categories: [],
                                 classes: [],
