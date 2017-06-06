@@ -27,8 +27,14 @@ module.exports = [
                                 profiletype: ""
                             }
                 parser.member.updatemember(params, function (err, res, body) {
-                    console.log(res.statusCode);
-                    console.log('success retake');
+                    if(err){
+                        console.log(err)
+                        console.log(res.statusCode)
+                    }else{
+                        console.log(res.statusCode);
+                        console.log('success retake');
+                    }
+                    
                 });
         }
 
