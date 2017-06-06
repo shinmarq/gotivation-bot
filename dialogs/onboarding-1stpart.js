@@ -26,7 +26,7 @@ module.exports = [
                     profiletype: ""
                 }
                 parser.member.updatemember(params, function (err, res, body) {
-                        console.log(res.statusCode);
+                    console.log(res.statusCode);
                 });
         }
 

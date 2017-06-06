@@ -159,7 +159,7 @@ function getWitIntents(intent, inquiry_type, emotion, session){
 
         case 'get_help':
             session.endConversation('I\'d be happy to give you a spot ;) What sort of help do you need?\n\n' +
-                                    'Type - "Start Over" if you want to redo ALL of your onboarding questions\n' +
+                                    'Type - "Start Over" if you want to redo ALL of your onboarding questions\n\n' +
                                     'Type - "Change Time" if you want to change the time when I send you motivation');
         break;
 
