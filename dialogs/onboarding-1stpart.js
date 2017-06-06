@@ -27,7 +27,7 @@ module.exports = [
                             }
                 parser.member.updatemember(params, function (err, res, body) {
                     console.log(res.statusCode);
-                    console.log('success');
+                    console.log('success retake');
                 });
         }
 
