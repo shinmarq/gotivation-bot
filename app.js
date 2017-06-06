@@ -57,21 +57,6 @@ bot.use({
     botbuilder: function (session, next) {
         var startOver = /^started|get started|start over/i.test(session.message.text);
         
-        if(session.message.text == 'Change_Time'){
-            var params = {
-            memberId: session.message.address.user.id
-            }
-            parser.member.getmember(params, function (error, response, getbody) {
-                if (!error && response.statusCode == 200) {
-                    var membercategory = getbody.categories;
-
-                    console.log('CATEGORY LIST =>', membercategory);
-                } 
-            });
-
-        }
-        
-
         if (session.message.text === "GET_STARTED" || startOver) {
             session.perUserInConversationData = {};
             session.userData = {};

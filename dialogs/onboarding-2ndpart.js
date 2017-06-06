@@ -11,7 +11,24 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session) {
-        builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 10:00AM");
+        if(session.message.text == 'Change_Time'){
+            var params = {
+            memberId: session.message.address.user.id
+            }
+            parser.member.getmember(params, function (error, response, getbody) {
+                if (!error && response.statusCode == 200) {
+                    var membercategory = getbody.categories;
+
+                    if(membercategory.length == 0){
+                        console.log('PLEASE SELECT A FUCKING CATEGORY!!!');
+                    }
+                } 
+            });
+
+        }else{
+            builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 10:00AM");
+        }
+        
     },
     function (session, results, next) {
         session.sendTyping();
