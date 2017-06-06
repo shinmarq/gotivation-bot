@@ -15,20 +15,20 @@ module.exports = [
         session.beginDialog('/member-session', session.dialogData);
 
         // Update member
-        // var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
-        // if(retakesurvey){
-        //         var params = {
-        //             updatetype: "reset",
-        //             memberid: session.message.address.user.id,
-        //             categories: [],
-        //             classes: [],
-        //             construals: "",
-        //             profiletype: ""
-        //         }
-        //         parser.member.updatemember(params, function (err, res, body) {
-        //             console.log(res.statusCode);
-        //         });
-        // }
+        var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
+        if(retakesurvey){
+                var params = {
+                    updatetype: "retake survey",
+                    memberid: session.message.address.user.id,
+                    categories: [],
+                    classes: [],
+                    construals: "",
+                    profiletype: ""
+                }
+                parser.member.updatemember(params, function (err, res, body) {
+                    console.log(res.statusCode);
+                });
+        }
 
     },
 
