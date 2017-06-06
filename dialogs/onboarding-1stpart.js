@@ -17,6 +17,7 @@ module.exports = [
         // Update member
         var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
         if(retakesurvey){
+                console.log('shin =>', session.message.address.user.id);
                 var params = {
                                 updatetype: "retake_survey",
                                 memberid: session.message.address.user.id,
