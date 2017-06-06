@@ -20,7 +20,9 @@ module.exports = [
                     var membercategory = getbody.categories;
 
                     if(membercategory.length == 0){
-                        console.log('PLEASE SELECT A FUCKING CATEGORY!!!');
+                        session.endConversation('Please select first a category.');
+                    }else{
+                        builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 10:00AM");
                     }
                 } 
             });
