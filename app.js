@@ -56,8 +56,17 @@ var intentDialog = new builder.IntentDialog({
 bot.use({
     botbuilder: function (session, next) {
         var startOver = /^started|get started|start over/i.test(session.message.text);
-        //var changeTime = /^Change_Time/i.test(session.message.text);
-        //var retakeSurvey = /^Retake_Survey/i.test(session.message.text);
+        
+        var params = {
+            memberId: session.message.address.user.id
+        }
+        parser.member.getmember(params, function (error, response, getbody) {
+            if (!error && response.statusCode == 200) {
+                membercategory = getbody.categories;
+
+                console.log('CATEGORY LIST =>', membercategory);
+            } 
+        });
 
 
         if (session.message.text === "GET_STARTED" || startOver) {
