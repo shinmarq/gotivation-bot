@@ -28,7 +28,7 @@ module.exports = [
         //         parser.member.updatemember(params, function (err, res, body) {
         //             console.log(res.statusCode);
         //         });
-        }
+        // }
 
     },
 
