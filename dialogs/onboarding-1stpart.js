@@ -18,7 +18,7 @@ module.exports = [
         var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
         if(retakesurvey){
                 var params = {
-                    updatetype: "retake survey",
+                    updatetype: "reset",
                     memberid: session.message.address.user.id,
                     categories: [],
                     classes: [],
