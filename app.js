@@ -205,20 +205,6 @@ bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1)
     .triggerAction({
         matches: [/^Retake_Survey|retake survey|Retake survey/i]
-        // onSelectAction: function(session, args){
-        //     var params = {
-        //                     updatetype: "reset",
-        //                     memberid: session.message.address.user.id,
-        //                     categories: [],
-        //                     classes: [],
-        //                     construals: "",
-        //                     profiletype: ""
-        //                 }
-        //     parser.member.updatemember(params, function (err, res, body) {
-        //         console.log(res.statusCode);
-        //     });
-            
-        // }
     });
 bot.dialog('/onboarding-2ndpart', Onboarding2)
     .triggerAction({
