@@ -16,7 +16,7 @@ module.exports = [
                     if(membercategory.length == 0){
                         session.endConversation('Please select first a category.');
                     }else{
-                       builder.Prompts.confirm(session, `Are you sure you want to unsubscribe?`);
+                       builder.Prompts.confirm(session, `Are you sure you want to quit before we finish our fitness goal together?`);
                     }
                 } 
             });
