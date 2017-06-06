@@ -204,11 +204,11 @@ bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
 bot.dialog('/onboarding-1stpart', Onboarding1)
     .triggerAction({
-        matches: [/^Retake_Survey|retake survey|Retake survey/i]
+        matches: [/^Retake_Survey|retake survey|Retake survey/i] //shin try to search about regex on how to detect words from sentence "i want to retake survey" will not fire this
     });
 bot.dialog('/onboarding-2ndpart', Onboarding2)
     .triggerAction({
-        matches: [/^Change_Time|change time|Change time/i]
+        matches: [/^Change_Time|change time|Change time/i]//shin try to search about regex on how to detect words from sentence "i want to change my time" will not fire this
     });
 bot.dialog('/onboarding-3rdpart', Onboarding3);
 bot.dialog('/default', Default);
