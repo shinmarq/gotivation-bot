@@ -26,7 +26,7 @@ module.exports = [
     function(session, results){
         if(results.response){
             var params = {
-                updatetype: "unsubscribed",
+                updatetype: "unsubscribe",
                 memberid: session.message.address.user.id,
                 categories: [],
                 classes: [],
