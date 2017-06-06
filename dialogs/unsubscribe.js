@@ -16,7 +16,7 @@ module.exports = [
                     if(membercategory.length == 0){
                         session.endConversation('Please select first a category.');
                     }else{
-                       builder.Prompts.confirm(session, `Are you sure you want to unsubscribed?`);
+                       builder.Prompts.confirm(session, `Are you sure you want to unsubscribe?`);
                     }
                 } 
             });
@@ -36,11 +36,11 @@ module.exports = [
             parser.member.updatemember(params, function (err, res, body) {
                 console.log(res.statusCode);
                 console.log('success unsubscribed');
-                session.endConversation('Successfully unsubscibed.');
+                session.endConversation('Successfully unsubscibed. If you want to get started again with those motivations, just type "Start over"');
             });
         }else{
             //test
-            session.endConversation('Okay glad you didn\'t unsubscibed.');
+            session.endConversation('Okay glad you didn\'t unsubscibe ;)');
         }
         
     }
