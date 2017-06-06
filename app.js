@@ -56,6 +56,7 @@ var intentDialog = new builder.IntentDialog({
 bot.use({
     botbuilder: function (session, next) {
         var startOver = /^started|get started|start over/i.test(session.message.text);
+        var unsubscribe = /^unsubscribe|Unsubscribed/i.test(session.message.text);
         
         if (session.message.text === "GET_STARTED" || startOver) {
             session.perUserInConversationData = {};
@@ -63,8 +64,24 @@ bot.use({
             session.conversationData = {};
         }
 
-        //changeTime ? session.replaceDialog('/onboarding-2ndpart') : console.log('skip change time...');
-        //retakeSurvey ? session.replaceDialog('/onboarding-1stpart') : console.log('skip change survey...');
+        if(unsubscribe){
+            var params = {
+                memberId: session.message.address.user.id
+            }
+            parser.member.getmember(params, function (error, response, getbody) {
+                if (!error && response.statusCode == 200) {
+                    var membercategory = getbody.categories;
+
+                    if(membercategory.length == 0){
+                        session.endConversation('Please select first a category.');
+                    }else{
+                       console.log('SUCCESSFULLY UNSUBSCRIBED.');
+                    }
+                } 
+            });
+
+        }
+
         if (!session.userData.firstRun) {
             var params = {
                 setting_type: "call_to_actions",

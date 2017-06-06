@@ -13,7 +13,7 @@ module.exports = [
     function (session) {
         if(session.message.text == 'Change_Time'){
             var params = {
-            memberId: session.message.address.user.id
+                memberId: session.message.address.user.id
             }
             parser.member.getmember(params, function (error, response, getbody) {
                 if (!error && response.statusCode == 200) {
