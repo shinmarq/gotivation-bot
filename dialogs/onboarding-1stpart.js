@@ -19,22 +19,22 @@ module.exports = [
         if(retakesurvey){
                 console.log('shin =>', session.message.address.user.id);
                 var params = {
-                                updatetype: "retake_survey",
-                                memberid: session.message.address.user.id,
-                                categories: [],
-                                classes: [],
-                                construals: "",
-                                profiletype: ""
-                            }
+                    updatetype: "retake_survey",
+                    memberid: session.message.address.user.id,
+                    categories: [],
+                    classes: [],
+                    construals: "",
+                    profiletype: ""
+                }
                 parser.member.updatemember(params, function (err, res, body) {
-                    if(err){
-                        console.log(err)
-                        console.log(res.statusCode)
-                    }else{
-                        console.log(res.statusCode);
-                        console.log('success retake');
-                    }
-                    
+                    // if(err){
+                    //     console.log(err);
+                    //     console.log(res.statusCode);
+                    // }else{
+                    //     console.log(res.statusCode);
+                    //     console.log('success retake');
+                    // }
+                    console.log(err);   
                 });
         }
 
