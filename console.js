@@ -32,10 +32,11 @@ var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     Onboarding3 = require('./dialogs/onboarding-3rdpart'),
     Default = require('./dialogs/default'),
     Validatecoach = require('./dialogs/validatecoach'),
-    MemberSession = require('./dialogs/member-session');
+    MemberSession = require('./dialogs/member-session'),
+    Unsubscribe = require('./dialogs/unsubscribe');
 
 
-bot.use(builder.Middleware.dialogVersion({ version: 1.1, resetCommand: /^reset/i }));
+bot.use(builder.Middleware.dialogVersion({ version: 1.2, resetCommand: /^reset/i }));
 var model = process.env.model ||
     'https://api.projectoxford.ai/luis/v1/application?id=ff6021a2-8bc4-4557-bb0e-3394bc2ae164&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
 var recognizer = new builder.LuisRecognizer(model)
@@ -48,13 +49,15 @@ var intentDialog = new builder.IntentDialog({
 
 bot.use({
     botbuilder: function (session, next) {
-        let startOver = /^started|get started|start over/i.test(session.message.text);
+        var startOver = /^started|get started|start over/i.test(session.message.text);
+        
         if (session.message.text === "GET_STARTED" || startOver) {
             session.perUserInConversationData = {};
             session.userData = {};
             session.conversationData = {};
         }
 
+        
 
         if (!session.userData.firstRun) {
             var params = {
@@ -73,8 +76,10 @@ bot.use({
                 function (error, response, body) {
                     if (!error && response.statusCode == 200) {
                         var params = {
+                            updatetype: "reset",
                             memberid: session.message.address.user.id,
                             categories: [],
+                            construals: "",
                             profiletype: ""
                         }
                         parser.member.updatemember(params, function (err, res, body) {
@@ -163,15 +168,23 @@ bot.dialog('/get-coachcode', [
                     contentUrl: session.dialogData.coach.image
                 }]);
 
+            session.sendTyping();
+            session.sendTyping();
             session.send(msg);
 
         }
         else {
+            session.sendTyping();
+            session.sendTyping();
             session.send(session.dialogData.prefix);
         }
-        session.dialogData.user = session.userData.user
+        session.dialogData.user = session.userData.user;
+        
+        session.sendTyping();
+        session.sendTyping();
         session.sendTyping();
         session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 2 minutes.)`);
+        session.sendTyping();
         session.beginDialog('/onboarding-1stpart', session.dialogData);
     }
 
@@ -181,8 +194,18 @@ bot.dialog('/get-coachcode', [
 
 bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
-bot.dialog('/onboarding-1stpart', Onboarding1);
-bot.dialog('/onboarding-2ndpart', Onboarding2);
+bot.dialog('/onboarding-1stpart', Onboarding1)
+    .triggerAction({
+        matches: [/^Retake_Survey|retake survey|Retake survey/i] //shin try to search about regex on how to detect words from sentence "i want to retake survey" will not fire this
+    });
+bot.dialog('/onboarding-2ndpart', Onboarding2)
+    .triggerAction({
+        matches: [/^Change_Time|change time|Change time/i]//shin try to search about regex on how to detect words from sentence "i want to change my time" will not fire this
+    });
 bot.dialog('/onboarding-3rdpart', Onboarding3);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
+bot.dialog('/unsubscribe', Unsubscribe)
+    .triggerAction({
+        matches: [/^unsubscribe|unsubscribed|Unsubscribe/i]
+    });
