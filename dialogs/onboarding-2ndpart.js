@@ -23,13 +23,13 @@ module.exports = [
                     if(membercategory.length == 0){
                         session.endConversation('Please select first a category.');
                     }else{
-                        builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 10:00AM");
+                        builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 7:45PM");
                     }
                 } 
             });
 
         }else{
-            builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 10:00AM");
+            builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 10:15AM");
         }
         
     },
