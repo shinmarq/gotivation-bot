@@ -10,6 +10,8 @@ module.exports = [
         var params = {
             memberId: session.message.address.user.id
         }
+
+        console.log('check category =>', category);
         parser.member.getmember(params, function (error, response, getbody) {
             if (!error && response.statusCode == 200) {
                 membercategory = getbody.categories;
