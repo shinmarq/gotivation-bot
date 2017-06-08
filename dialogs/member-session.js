@@ -18,7 +18,7 @@ module.exports = [
                 if (category != "")
                     membercategory.push({ category: category });
 
-                if (membercategory == [] || membercategory.length == 0) {
+                if (membercategory == []) {
                     console.log('IN');
                     session.dialogData.category = membercategory;
                     next();
