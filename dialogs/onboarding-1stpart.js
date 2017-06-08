@@ -9,6 +9,7 @@ const CONSTANTS = require('../constants');
 const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 module.exports = [
     function (session, args, next) {
+
         // Update member
         var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
         if (retakesurvey) {
@@ -22,12 +23,14 @@ module.exports = [
             }
             parser.member.updatemember(params, function (err, res, body) {
                 console.log(res.statusCode);
+                session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
+                session.dialogData.category = args.category === undefined ? "" : "";
+                session.dialogData.user = args.user === undefined ? "" : args.user;
+                session.beginDialog('/member-session', session.dialogData);
             });
         }
-        session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
-        session.dialogData.category = args.category === undefined ? "" : "";
-        session.dialogData.user = args.user === undefined ? "" : args.user;
-        session.beginDialog('/member-session', session.dialogData);
+
+        
     },
 
     function (session, results, next) {
@@ -167,3 +170,4 @@ module.exports = [
         }
     }
 ]
+
