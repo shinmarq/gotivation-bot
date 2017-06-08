@@ -24,13 +24,13 @@ module.exports = [
             parser.member.updatemember(params, function (err, res, body) {
                 console.log(res.statusCode);
                 session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
-                session.dialogData.category = args.category = "";
+                session.dialogData.category = args.category === undefined ? "" : args.category;
                 session.dialogData.user = args.user === undefined ? "" : args.user;
                 session.beginDialog('/member-session', session.dialogData);
             });
         }else{
             session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
-            session.dialogData.category = args.category = "";
+            session.dialogData.category = args.category === undefined ? "" : args.category;
             session.dialogData.user = args.user === undefined ? "" : args.user;
             session.beginDialog('/member-session', session.dialogData);
         }
