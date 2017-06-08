@@ -39,7 +39,6 @@ module.exports = [
     },
 
     function (session, results, next) {
-        console.log(results.response.category);
         session.dialogData.category = results.response.category;
         var options = {
         }
@@ -137,6 +136,7 @@ module.exports = [
 
     },
     function (session, results, next) {
+        console.log(results.response.category);
         session.sendTyping();
         if (results.response) {
             session.dialogData.category = results.response.entity.split(':')[1];
