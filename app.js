@@ -57,6 +57,7 @@ var intentDialog = new builder.IntentDialog({
 bot.use({
     botbuilder: function (session, next) {
         var startOver = /^started|get started|start over/i.test(session.message.text);
+        var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
         
         if (session.message.text === "GET_STARTED" || startOver) {
             session.perUserInConversationData = {};
@@ -64,6 +65,20 @@ bot.use({
             session.conversationData = {};
         }
 
+        
+        if (retakesurvey) {
+            console.log(session.message.address.user.id);
+            var params = {
+                updatetype: "retake_survey",
+                memberid: session.message.address.user.id,
+                categories: [],
+                construals: "",
+                profiletype: ""
+            }
+            parser.member.updatemember(params, function (err, res, body) {
+                console.log(res.statusCode);
+            });
+        }
         
 
         if (!session.userData.firstRun) {
