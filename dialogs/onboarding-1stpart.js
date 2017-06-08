@@ -28,9 +28,7 @@ module.exports = [
         session.dialogData.category = args.category || "";
         session.dialogData.user = args.user === undefined ? "" : args.user;
         session.beginDialog('/member-session', session.dialogData);
-
-
-
+        console.log('from onboarding1 =>', args.category);
     },
 
     function (session, results, next) {
