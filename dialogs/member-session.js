@@ -94,6 +94,7 @@ module.exports = [
     },
     function (session, results) {
         if (session.dialogData.category) {
+            console.log('check1 category =>', session.dialogData.category);
             session.endDialogWithResult({ response: session.dialogData });
         }
     }
