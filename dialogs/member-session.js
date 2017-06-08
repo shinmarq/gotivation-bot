@@ -14,12 +14,11 @@ module.exports = [
         parser.member.getmember(params, function (error, response, getbody) {
             if (!error && response.statusCode == 200) {
                 membercategory = getbody.categories;
-                console.log('check category =>', membercategory);
+
                 if (category != "")
                     membercategory.push({ category: category });
 
-                if (membercategory == []) {
-                    console.log('IN');
+                if (membercategory == [] || membercategory.length == 0) {
                     session.dialogData.category = membercategory;
                     next();
                 }
