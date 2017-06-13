@@ -215,6 +215,60 @@ bot.dialog('/unsubscribe', Unsubscribe)
         matches: [/^unsubscribe|unsubscribed|Unsubscribe/i]
     });
 
+// Bot Analytics - Incoming
+// function incomingMsgAnalytics(json){
+//     request({
+//             url: 'https://botanalytics.co/api/v1/messages/facebook-messenger/',
+//             method: 'POST',
+//             headers: {
+//                 authorization: 'Token ' + CONSTANTS.ANALYTICS_TOKEN
+//             },
+//             json: json
+//         }, function(err, res, body){
+//             !err ? console.log(body) : console.log(err);
+//         })
+// }
+// Bot Analytics - User profile
+// function userProfileAnalytics(userid){
+
+//     async.waterfall([getUserProfile, postUserProfile],function(err, results){
+//         !err ? console.log(results) : console.log(err);
+//     })
+
+//     function getUserProfile(callback){
+//         request({
+//             url: 'https://graph.facebook.com/v2.6/' + userid + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + CONSTANTS.FB_PAGE_ACCESS_TOKEN,
+//             method: 'GET'
+//         },
+//         function(err, res){
+//             !err ? callback(null, res) : console.log('error occur..');
+//         });
+//     }
+
+//     function postUserProfile(args, callback){
+//         var userObj = JSON.parse(args.body);
+//         var json = {
+//             first_name: userObj.first_name,
+//             last_name: userObj.last_name,
+//             profile_pic: userObj.profile_pic,
+//             locale: userObj.locale,
+//             timezone: userObj.timezone,
+//             gender: userObj.gender,
+//             user_id: userid 
+//         }
+
+//         request({
+//             url: 'https://botanalytics.co/api/v1/facebook-messenger/users/',
+//             method: 'POST',
+//             headers: {
+//                 authorization: 'Token ' + CONSTANTS.ANALYTICS_TOKEN
+//             },
+//             json: json
+//         }, function(err, res, body){
+//             !err ? callback(null, res) : console.log(err);
+//         });
+//     }
+// }
 
 
 
