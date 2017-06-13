@@ -12,12 +12,12 @@ exports.getcategory = function (params, callback) {
 	var options = {};
 	if (params.categoryId) {
 		options = {
-			url: URL + "/category/" + params.categoryId,
+			url: URL + "bot/category/" + params.categoryId,
 			qs: params
 		};
 	} else {
 		options = {
-			url: URL + "/category/",
+			url: URL + "bot/category/",
 			qs: params
 		};
 
@@ -35,7 +35,7 @@ exports.getcategory = function (params, callback) {
 };
 
 exports.createcategory = function (params, callback) {
-	var postUrl = URL + "/category";
+	var postUrl = URL + "bot/category";
 	var newParams = params;
 	var options = {
 		method: 'post',
@@ -56,7 +56,7 @@ exports.createcategory = function (params, callback) {
 };
 
 exports.updatecategory = function (params, callback) {
-	var putUrl = URL + "/category/" + params.member;
+	var putUrl = URL + "bot/category/" + params.member;
 	var newParams = _.omit(params, ['category']);
 	var options = {
 		method: 'put',

@@ -12,12 +12,12 @@ exports.getmember = function (params, callback) {
 	var options = {};
 	if (params.memberId) {
 		options = {
-			url: URL + "/members/" + params.memberId,
+			url: URL + "bot/members/" + params.memberId,
 			qs: params
 		};
 	} else {
 		options = {
-			url: URL + "/members/",
+			url: URL + "bot/members/",
 			qs: params
 		};
 	}
@@ -35,7 +35,7 @@ exports.getmember = function (params, callback) {
 };
 
 exports.createmember = function (params, callback) {
-	var postUrl = URL + "/members";
+	var postUrl = URL + "bot/members";
 	var newParams = params;
 	var options = {
 		method: 'post',
@@ -57,9 +57,9 @@ exports.createmember = function (params, callback) {
 
 exports.updatemember = function (params, callback) {
 	if(params.member_id)
-	var putUrl = URL + "/members/" + params.member_id;
+	var putUrl = URL + "bot/members/" + params.member_id;
 	else
-	var putUrl = URL + "/members/";
+	var putUrl = URL + "bot/members/";
 	var newParams = _.omit(params, ['member']);
 	var options = {
 		method: 'put',
@@ -81,7 +81,7 @@ exports.updatemember = function (params, callback) {
 
 exports.delete = function (params, callback) {
 	
-	var putUrl = URL + "/members/";
+	var putUrl = URL + "bot/members/";
 	var options = {
 		method: 'delete',
 		body: params,

@@ -13,19 +13,19 @@ exports.getuser = function (params, callback) {
 	var options = {};
 	if (params.userId) {
 		options = {
-			url: URL + "/users/" + params.userId,
+			url: URL + "/bot/users/" + params.userId,
 			qs: params
 		};
 	} 
 	else if(params.coach_code){
 		options = {
-			url: URL + "/users/coach/" + params.coach_code,
+			url: URL + "/bot/users/coach/" + params.coach_code,
 			qs: params
 		};
 	}
 	else {
 		options = {
-			url: URL + "/users/",
+			url: URL + "/bot/users/",
 			qs: params
 		};
 	}
@@ -42,7 +42,7 @@ exports.getuser = function (params, callback) {
 };
 
 exports.createuser = function (params, callback) {
-	var postUrl = URL + "/users";
+	var postUrl = URL + "bot/users";
 	var newParams = params;
 	var options = {
 		method: 'post',
@@ -63,7 +63,7 @@ exports.createuser = function (params, callback) {
 };
 
 exports.updateuser = function (params, callback) {
-	var putUrl = URL + "/users/" + params.user;
+	var putUrl = URL + "bot/users/" + params.user;
 	var newParams = _.omit(params, ['user']);
 	var options = {
 		method: 'put',
