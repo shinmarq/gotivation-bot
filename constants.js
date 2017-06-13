@@ -1,6 +1,6 @@
 // ./dialogs/constants.js
 module.exports.FB_PAGE_ACCESS_TOKEN = "EAAXL7443DqQBALDJgwPBXXKrmlcg76RczcLkD0Bin1zGeO2wmSFa3vyLOSrdqnpRYzQLTltxiIRBUyb6s616wJwFINeZBoONQCU0zAryK06GXDoSHzCEdobZBGdZBJGZBDyZCQBiKKKcNZBx9qUn1hUuWFZB5OBKn2j7FRsPSB9FwZDZD";
-modulle.exports.ANALYTICS_TOKEN = "2857e740be5bacd34b3c9df4612034bad25c2033";
+module.exports.ANALYTICS_TOKEN = "2857e740be5bacd34b3c9df4612034bad25c2033";
 
 //module.exports.FB_PAGE_ACCESS_TOKEN = process.env.FB_PAGE_ACCESS_TOKEN;
 //module.exports.BASE_URL = (process.env.NODE_ENV !== "production")? "http://localhost:3000" : "https://gotivation-bot.herokuapp.com";
