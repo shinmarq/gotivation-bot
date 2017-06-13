@@ -10,6 +10,7 @@ module.exports = [
         var params = {
             memberId: session.message.address.user.id
         }
+
         parser.member.getmember(params, function (error, response, getbody) {
             if (!error && response.statusCode == 200) {
                 membercategory = getbody.categories;
@@ -17,7 +18,7 @@ module.exports = [
                 if (category != "")
                     membercategory.push({ category: category });
 
-                if (membercategory == []) {
+                if (membercategory == [] || membercategory.length == 0) {
                     session.dialogData.category = membercategory;
                     next();
                 }

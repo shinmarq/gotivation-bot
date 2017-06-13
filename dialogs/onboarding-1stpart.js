@@ -9,6 +9,7 @@ const CONSTANTS = require('../constants');
 const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 module.exports = [
     function (session, args, next) {
+        console.log('O1', args);
         // Update member
         var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
         if (retakesurvey) {
@@ -22,15 +23,19 @@ module.exports = [
             }
             parser.member.updatemember(params, function (err, res, body) {
                 console.log(res.statusCode);
+                session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
+                session.dialogData.category = args.category === undefined ? "" : args.category;
+                session.dialogData.user = args.user === undefined ? "" : args.user;
+                session.beginDialog('/member-session', session.dialogData);
             });
+        }else{
+            session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
+            session.dialogData.category = args.category === undefined ? "" : args.category;
+            session.dialogData.user = args.user === undefined ? "" : args.user;
+            session.beginDialog('/member-session', session.dialogData);
         }
-        session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
-        session.dialogData.category = args.category || "";
-        session.dialogData.user = args.user === undefined ? "" : args.user;
-        session.beginDialog('/member-session', session.dialogData);
 
-
-
+        
     },
 
     function (session, results, next) {
@@ -131,6 +136,7 @@ module.exports = [
 
     },
     function (session, results, next) {
+        console.log(results.response);
         session.sendTyping();
         if (results.response) {
             session.dialogData.category = results.response.entity.split(':')[1];
@@ -170,3 +176,4 @@ module.exports = [
         }
     }
 ]
+

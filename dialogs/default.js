@@ -13,7 +13,8 @@ const {Wit, log} = require('node-wit');
 
 module.exports = [
     function (session, args, next) {
-        var entity = session.message.text;
+        var entity;
+        session.message.text == '' ? entity = 'thumbs up' : entity = session.message.text;
         if (entity && entity.length > 0) {
             // session.dialogData.party = results.response.split(/[,\n]+/).map(function (x) { return x.trim(); }) || [];    
             var params = {
