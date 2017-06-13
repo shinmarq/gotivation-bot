@@ -56,45 +56,45 @@ var intentDialog = new builder.IntentDialog({
 
 bot.use({
     botbuilder: function (session, next) {
-        var senderId = session.message.user.id;
-        var timestamp = session.message.sourceEvent.timestamp;
-        var recipient = session.message.sourceEvent.recipient.id;
-        var mid = session.message.address.id;
+        // var senderId = session.message.user.id;
+        // var timestamp = session.message.sourceEvent.timestamp;
+        // var recipient = session.message.sourceEvent.recipient.id;
+        // var mid = session.message.address.id;
 
-        // Analytics - Incoming Msg
-        const incomingMsgBody = {
+        // // Analytics - Incoming Msg
+        // const incomingMsgBody = {
 
-            "recipient": null,
-            "timestamp": timestamp,
-            "message": {
-                "object": "page",
-                "entry": [
-                {
-                    "id": "660687187342583",
-                    "time": timestamp,
-                    "messaging": [
-                    {
-                        "sender": {
-                        "id": senderId
-                        },
-                        "recipient": {
-                        "id": "660687187342583"
-                        },
-                        "timestamp": timestamp,
-                        "message": {
-                        "mid": mid,
-                        "seq": 73,
-                        "text": session.message.text
-                        }
-                    }
-                    ]
-                }
-                ]
+        //     "recipient": null,
+        //     "timestamp": timestamp,
+        //     "message": {
+        //         "object": "page",
+        //         "entry": [
+        //         {
+        //             "id": "660687187342583",
+        //             "time": timestamp,
+        //             "messaging": [
+        //             {
+        //                 "sender": {
+        //                 "id": senderId
+        //                 },
+        //                 "recipient": {
+        //                 "id": "660687187342583"
+        //                 },
+        //                 "timestamp": timestamp,
+        //                 "message": {
+        //                 "mid": mid,
+        //                 "seq": 73,
+        //                 "text": session.message.text
+        //                 }
+        //             }
+        //             ]
+        //         }
+        //         ]
 
-            }
-        }
-        userProfileAnalytics(senderId);
-        incomingMsgAnalytics(incomingMsgBody);
+        //     }
+        // }
+        // userProfileAnalytics(senderId);
+        // incomingMsgAnalytics(incomingMsgBody);
 
         var startOver = /^started|get started|start over/i.test(session.message.text);
         
@@ -255,60 +255,60 @@ bot.dialog('/unsubscribe', Unsubscribe)
         matches: [/^unsubscribe|unsubscribed|Unsubscribe/i]
     });
 
-// Bot Analytics - Incoming
-function incomingMsgAnalytics(json){
-    request({
-            url: 'https://botanalytics.co/api/v1/messages/facebook-messenger/',
-            method: 'POST',
-            headers: {
-                authorization: 'Token ' + CONSTANTS.ANALYTICS_TOKEN
-            },
-            json: json
-        }, function(err, res, body){
-            !err ? console.log(body) : console.log(err);
-        })
-}
-// Bot Analytics - User profile
-function userProfileAnalytics(userid){
+// // Bot Analytics - Incoming
+// function incomingMsgAnalytics(json){
+//     request({
+//             url: 'https://botanalytics.co/api/v1/messages/facebook-messenger/',
+//             method: 'POST',
+//             headers: {
+//                 authorization: 'Token ' + CONSTANTS.ANALYTICS_TOKEN
+//             },
+//             json: json
+//         }, function(err, res, body){
+//             !err ? console.log(body) : console.log(err);
+//         })
+// }
+// // Bot Analytics - User profile
+// function userProfileAnalytics(userid){
 
-    async.waterfall([getUserProfile, postUserProfile],function(err, results){
-        !err ? console.log(results) : console.log(err);
-    })
+//     async.waterfall([getUserProfile, postUserProfile],function(err, results){
+//         !err ? console.log(results) : console.log(err);
+//     })
 
-    function getUserProfile(callback){
-        request({
-            url: 'https://graph.facebook.com/v2.6/' + userid + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + CONSTANTS.FB_PAGE_ACCESS_TOKEN,
-            method: 'GET'
-        },
-        function(err, res){
-            !err ? callback(null, res) : console.log('error occur..');
-        });
-    }
+//     function getUserProfile(callback){
+//         request({
+//             url: 'https://graph.facebook.com/v2.6/' + userid + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + CONSTANTS.FB_PAGE_ACCESS_TOKEN,
+//             method: 'GET'
+//         },
+//         function(err, res){
+//             !err ? callback(null, res) : console.log('error occur..');
+//         });
+//     }
 
-    function postUserProfile(args, callback){
-        var userObj = JSON.parse(args.body);
-        var json = {
-            first_name: userObj.first_name,
-            last_name: userObj.last_name,
-            profile_pic: userObj.profile_pic,
-            locale: userObj.locale,
-            timezone: userObj.timezone,
-            gender: userObj.gender,
-            user_id: userid 
-        }
+//     function postUserProfile(args, callback){
+//         var userObj = JSON.parse(args.body);
+//         var json = {
+//             first_name: userObj.first_name,
+//             last_name: userObj.last_name,
+//             profile_pic: userObj.profile_pic,
+//             locale: userObj.locale,
+//             timezone: userObj.timezone,
+//             gender: userObj.gender,
+//             user_id: userid 
+//         }
 
-        request({
-            url: 'https://botanalytics.co/api/v1/facebook-messenger/users/',
-            method: 'POST',
-            headers: {
-                authorization: 'Token ' + CONSTANTS.ANALYTICS_TOKEN
-            },
-            json: json
-        }, function(err, res, body){
-            !err ? callback(null, res) : console.log(err);
-        });
-    }
-}
+//         request({
+//             url: 'https://botanalytics.co/api/v1/facebook-messenger/users/',
+//             method: 'POST',
+//             headers: {
+//                 authorization: 'Token ' + CONSTANTS.ANALYTICS_TOKEN
+//             },
+//             json: json
+//         }, function(err, res, body){
+//             !err ? callback(null, res) : console.log(err);
+//         });
+//     }
+// }
 
 
 
