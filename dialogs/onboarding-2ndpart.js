@@ -11,7 +11,6 @@ const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 
 module.exports = [
     function (session) {
-        console.log('pasok sa banga', session.message.text);
         var changetime = /^Change_Time|change time|Change time/i.test(session.message.text);
         if(changetime){
             var params = {
@@ -27,7 +26,7 @@ module.exports = [
                         builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 7:45PM");
                     }
                 }else{
-                    console.log('there is error...', getbody);
+                    console.log('there is error...', response);
                 } 
             });
 
