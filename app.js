@@ -219,7 +219,7 @@ bot.dialog('/get-coachcode', [
         }
         else {
             session.sendTyping();
-            session.sendTyping();
+            //session.sendTyping();
             session.send(session.dialogData.prefix);
         }
         session.dialogData.user = session.userData.user;
