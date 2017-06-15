@@ -40,7 +40,6 @@ module.exports = [
                         };
                     } parser.member.updatemember(updateParams, function (err, res, body) {
                         if (!err && res.statusCode == 200) {
-                            console.log('update success...');
                             session.dialogData.category = body.categories;
                             next();
 
