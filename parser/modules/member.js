@@ -17,8 +17,8 @@ exports.getmember = function (params, callback) {
 	// 	};
 	// } else {
 	options = {
-		url: URL + "bot/members/" + params.memberId
-		//qs: params
+		url: URL + "bot/members/",
+		qs: params.memberId
 	};
 	// }
 
