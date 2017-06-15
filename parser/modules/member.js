@@ -10,17 +10,17 @@ const URL = constants.BASE_PATH + constants.API_PATH + "/";
 
 exports.getmember = function (params, callback) {
 	var options = {};
-	// if (params.memberId) {
-	// 	options = {
-	// 		url: URL + "bot/members/" + params.memberId,
-	// 		qs: params
-	// 	};
-	// } else {
-			options = {
-				url: URL + "bot/members/",
-				qs: params
-			};
-	// }
+	if (params.memberId) {
+		options = {
+			url: URL + "members/" + params.memberId,
+			qs: params
+		};
+	} else {
+		options = {
+			url: URL + "members/",
+			qs: params
+		};
+	}
 
 	request.get(options, function (err, res, body) {
 		if (err == null && res.statusCode == constants.SUCCESS) {
@@ -56,22 +56,16 @@ exports.createmember = function (params, callback) {
 };
 
 exports.updatemember = function (params, callback) {
-	// if(params.member_id)
-	// var putUrl = URL + "bot/members/" + params.member_id;
-	// else
-	var putUrl = URL + "bot/members/";
-	// var options = {
-	// 	method: 'PUT',
-	// 	body: params,
-	// 	json: true,
-	// 	url: putUrl
-	// };
-
-	const options = {
+	if(params.member_id)
+	var putUrl = URL + "members/" + params.member_id;
+	else
+	var putUrl = URL + "members/";
+	var options = {
 		method: 'PUT',
-		url: putUrl,
-		form: params
-	}
+		body: params,
+		json: true,
+		url: putUrl
+	};
 	request(options, function (err, res, body) {
 		if (err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
@@ -85,7 +79,7 @@ exports.updatemember = function (params, callback) {
 
 exports.delete = function (params, callback) {
 
-	var putUrl = URL + "bot/members/";
+	var putUrl = URL + "members/";
 	var options = {
 		method: 'delete',
 		body: params,
