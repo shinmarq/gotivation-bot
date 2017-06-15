@@ -62,7 +62,7 @@ exports.updatemember = function (params, callback) {
 	// else
 	var putUrl = URL + "bot/members/";
 	var options = {
-		method: 'put',
+		method: 'PUT',
 		body: params,
 		json: true,
 		url: putUrl
