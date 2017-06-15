@@ -69,12 +69,11 @@ exports.updatemember = function (params, callback) {
 	};
 
 	request(options, function (err, res, body) {
-		if (err === null && res.statusCode == constants.SUCCESS) {
+		if (err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
 			callback(null, res, newBody);
 		} else {
-			console.log('ERROR OCCUR', err);
 			callback(err, res, null);
 		}
 	});
