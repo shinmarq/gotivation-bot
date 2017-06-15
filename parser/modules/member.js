@@ -10,24 +10,24 @@ const URL = constants.BASE_PATH + constants.API_PATH + "/";
 
 exports.getmember = function (params, callback) {
 	var options = {};
-	if (params.memberId) {
-		options = {
-			url: URL + "bot/members/" + params.memberId,
-			qs: params
-		};
-	} else {
-		options = {
-			url: URL + "bot/members/",
-			qs: params
-		};
-	}
+	// if (params.memberId) {
+	// 	options = {
+	// 		url: URL + "bot/members/" + params.memberId,
+	// 		qs: params
+	// 	};
+	// } else {
+	options = {
+		url: URL + "bot/members/",
+		qs: params
+	};
+	// }
 
 	request.get(options, function (err, res, body) {
 		if (err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
 			callback(null, res, newBody);
-		} 
+		}
 		else {
 			callback(err, res, null);
 		}
@@ -64,7 +64,7 @@ exports.updatemember = function (params, callback) {
 		method: 'put',
 		body: params,
 		json: true,
-		url: putUrl  
+		url: putUrl
 	};
 
 	request(options, function (err, res, body) {
@@ -79,13 +79,13 @@ exports.updatemember = function (params, callback) {
 };
 
 exports.delete = function (params, callback) {
-	
+
 	var putUrl = URL + "bot/members/";
 	var options = {
 		method: 'delete',
 		body: params,
 		json: true,
-		url: putUrl  
+		url: putUrl
 	};
 
 	request(options, function (err, res, body) {
