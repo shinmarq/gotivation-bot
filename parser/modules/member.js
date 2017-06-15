@@ -68,9 +68,9 @@ exports.updatemember = function (params, callback) {
 		url: putUrl
 	};
 
+	console.log('no-content', options);
 	request(options, function (err, res, body) {
-		console.log(res.statusCode);
-		if (!err && res.statusCode == constants.SUCCESS) {
+		if (err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
 			callback(null, res, newBody);
