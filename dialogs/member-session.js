@@ -8,7 +8,7 @@ module.exports = [
         var parcoach_id = args.coach_id || "";
         var membercategory = []
         var params = {
-            memberId: session.message.address.user.id
+            memberid: session.message.address.user.id
         }
 
         parser.member.getmember(params, function (error, response, getbody) {
