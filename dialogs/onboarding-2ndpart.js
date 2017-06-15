@@ -25,6 +25,8 @@ module.exports = [
                     }else{
                         builder.Prompts.time(session, "Alright! What time would you prefer to receive your daily motivation? \n\nEx. 7:45PM");
                     }
+                }else{
+                    console.log('there is error...', response);
                 } 
             });
 

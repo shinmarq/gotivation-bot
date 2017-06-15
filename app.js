@@ -95,7 +95,6 @@ bot.use({
         // }
         // userProfileAnalytics(senderId);
         // incomingMsgAnalytics(incomingMsgBody);
-
         var startOver = /^started|get started|start over/i.test(session.message.text);
         
         if (session.message.text === "GET_STARTED" || startOver) {
