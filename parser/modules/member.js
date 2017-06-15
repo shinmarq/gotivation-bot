@@ -60,7 +60,6 @@ exports.updatemember = function (params, callback) {
 	// if(params.member_id)
 	// var putUrl = URL + "bot/members/" + params.member_id;
 	// else
-	console.log('API UPDATE', params);
 	var putUrl = URL + "bot/members/";
 	var options = {
 		method: 'put',
