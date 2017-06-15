@@ -20,7 +20,7 @@ module.exports = [
             parser.member.getmember(params, function (error, response, getbody) {
                 if (!error && response.statusCode == 200) {
                     var membercategory = getbody.categories;
-                    console.log('members', membercategory);
+                    console.log('members', getbody.categories);
                     if(membercategory.length == 0){
                         session.endConversation('Please select first a category.');
                     }else{
