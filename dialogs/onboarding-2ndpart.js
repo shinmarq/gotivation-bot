@@ -65,6 +65,7 @@ module.exports = [
 
                     }
                     else {
+                        console.log('response', res);
                         console.log(res.statusCode);
                         console.log(err);
                         session.send('Something went wrong and your session is not saved. Please try again');
