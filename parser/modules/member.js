@@ -74,7 +74,7 @@ exports.updatemember = function (params, callback) {
 			var newBody = mapResponse.mapData();
 			callback(null, res, newBody);
 		} else {
-			console.log('ERROR OCCUR', res);
+			console.log('ERROR OCCUR', err);
 			callback(err, res, null);
 		}
 	});
