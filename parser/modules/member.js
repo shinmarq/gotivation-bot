@@ -16,10 +16,10 @@ exports.getmember = function (params, callback) {
 	// 		qs: params
 	// 	};
 	// } else {
-	options = {
-		url: URL + "bot/members/",
-		qs: params
-	};
+			options = {
+				url: URL + "bot/members/",
+				qs: params
+			};
 	// }
 
 	request.get(options, function (err, res, body) {
@@ -60,14 +60,18 @@ exports.updatemember = function (params, callback) {
 	// var putUrl = URL + "bot/members/" + params.member_id;
 	// else
 	var putUrl = URL + "bot/members/";
-	var options = {
-		method: 'PUT',
-		body: params,
-		json: true,
-		url: putUrl
-	};
+	// var options = {
+	// 	method: 'PUT',
+	// 	body: params,
+	// 	json: true,
+	// 	url: putUrl
+	// };
 
-	console.log('no-content', options);
+	const options = {
+		method: 'POST',
+		url: putUrl,
+		form: params
+	}
 	request(options, function (err, res, body) {
 		if (err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
