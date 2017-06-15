@@ -170,7 +170,7 @@ module.exports = [
             var profile = session.dialogData.profile;
             if (ffa === "1" || ffa === "2") {
                 profile.push(1);
-                ffa = "Driven by Fear of Failure";
+                ffa = "Glory Seeker";
             }
             else if (ffa === "3") {
                 profile.push(2);
@@ -178,7 +178,8 @@ module.exports = [
             }
             else if (ffa === "4" | ffa === "5") {
                 profile.push(3);
-                ffa = "Glory Seeker";
+                ffa = "Driven by Fear of Failure";
+
             }
             session.dialogData.profile = profile;
             session.dialogData.ffa = ffa;
@@ -246,7 +247,7 @@ module.exports = [
             construals: session.dialogData.construals,
             onboarded: true
         }
-        session.sendTyping();        
+        session.sendTyping();
         session.sendTyping();
         parser.member.updatemember(params, function (err, res, body) {
             if (!err && res.statusCode == 200) {
