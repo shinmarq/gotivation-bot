@@ -69,6 +69,7 @@ exports.updatemember = function (params, callback) {
 	};
 
 	request(options, function (err, res, body) {
+		console.log(res.statusCode);
 		if (!err && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
