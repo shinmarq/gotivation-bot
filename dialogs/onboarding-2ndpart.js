@@ -16,8 +16,8 @@ module.exports = [
             var params = {
                 memberId: session.message.address.user.id
             }
-            console.log('thi is params', params);
             parser.member.getmember(params, function (error, response, getbody) {
+                console.log(getbody);
                 if (!error && response.statusCode == 200) {
                     var membercategory = getbody.categories;
                     if(membercategory.length == 0){
