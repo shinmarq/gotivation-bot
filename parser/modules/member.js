@@ -56,14 +56,13 @@ exports.createmember = function (params, callback) {
 };
 
 exports.updatemember = function (params, callback) {
-	if(params.member_id)
-	var putUrl = URL + "bot/members/" + params.member_id;
-	else
+	// if(params.member_id)
+	// var putUrl = URL + "bot/members/" + params.member_id;
+	// else
 	var putUrl = URL + "bot/members/";
-	var newParams = _.omit(params, ['member']);
 	var options = {
 		method: 'put',
-		body: newParams,
+		body: params,
 		json: true,
 		url: putUrl  
 	};
