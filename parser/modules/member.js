@@ -58,16 +58,17 @@ exports.createmember = function (params, callback) {
 };
 
 exports.updatemember = function (params, callback) {
-	if(params.member_id)
-	var putUrl = URL + "bot/members/" + params.member_id;
-	else
-	var putUrl = URL + "bot/members/";
+	if(params.member_id){
+		var putUrl = URL + "bot/members/" + params.member_id;
+	}else{
+		var putUrl = URL + "bot/members/";
+	}
 	var options = {
-		method: 'PUT',
-		body: params,
-		json: true,
-		url: putUrl
-	};
+			method: 'PUT',
+			body: params,
+			json: true,
+			url: putUrl
+		};
 	console.log(options);
 	request(options, function (err, res, body) {
 		if (err == null && res.statusCode == constants.SUCCESS) {
