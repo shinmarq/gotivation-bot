@@ -86,7 +86,7 @@ exports.delete = function (params, callback) {
 
 	var putUrl = URL + "bot/members/";
 	var options = {
-		method: 'delete',
+		method: 'DELETE',
 		body: params,
 		json: true,
 		url: putUrl
