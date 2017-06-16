@@ -16,7 +16,7 @@ module.exports = [
 
         // GET MEMBER
         parser.member.getmember(params, function (error, response, getbody) {
-            console.log('IF NOT ERROR', response);
+            
             if (!error && response.statusCode == 200) {
                 
                 membercategory = getbody.categories;
