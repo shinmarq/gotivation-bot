@@ -11,9 +11,9 @@ const URL = constants.BASE_PATH + constants.API_PATH + "/";
 exports.getmember = function (params, callback) {
 	console.log('MEMBER ID FROM PARSER', params);
 	var options = {};
-	if (params.memberId) {
+	if (params.memberid) {
 		options = {
-			url: URL + "bot/members/"
+			url: URL + "bot/members/" + params.memberid
 			//qs: params
 		};
 	} else {
@@ -70,7 +70,7 @@ exports.updatemember = function (params, callback) {
 			json: true,
 			url: putUrl
 		};
-	console.log(options);
+	
 	request(options, function (err, res, body) {
 		if (err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
