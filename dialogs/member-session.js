@@ -9,7 +9,7 @@ module.exports = [
         var membercategory = []
 
         var params = {
-            memberid: session.message.address.user.id
+            memberId: session.message.address.user.id
         }
 
         console.log('MEMBER ID', params);
