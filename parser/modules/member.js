@@ -13,13 +13,13 @@ exports.getmember = function (params, callback) {
 	var options = {};
 	if (params.memberId) {
 		options = {
-			url: URL + "bot/members/" + params.memberId,
-			qs: params
+			url: URL + "bot/members/"
+			//qs: params
 		};
 	} else {
 		options = {
-			url: URL + "bot/members/",
-			qs: params
+			url: URL + "bot/members/" 
+			//qs: params
 		};
 	}
 
