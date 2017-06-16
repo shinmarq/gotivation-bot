@@ -11,9 +11,7 @@ module.exports = [
         var params = {
             memberid: session.message.address.user.id
         }
-
-        console.log('sesh', session);
-        console.log('ARGS in member sesh'. args);
+        
         console.log('MEMBER ID from member sesh', params);
 
         parser.member.getmember(params, function (error, response, getbody) {
