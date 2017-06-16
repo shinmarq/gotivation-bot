@@ -73,7 +73,7 @@ exports.updatemember = function (params, callback) {
 	var options = {
 		url: putUrl,
 		method: 'PUT',
-		form: parms
+		form: params
 	}
 	
 	request(options, function (err, res, body) {
