@@ -11,7 +11,7 @@ module.exports = [
         var params = {
             memberid: session.message.address.user.id
         }
-        
+
         console.log('MEMBER ID from member sesh', params);
 
         parser.member.getmember(params, function (error, response, getbody) {
@@ -83,6 +83,7 @@ module.exports = [
                 }
                 parser.member.createmember(createParams, function (err, res, body) {
                     if (!err && res.statusCode == 200) {
+                        console.log('from create members', res);
                         session.dialogData.category = body.categories;
                         next();
                     }
