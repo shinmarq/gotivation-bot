@@ -60,8 +60,8 @@ exports.createmember = function (params, callback) {
 
 exports.updatemember = function (params, callback) {
 	console.log('UPDATEMEMBER', params);
-	if(params.member_id){
-		var putUrl = URL + "bot/members/" + params.member_id;
+	if(params.memberid){
+		var putUrl = URL + "bot/members/" + params.memberid;
 	}else{
 		var putUrl = URL + "bot/members/";
 	}
