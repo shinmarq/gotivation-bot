@@ -7,7 +7,7 @@ module.exports = [
         var category = args.category;
         var parcoach_id = args.coach_id || "";
         var membercategory = []
-        
+
         var params = {
             memberid: session.message.address.user.id
         }
@@ -15,8 +15,6 @@ module.exports = [
         console.log('MEMBER ID', params);
 
         parser.member.getmember(params, function (error, response, getbody) {
-            console.log('CATEGORY', category);
-            console.log('INSIDE GETMEMBER', getbody);
 
             if (!error && response.statusCode == 200) {
                 membercategory = getbody.categories;
