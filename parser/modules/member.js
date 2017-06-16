@@ -58,7 +58,7 @@ exports.createmember = function (params, callback) {
 };
 
 exports.updatemember = function (params, callback) {
-	console.log('UPDATEMEMBER', params);
+	console.log('UPDATEMEMBER 500 error', params);
 	if(params.member_id){
 		var putUrl = URL + "bot/members/" + params.member_id;
 	}else{
