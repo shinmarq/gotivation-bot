@@ -16,9 +16,11 @@ module.exports = [
                 memberid: session.message.address.user.id,
             }
             parser.member.updatemember(params, function (err, res, body) {
-                console.log(res.statusCode);
+                if(!err){
+                    console.log(res.statusCode);
                 console.log('success unsubscribed');
                 session.endConversation('Successfully unsubscibed. If you want to get started again with those motivations, just type "Start over"');
+                }else{console.log('error occur in unsubscribing')}
             });
         } else {
             //test
