@@ -36,10 +36,11 @@ exports.getmember = function (params, callback) {
 };
 
 exports.createmember = function (params, callback) {
+	console.log('CREATE MEMBER FROM PARSER', params);
 	var postUrl = URL + "bot/members";
 	var newParams = params;
 	var options = {
-		method: 'post',
+		method: 'POST',
 		body: newParams,
 		json: true,
 		url: postUrl
