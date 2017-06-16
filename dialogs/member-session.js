@@ -83,7 +83,7 @@ module.exports = [
                 }
                 parser.member.createmember(createParams, function (err, res, body) {
                     if (!err && res.statusCode == 200) {
-                        console.log('from create members', res);
+                        console.log('from create members', body);
                         session.dialogData.category = body.categories;
                         next();
                     }
