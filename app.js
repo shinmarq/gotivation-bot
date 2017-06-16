@@ -120,7 +120,6 @@ bot.use({
                 function (error, response, body) {
                     
                     if (!error && response.statusCode == 200) {
-                        console.log('APP JS USERID', session.message.address.user.id)
                         var params = {
                             updatetype: "reset",
                             memberid: session.message.address.user.id,
