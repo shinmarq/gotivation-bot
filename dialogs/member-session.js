@@ -9,7 +9,7 @@ module.exports = [
         var membercategory = []
 
         var params = {
-            memberId: session.message.address.user.id
+            memberid: session.message.address.user.id
         }
 
         console.log('sesh', session);

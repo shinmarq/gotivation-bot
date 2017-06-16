@@ -11,9 +11,9 @@ const URL = constants.BASE_PATH + constants.API_PATH + "/";
 exports.getmember = function (params, callback) {
 	console.log('MEMBER ID FROM PARSER', params);
 	var options = {};
-	if (params.memberId) {
+	if (params.memberid) {
 		options = {
-			url: URL + "bot/members/" + params.memberId
+			url: URL + "bot/members/" + params.memberid
 			//qs: params
 		};
 	} else {
