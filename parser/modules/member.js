@@ -12,12 +12,12 @@ exports.getmember = function (params, callback) {
 	var options = {};
 	if (params.memberId) {
 		options = {
-			url: URL + "members/" + params.memberId,
+			url: URL + "bot/members/" + params.memberId,
 			qs: params
 		};
 	} else {
 		options = {
-			url: URL + "members/",
+			url: URL + "bot/members/",
 			qs: params
 		};
 	}
@@ -57,15 +57,16 @@ exports.createmember = function (params, callback) {
 
 exports.updatemember = function (params, callback) {
 	if(params.member_id)
-	var putUrl = URL + "members/" + params.member_id;
+	var putUrl = URL + "bot/members/" + params.member_id;
 	else
-	var putUrl = URL + "members/";
+	var putUrl = URL + "bot/members/";
 	var options = {
 		method: 'PUT',
 		body: params,
 		json: true,
 		url: putUrl
 	};
+	console.log(options);
 	request(options, function (err, res, body) {
 		if (err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
@@ -79,7 +80,7 @@ exports.updatemember = function (params, callback) {
 
 exports.delete = function (params, callback) {
 
-	var putUrl = URL + "members/";
+	var putUrl = URL + "bot/members/";
 	var options = {
 		method: 'delete',
 		body: params,
