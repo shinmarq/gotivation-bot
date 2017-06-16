@@ -14,9 +14,11 @@ module.exports = [
 
         console.log('MEMBER ID from member sesh', params);
 
+        // GET MEMBER
         parser.member.getmember(params, function (error, response, getbody) {
-            
+            console.log('IF NOT ERROR', getbody);
             if (!error && response.statusCode == 200) {
+                
                 membercategory = getbody.categories;
 
                 if (category != ""){membercategory.push({ category: category });}
