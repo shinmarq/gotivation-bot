@@ -24,7 +24,7 @@ exports.getmember = function (params, callback) {
 	}
 
 	request.get(options, function (err, res, body) {
-		console.log('OPTIONS', options);
+		console.log('response from getmember parser', options);
 		console.log('REQUEST GETMEMBER FROM PARSER', body);
 		if (err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
