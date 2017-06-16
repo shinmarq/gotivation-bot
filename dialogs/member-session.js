@@ -12,9 +12,11 @@ module.exports = [
         }
 
         console.log('MEMBER ID', params);
+
         parser.member.getmember(params, function (error, response, getbody) {
             console.log('CATEGORY', category);
             console.log('INSIDE GETMEMBER', getbody);
+            
             if (!error && response.statusCode == 200) {
                 membercategory = getbody.categories;
 
