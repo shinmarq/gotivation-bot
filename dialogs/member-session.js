@@ -97,7 +97,7 @@ module.exports = [
                 });
             }
         });
-        
+
     },
     function (session, results) {
         if (session.dialogData.category) {
