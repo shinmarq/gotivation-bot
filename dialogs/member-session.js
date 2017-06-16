@@ -13,9 +13,8 @@ module.exports = [
         console.log('MEMBER ID', params);
         parser.member.getmember(params, function (error, response, getbody) {
             if (!error && response.statusCode == 200) {
-                console.log(response);
                 membercategory = getbody.categories;
-                console.log(membercategory);
+                
                 if (category != "")
                     membercategory.push({ category: category });
 
