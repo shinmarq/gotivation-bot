@@ -64,12 +64,17 @@ exports.updatemember = function (params, callback) {
 	}else{
 		var putUrl = URL + "bot/members/";
 	}
+	// var options = {
+	// 		method: 'PUT',
+	// 		body: params,
+	// 		json: true,
+	// 		url: putUrl
+	// 	};
 	var options = {
-			method: 'PUT',
-			body: params,
-			json: true,
-			url: putUrl
-		};
+		url: putUrl,
+		method: 'PUT',
+		form: parms
+	}
 	
 	request(options, function (err, res, body) {
 		if (err == null && res.statusCode == constants.SUCCESS) {
