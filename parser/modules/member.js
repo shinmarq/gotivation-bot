@@ -9,7 +9,6 @@ var request = require('request'),
 const URL = constants.BASE_PATH + constants.API_PATH + "/";
 
 exports.getmember = function (params, callback) {
-	console.log('MEMBER ID FROM PARSER', params);
 	var options = {};
 	if (params.memberid) {
 		options = {
@@ -57,7 +56,6 @@ exports.createmember = function (params, callback) {
 };
 
 exports.updatemember = function (params, callback) {
-	console.log('UPDATEMEMBER', params);
 	if(params.memberid){
 		var putUrl = URL + "bot/members/" + params.memberid;
 	}else{
