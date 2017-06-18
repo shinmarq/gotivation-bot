@@ -12,8 +12,8 @@ exports.getmember = function (params, callback) {
 	var options = {};
 	if (params.memberid) {
 		options = {
-			url: URL + "bot/members/",
-			qs: params
+			url: URL + "bot/members/" + params.memberid
+			// qs: params
 		};
 	} else {
 		options = {
