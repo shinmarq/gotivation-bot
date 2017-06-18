@@ -24,7 +24,6 @@ exports.getmember = function (params, callback) {
 	}
 
 	request.get(options, function (err, res, body) {
-		console.log('REQUEST GETMEMBER FROM PARSER', body);
 		if (err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);
 			var newBody = mapResponse.mapData();
@@ -37,7 +36,6 @@ exports.getmember = function (params, callback) {
 };
 
 exports.createmember = function (params, callback) {
-	console.log('CREATE MEMBER FROM PARSER', params);
 	var postUrl = URL + "bot/members";
 	var newParams = params;
 	var options = {
