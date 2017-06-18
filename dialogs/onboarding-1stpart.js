@@ -9,7 +9,6 @@ const CONSTANTS = require('../constants');
 const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 module.exports = [
     function (session, args, next) {
-        console.log('ARGUMENTS', args);
         // Update member
         var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
         if (retakesurvey) {
@@ -31,6 +30,7 @@ module.exports = [
                 
             });
         }else{
+            console.log('NOT RESET OR UPDATE', args);
             session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
             session.dialogData.category = args.category === undefined ? "" : args.category;
             session.dialogData.user = args.user === undefined ? "" : args.user;
