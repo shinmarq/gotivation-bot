@@ -12,11 +12,9 @@ module.exports = [
             memberid: session.message.address.user.id
         }
 
-        console.log('MEMBER ID from member sesh', params);
-
         // GET MEMBER
         parser.member.getmember(params, function (error, response, getbody) {
-            console.log('response IN MS', response.statusCode);
+            console.log('response IN MS', response.statusCode + ' ' +error);
             if (!error && response.statusCode == 200) {
                 membercategory = getbody.categories;
 
