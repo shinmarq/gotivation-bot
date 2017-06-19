@@ -9,6 +9,8 @@ const CONSTANTS = require('../constants');
 const FB_PAGE_ACCESS_TOKEN = CONSTANTS.FB_PAGE_ACCESS_TOKEN;
 module.exports = [
     function (session, args, next) {
+
+        console.log('ARGS CATEGORY ', args);
         // Update member
         var retakesurvey = /^Retake_Survey|retake survey|Retake survey/i.test(session.message.text);
         if (retakesurvey) {

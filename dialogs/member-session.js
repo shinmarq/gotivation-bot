@@ -14,7 +14,7 @@ module.exports = [
 
         // GET MEMBER
         parser.member.getmember(params, function (error, response, getbody) {
-            console.log('response IN MS', response.statusCode + ' ' +error);
+            console.log('response IN MS', response.statusCode + ' ' + error + ' ' + getbody);
             if (!error && response.statusCode == 200) {
                 membercategory = getbody[0].categories;
                 console.log(membercategory);
