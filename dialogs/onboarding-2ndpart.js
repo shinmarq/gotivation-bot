@@ -17,9 +17,8 @@ module.exports = [
                 memberid: session.message.address.user.id
             }
             parser.member.getmember(params, function (error, response, getbody) {
-                console.log('BODY', getbody);
                 if (!error && response.statusCode == 200) {
-                    var membercategory = getbody.categories;
+                    var membercategory = getbody[0].categories;
                     if(membercategory.length == 0){
                         session.endConversation('Please select first a category.');
                     }else{
