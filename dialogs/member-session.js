@@ -14,8 +14,9 @@ module.exports = [
 
         // GET MEMBER
         parser.member.getmember(params, function (error, response, getbody) {
-            if (!error && response.statusCode == 200) {
-                membercategory = getbody.categories;
+            //console.log('response IN MS', response.statusCode + ' ' + error + ' ' + getbody);
+            if (!error && response.statusCode == 200 && getbody.length > 0) {
+                membercategory = getbody[0].categories;
                 if (category != ""){membercategory.push({ category: category });}
                     
                 if (membercategory == [] && membercategory.length == 0) {
@@ -25,7 +26,7 @@ module.exports = [
                 else {
                     if (parcoach_id != "") {
                         updateParams = {
-                            member_id: getbody._id,
+                            member_id: getbody[0]._id,
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
                             categories: membercategory,
                             coach: parcoach_id,
@@ -34,7 +35,7 @@ module.exports = [
                     }
                     else {
                         updateParams = {
-                            member_id: getbody._id,
+                            member_id: getbody[0]._id,
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
                             categories: membercategory
                         };

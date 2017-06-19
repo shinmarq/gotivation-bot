@@ -96,7 +96,7 @@ bot.use({
         // userProfileAnalytics(senderId);
         // incomingMsgAnalytics(incomingMsgBody);
         var startOver = /^started|get started|start over/i.test(session.message.text);
-        
+
         if (session.message.text === "GET_STARTED" || startOver) {
             session.perUserInConversationData = {};
             session.userData = {};
@@ -118,7 +118,7 @@ bot.use({
                 form: params
             },
                 function (error, response, body) {
-                    
+
                     if (!error && response.statusCode == 200) {
                         var params = {
                             updatetype: "reset",
@@ -128,9 +128,9 @@ bot.use({
                             profiletype: ""
                         }
                         parser.member.updatemember(params, function (err, res, body) {
-                            if(!err){
-                                console.log('success reset', res.statusCode);
-                            }else{console.log('error reset', res.statusCode)}
+                            if (!err) {
+                                console.log(body);
+                            } else { console.log('error reset', res.statusCode) }
                         });
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
@@ -226,7 +226,7 @@ bot.dialog('/get-coachcode', [
             session.send(session.dialogData.prefix);
         }
         session.dialogData.user = session.userData.user;
-        
+
         session.sendTyping();
         session.sendTyping();
         session.sendTyping();

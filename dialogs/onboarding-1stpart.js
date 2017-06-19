@@ -31,6 +31,7 @@ module.exports = [
                 
             });
         }else{
+            console.log('not retake');
             session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
             session.dialogData.category = args.category === undefined ? "" : args.category;
             session.dialogData.user = args.user === undefined ? "" : args.user;
@@ -138,7 +139,6 @@ module.exports = [
 
     },
     function (session, results, next) {
-        console.log(results.response);
         session.sendTyping();
         if (results.response) {
             session.dialogData.category = results.response.entity.split(':')[1];

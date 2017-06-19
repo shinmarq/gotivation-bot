@@ -121,9 +121,7 @@ bot.use({
                             profiletype: ""
                         }
                         parser.member.updatemember(params, function (err, res, body) {
-                            if(!err){
-                                console.log(body);
-                            }else{console.log('error reset', res.statusCode)}
+                            if(err){console.log('error reset', res.statusCode)}
                         });
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
