@@ -17,8 +17,7 @@ module.exports = [
             //console.log('response IN MS', response.statusCode + ' ' + error + ' ' + getbody);
             if (!error && response.statusCode == 200) {
                 console.log('CATEGORIES', getbody);
-                //shin
-                membercategory = getbody.categories;
+                membercategory = getbody[0].categories;
                 console.log(membercategory);
                 if (category != ""){membercategory.push({ category: category });}
                     
@@ -29,8 +28,7 @@ module.exports = [
                 else {
                     if (parcoach_id != "") {
                         updateParams = {
-                            //shin
-                            member_id: getbody._id,
+                            member_id: getbody[0]._id,
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
                             categories: membercategory,
                             coach: parcoach_id,
@@ -39,8 +37,7 @@ module.exports = [
                     }
                     else {
                         updateParams = {
-                            //shin
-                            member_id: getbody._id,
+                            member_id: getbody[0]._id,
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
                             categories: membercategory
                         };
