@@ -6,7 +6,7 @@ module.exports = [
         var user = args.user;
         var category = args.category;
         var parcoach_id = args.coach_id || "";
-        var membercategory = []
+        var membercategory = [];
 
         var params = {
             memberid: session.message.address.user.id
