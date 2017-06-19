@@ -17,7 +17,7 @@ module.exports = [
             //console.log('response IN MS', response.statusCode + ' ' + error + ' ' + getbody);
             if (!error && response.statusCode == 200) {
                 console.log('CATEGORIES', getbody);
-                membercategory = getbody[0].categories;
+                membercategory = getbody.categories;
                 console.log(membercategory);
                 if (category != ""){membercategory.push({ category: category });}
                     
