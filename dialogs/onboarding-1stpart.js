@@ -21,7 +21,6 @@ module.exports = [
             }
             parser.member.updatemember(params, function (err, res, body) {
                 if(!err){
-                    console.log(res.statusCode);
                     session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
                     session.dialogData.category = args.category === undefined ? "" : args.category;
                     session.dialogData.user = args.user === undefined ? "" : args.user;
@@ -30,7 +29,6 @@ module.exports = [
                 
             });
         }else{
-            console.log('NOT RESET OR UPDATE', args);
             session.dialogData.coach_id = args.coach === undefined ? "" : args.coach._id;
             session.dialogData.category = args.category === undefined ? "" : args.category;
             session.dialogData.user = args.user === undefined ? "" : args.user;
@@ -72,9 +70,9 @@ module.exports = [
 
         );
 
-        function getcategory(organisationId, msg, callback) {
+        function getcategory(category, msg, callback) {
             session.sendTyping();
-            parser.category.getcategory(organisationId, function (err, res, body) {
+            parser.category.getcategory(category, function (err, res, body) {
                 if (!err && res.statusCode == 200) {
                     if (body.length > 0) {
                         callback(null, body, msg);

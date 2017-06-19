@@ -111,6 +111,7 @@ bot.use({
                 form: params
             },
                 function (error, response, body) {
+                    
                     if (!error && response.statusCode == 200) {
                         var params = {
                             updatetype: "reset",
@@ -120,7 +121,9 @@ bot.use({
                             profiletype: ""
                         }
                         parser.member.updatemember(params, function (err, res, body) {
-                            console.log(res.statusCode);
+                            if(!err){
+                                console.log(body);
+                            }else{console.log('error reset', res.statusCode)}
                         });
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
@@ -135,7 +138,7 @@ bot.use({
                             .addAttachment(welcomeCard));
 
                         request({
-                            //url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name,locale,timezone&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
+                           // url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name,locale,timezone&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
                             url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name,gender,last_name,locale,timezone&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
@@ -301,3 +304,7 @@ bot.dialog('/unsubscribe', Unsubscribe)
 //         });
 //     }
 // }
+
+
+
+

@@ -10,15 +10,15 @@ const URL = constants.BASE_PATH + constants.API_PATH + "/";
 
 exports.getmember = function (params, callback) {
 	var options = {};
-	if (params.memberid) {
+	if (params.member_id) {
 		options = {
-			url: URL + "bot/members/" + params.memberid
-			// qs: params
+			url: URL + "bot/members/" + params.member_id,
+			qs: params
 		};
 	} else {
 		options = {
-			url: URL + "bot/members/" 
-			//qs: params
+			url: URL + "bot/members/",
+			qs: params
 		};
 	}
 
@@ -56,20 +56,20 @@ exports.createmember = function (params, callback) {
 };
 
 exports.updatemember = function (params, callback) {
-	if(params.memberid){
-		var putUrl = URL + "bot/members/" + params.memberid;
-	}else{
+	if (params.member_id) {
+		var putUrl = URL + "bot/members/" + params.member_id;
+	} else {
 		var putUrl = URL + "bot/members/";
 	}
-	
+
 	var options = {
-			method: 'PUT',
-			body: params,
-			json: true,
-			url: putUrl
-		};
-	
-	
+		method: 'PUT',
+		body: params,
+		json: true,
+		url: putUrl
+	};
+
+
 	request(options, function (err, res, body) {
 		if (err == null && res.statusCode == constants.SUCCESS) {
 			var mapResponse = new MapResponse(body);

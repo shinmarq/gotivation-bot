@@ -14,7 +14,7 @@ module.exports = [
         var changetime = /^Change_Time|change time|Change time/i.test(session.message.text);
         if(changetime){
             var params = {
-                memberId: session.message.address.user.id
+                memberid: session.message.address.user.id
             }
             parser.member.getmember(params, function (error, response, getbody) {
                 console.log('BODY', getbody);
