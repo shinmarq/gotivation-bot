@@ -16,7 +16,7 @@ module.exports = [
         parser.member.getmember(params, function (error, response, getbody) {
             console.log('response IN MS', response.statusCode + ' ' + error + ' ' + getbody);
             if (!error && response.statusCode == 200) {
-                membercategory = getbody[0].categories;
+                membercategory = getbody.categories;
                 console.log(membercategory);
                 if (category != ""){membercategory.push({ category: category });}
                     
@@ -27,7 +27,7 @@ module.exports = [
                 else {
                     if (parcoach_id != "") {
                         updateParams = {
-                            member_id: getbody[0]._id,
+                            member_id: getbody._id,
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
                             categories: membercategory,
                             coach: parcoach_id,
@@ -36,7 +36,7 @@ module.exports = [
                     }
                     else {
                         updateParams = {
-                            member_id: getbody[0]._id,
+                            member_id: getbody._id,
                             facebook_page_access_token: Constants.FB_PAGE_ACCESS_TOKEN,
                             categories: membercategory
                         };
