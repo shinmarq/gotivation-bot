@@ -24,7 +24,6 @@ module.exports =
                     }
                     //uncomment this is how to get code
                     parser.users.getuser(params, function (error, statusCode, body) {
-                        console.log(body);
                         if (!error && body.length > 0) {
                             var result = _.findWhere(body, { coach_code: params.coach_code });
                             session.dialogData.coach._id = result._id;
