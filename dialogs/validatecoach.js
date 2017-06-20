@@ -31,6 +31,7 @@ module.exports =
                             session.dialogData.coach.name = result.name;
                             session.dialogData.coach.coachCode = result.coach_code;
                             session.dialogData.coach.image = result.image;
+                            session.dialogData.coach.quote = result.quote;
                             session.dialogData.coach.validCode = true;
                             next();
                         } else {

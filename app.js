@@ -206,10 +206,10 @@ bot.dialog('/get-coachcode', [
 
             session.dialogData.coach.name = results.response.name;
             session.dialogData.coach._id = results.response._id;
-            session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name.first}.`;
+            session.send(`Great! You're with Coach ${session.dialogData.coach.name.first}.`);
             session.dialogData.coach.image = results.response.image;
             var msg = new builder.Message(session)
-                .text(`${session.dialogData.prefix}`)
+                .text(`${session.dialogData.quote}`)
                 .attachments([{
                     contentType: "image/jpeg",
                     contentUrl: session.dialogData.coach.image
