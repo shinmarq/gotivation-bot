@@ -206,10 +206,13 @@ bot.dialog('/get-coachcode', [
 
             session.dialogData.coach.name = results.response.name;
             session.dialogData.coach._id = results.response._id;
-            session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name.first}.`;
+            session.sendTyping();
+            session.sendTyping();
+            session.send(`Great! You're with Coach ${session.dialogData.coach.name.first}.`);
+            session.sendTyping();
+            session.sendTyping();
             session.dialogData.coach.image = results.response.image;
             var msg = new builder.Message(session)
-                .text(`${session.dialogData.prefix}`)
                 .attachments([{
                     contentType: "image/jpeg",
                     contentUrl: session.dialogData.coach.image
@@ -218,6 +221,13 @@ bot.dialog('/get-coachcode', [
             session.sendTyping();
             session.sendTyping();
             session.send(msg);
+            session.sendTyping();
+            session.sendTyping();
+            session.sendTyping();
+            session.sendTyping();
+            session.sendTyping();
+            session.sendTyping();
+
             session.send(`"${results.response.quote}"`);
 
         }
