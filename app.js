@@ -207,7 +207,6 @@ bot.dialog('/get-coachcode', [
             session.dialogData.coach.name = results.response.name;
             session.dialogData.coach._id = results.response._id;
             session.sendTyping();
-            session.sendTyping();
             session.send(`Great! You're with Coach ${session.dialogData.coach.name.first}.`);
             session.sendTyping();
             session.sendTyping();
@@ -218,18 +217,14 @@ bot.dialog('/get-coachcode', [
                     contentUrl: session.dialogData.coach.image
                 }]);
 
-            session.sendTyping();
-            session.sendTyping();
             session.send(msg);
-            session.sendTyping();
-            session.sendTyping();
-            session.sendTyping();
-            session.sendTyping();
-            session.sendTyping();
-            session.sendTyping();
-
             session.send(`"${results.response.quote}"`);
-
+            session.sendTyping();
+            session.sendTyping();
+            session.sendTyping();
+            session.sendTyping();
+            session.sendTyping();
+            session.sendTyping();
         }
         else {
             session.sendTyping();
