@@ -52,8 +52,9 @@ module.exports = [
                     recurrencetime: session.dialogData.recurrence
                 }
                 session.sendTyping();
+
+                console.log(params);
                 parser.member.updatemember(params, function (err, res, body) {
-                    console.log(body);
                     if (!err && res.statusCode == 200) {    
                         if (body.profiletype == '' || body.profiletype == undefined || body.profiletype == null) {
                             session.replaceDialog('/onboarding-3rdpart',body.onboarded);
