@@ -54,14 +54,13 @@ module.exports = [
                 session.sendTyping();
                 parser.member.updatemember(params, function (err, res, body) {
                     if (!err && res.statusCode == 200) {
-                        if (body.profiletype == '' || body.profiletype == undefined) {
+                        if (body.profiletype == '' || body.profiletype == undefined || body.profiletype == null) {
                             session.replaceDialog('/onboarding-3rdpart',body.onboarded);
                         }
                         else {
                             session.sendTyping();
                             builder.Prompts.text(session, `No problem! I'll send your motivation at ${results.response.entity} each day.`)
                         }
-
                     }
                     else {
                         console.log(res.statusCode);
