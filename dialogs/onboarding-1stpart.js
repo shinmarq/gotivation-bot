@@ -59,8 +59,11 @@ module.exports = [
                 }
                 else {
                     if (selectString.length != 0) {
-                        session.sendTyping();
                         session.send('Pick the fitness category I can help you with.');
+                        session.sendTyping();
+                        session.sendTyping();
+                        session.sendTyping();
+                        session.sendTyping();
                         builder.Prompts.choice(session, msg, selectString, { retryPrompt: `Select from the given categories` });
                     }
                     else {
