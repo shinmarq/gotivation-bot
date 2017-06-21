@@ -49,11 +49,10 @@ module.exports = [
             if (session.dialogData.recurrence) {
                 let params = {
                     memberid: session.message.address.user.id,
-                    recurrencetime: session.dialogData.recurrence
+                    recurrencetime: session.dialogData.recurrence,
+                    updatetype: "time"
                 }
                 session.sendTyping();
-
-                console.log(params);
                 parser.member.updatemember(params, function (err, res, body) {
                     if (!err && res.statusCode == 200) {    
                         if (body.profiletype == '' || body.profiletype == undefined || body.profiletype == null) {
