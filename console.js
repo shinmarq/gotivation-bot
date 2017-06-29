@@ -192,25 +192,41 @@ bot.dialog('/get-coachcode', [
             next();
         }
     },
+    function (session, results, next) {
+        session.sendTyping();
+        var choice = results.response ? 'yes' : 'no';
+        if (choice === 'yes') {
+            session.dialogData.coach = {};
+            session.beginDialog('/validatecoach', session.dialogData);
+
+        } else {
+            session.dialogData.prefix = `That's okay.`;
+            next();
+        }
+    },
     function (session, results) {
         session.sendTyping();
         if (results.response && results.response.validCode == true) {
 
             session.dialogData.coach.name = results.response.name;
             session.dialogData.coach._id = results.response._id;
-            session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name.first}.`;
+            session.sendTyping();
+            session.send(`Great! You're with Coach ${session.dialogData.coach.name.first}.`);
+            session.sendTyping();
+            session.sendTyping();
             session.dialogData.coach.image = results.response.image;
             var msg = new builder.Message(session)
-                .text(`${session.dialogData.prefix}`)
                 .attachments([{
                     contentType: "image/jpeg",
                     contentUrl: session.dialogData.coach.image
                 }]);
 
-            session.sendTyping();
-            session.sendTyping();
             session.send(msg);
-
+            session.send(`"${results.response.quote}"`);
+            session.sendTyping();
+            session.sendTyping();
+            session.sendTyping();
+            session.sendTyping();
         }
         else {
             session.sendTyping();
@@ -218,18 +234,19 @@ bot.dialog('/get-coachcode', [
             session.send(session.dialogData.prefix);
         }
         session.dialogData.user = session.userData.user;
-        
+
         session.sendTyping();
         session.sendTyping();
         session.sendTyping();
         session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 2 minutes.)`);
         session.sendTyping();
+        session.sendTyping();
+        session.sendTyping();
         session.beginDialog('/onboarding-1stpart', session.dialogData);
     }
 
 
-
-]);
+);
 
 bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
