@@ -54,6 +54,7 @@ module.exports = [
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             //var utc_offset = moment(recurrence).utcOffset(session.userData.user.timezone).format('ZZ');
             //console.log('UTCOFFSET SHIT => ', utc_offset)
+            console.log(session.userData.timeZoneData);
             var offset = session.userData.timeZoneData.rawOffset;
             var concattime = moment(recurrence).format("hh:mm:ss a")
             recurrence = moment.utc(recurrence).add(offset * -1, "seconds");
