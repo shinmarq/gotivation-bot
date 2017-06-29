@@ -33,7 +33,8 @@ var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     Default = require('./dialogs/default'),
     Validatecoach = require('./dialogs/validatecoach'),
     MemberSession = require('./dialogs/member-session'),
-    Unsubscribe = require('./dialogs/unsubscribe');
+    Unsubscribe = require('./dialogs/unsubscribe'),
+    Timezone = require('./dialogs/setTimezone');
 
 
 bot.use(builder.Middleware.dialogVersion({ version: 1.2, resetCommand: /^reset/i }));
@@ -151,7 +152,7 @@ bot.use({
                                     session.userData.user.last_name = body.last_name;
                                     session.userData.user.locale = body.locale;
                                     session.userData.user.timezone = body.timezone;
-                                    session.send(`Hi ${body.first_name} - Welcome to GOtivation! Together, we’re going to motivate, educate, and encourage you along our fitness journey. Each day, I’ll send you motivation that is scientifically proven to help you succeed. I think you’re going to be excited about the transformation :)`)
+                                    session.send(`Hi ${body.first_name} - Welcome to GOtivation! Staying motivated can be tough, so I’m here to help you along your fitness journey. Each day, I’ll send motivation that is scientifically proven to help you stay inspired and driven. I’m excited to be your motivational chatbot buddy! :)`)
                                     session.beginDialog('/get-coachcode', session.userData);
                                     //session.beginDialog('/default');
                                 }
@@ -243,6 +244,7 @@ bot.dialog('/onboarding-2ndpart', Onboarding2)
 bot.dialog('/onboarding-3rdpart', Onboarding3);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
+bot.dialog('/setTimezone', Timezone);
 bot.dialog('/unsubscribe', Unsubscribe)
     .triggerAction({
         matches: [/^unsubscribe|unsubscribed|Unsubscribe/i]

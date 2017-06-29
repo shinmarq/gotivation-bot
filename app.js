@@ -40,10 +40,11 @@ var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     Default = require('./dialogs/default'),
     Validatecoach = require('./dialogs/validatecoach'),
     MemberSession = require('./dialogs/member-session'),
-    Unsubscribe = require('./dialogs/unsubscribe');
+    Unsubscribe = require('./dialogs/unsubscribe'),
+    Timezone = require('./dialogs/setTimezone');
 
 
-bot.use(builder.Middleware.dialogVersion({ version: 1.3, resetCommand: /^reset/i }));
+bot.use(builder.Middleware.dialogVersion({ version: 1.2, resetCommand: /^reset/i }));
 var model = process.env.model ||
     'https://api.projectoxford.ai/luis/v1/application?id=ff6021a2-8bc4-4557-bb0e-3394bc2ae164&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
 var recognizer = new builder.LuisRecognizer(model)
@@ -96,7 +97,7 @@ bot.use({
         // userProfileAnalytics(senderId);
         // incomingMsgAnalytics(incomingMsgBody);
         var startOver = /^started|get started|start over/i.test(session.message.text);
-
+        
         if (session.message.text === "GET_STARTED" || startOver) {
             session.perUserInConversationData = {};
             session.userData = {};
@@ -118,7 +119,7 @@ bot.use({
                 form: params
             },
                 function (error, response, body) {
-
+                    
                     if (!error && response.statusCode == 200) {
                         var params = {
                             updatetype: "reset",
@@ -128,9 +129,7 @@ bot.use({
                             profiletype: ""
                         }
                         parser.member.updatemember(params, function (err, res, body) {
-                            if (!err) {
-                                console.log(body);
-                            } else { console.log('error reset', res.statusCode) }
+                            if(err){console.log('error reset', res.statusCode)}
                         });
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
@@ -146,7 +145,7 @@ bot.use({
 
                         request({
                             url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name,locale,timezone&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
-                            //url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name,gender,last_name,locale,timezone&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
+                           // url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name,gender,last_name,locale,timezone&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
                         },
@@ -161,7 +160,6 @@ bot.use({
                                     session.userData.user.locale = body.locale;
                                     session.userData.user.timezone = body.timezone;
                                     session.send(`Hi ${body.first_name} - Welcome to GOtivation! Staying motivated can be tough, so I’m here to help you along your fitness journey. Each day, I’ll send motivation that is scientifically proven to help you stay inspired and driven. I’m excited to be your motivational chatbot buddy! :)`)
-                                    console.log(session.userData.user);
                                     session.beginDialog('/get-coachcode', session.userData);
                                     //session.beginDialog('/default');
                                 }
@@ -207,23 +205,19 @@ bot.dialog('/get-coachcode', [
 
             session.dialogData.coach.name = results.response.name;
             session.dialogData.coach._id = results.response._id;
-            session.sendTyping();
-            session.send(`Great! You're with Coach ${session.dialogData.coach.name.first}.`);
-            session.sendTyping();
-            session.sendTyping();
+            session.dialogData.prefix = `Great! You're with Coach ${session.dialogData.coach.name.first}.`;
             session.dialogData.coach.image = results.response.image;
             var msg = new builder.Message(session)
+                .text(`${session.dialogData.prefix}`)
                 .attachments([{
                     contentType: "image/jpeg",
                     contentUrl: session.dialogData.coach.image
                 }]);
 
+            session.sendTyping();
+            session.sendTyping();
             session.send(msg);
-            session.send(`"${results.response.quote}"`);
-            session.sendTyping();
-            session.sendTyping();
-            session.sendTyping();
-            session.sendTyping();
+
         }
         else {
             session.sendTyping();
@@ -231,13 +225,11 @@ bot.dialog('/get-coachcode', [
             session.send(session.dialogData.prefix);
         }
         session.dialogData.user = session.userData.user;
-
+        
         session.sendTyping();
         session.sendTyping();
         session.sendTyping();
         session.send(`Let’s get started then! Please answer the following questions so we can find motivation that works specifically for YOU.  (This survey will take about 2 minutes.)`);
-        session.sendTyping();
-        session.sendTyping();
         session.sendTyping();
         session.beginDialog('/onboarding-1stpart', session.dialogData);
     }
@@ -259,6 +251,7 @@ bot.dialog('/onboarding-2ndpart', Onboarding2)
 bot.dialog('/onboarding-3rdpart', Onboarding3);
 bot.dialog('/default', Default);
 bot.dialog('/validatecoach', Validatecoach);
+bot.dialog('/setTimezone', Timezone);
 bot.dialog('/unsubscribe', Unsubscribe)
     .triggerAction({
         matches: [/^unsubscribe|unsubscribed|Unsubscribe/i]
