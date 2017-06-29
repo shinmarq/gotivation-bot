@@ -246,7 +246,7 @@ bot.dialog('/get-coachcode', [
     }
 
 
-);
+]);
 
 bot.dialog('/', Default);
 bot.dialog('/member-session', MemberSession);
