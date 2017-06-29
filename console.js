@@ -192,18 +192,6 @@ bot.dialog('/get-coachcode', [
             next();
         }
     },
-    function (session, results, next) {
-        session.sendTyping();
-        var choice = results.response ? 'yes' : 'no';
-        if (choice === 'yes') {
-            session.dialogData.coach = {};
-            session.beginDialog('/validatecoach', session.dialogData);
-
-        } else {
-            session.dialogData.prefix = `That's okay.`;
-            next();
-        }
-    },
     function (session, results) {
         session.sendTyping();
         if (results.response && results.response.validCode == true) {
