@@ -161,6 +161,7 @@ bot.use({
                                     session.userData.user.locale = body.locale;
                                     session.userData.user.timezone = body.timezone;
                                     session.send(`Hi ${body.first_name} - Welcome to GOtivation! Staying motivated can be tough, so I’m here to help you along your fitness journey. Each day, I’ll send motivation that is scientifically proven to help you stay inspired and driven. I’m excited to be your motivational chatbot buddy! :)`)
+                                    console.log(session.userData.user);
                                     session.beginDialog('/get-coachcode', session.userData);
                                     //session.beginDialog('/default');
                                 }
