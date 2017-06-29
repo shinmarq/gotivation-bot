@@ -172,6 +172,16 @@ function getWitIntents(intent, inquiry_type, emotion, session){
             session.endConversation('My bad!  If you didn’t like the fitness content, type “Retake Survey” and you can pick a different category.  If it was something else, just let me know and I’ll share it with the team.');
         break;
 
+        case 'get_humor':
+            var randomReply = [ 'lolz for sure! ',
+                                'Hilarious!',
+                                'Haha!',
+                                '😜' ]
+            var humorReply = randomReply[Math.floor(Math.random() * randomReply.length)];
+
+            session.endConversation(humorReply);
+        break;
+
         default:
             var randomReply = [ 'My bad, I didn\'t really understand that. Can you ask it a different way?',
                                 'Sorry, I\'m still learning a few things. Can you try to say that in a different way?',
