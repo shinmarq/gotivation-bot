@@ -37,6 +37,38 @@ var Onboarding1 = require('./dialogs/onboarding-1stpart'),
     Timezone = require('./dialogs/setTimezone');
 
 
+
+const logUserConversation = (event,type) => {
+    if (event.type == "message" && event.text) {
+        var params = {};
+        params = {
+            member_id: event.address.user.id,
+            message_body:{
+                message: event.text,
+                message_type: type,
+            }
+        };
+        parser.messenger.updatemessenger(params,function(err,response){
+            console.log(err);
+            console.log(response);
+        });
+        // console.log(event.attachments[0].content);
+
+    }
+};
+
+// Middleware for logging
+bot.use({
+    receive: function (event, next) {
+        logUserConversation(event,"inbound");
+        next();
+    },
+    send: function (event, next) {
+        logUserConversation(event,"outbound");
+        next();
+    }
+});
+
 bot.use(builder.Middleware.dialogVersion({ version: 1.2, resetCommand: /^reset/i }));
 var model = process.env.model ||
     'https://api.projectoxford.ai/luis/v1/application?id=ff6021a2-8bc4-4557-bb0e-3394bc2ae164&subscription-key=692f717f9c3b4f52b852d51c46358315&q=';
@@ -46,6 +78,9 @@ var intentDialog = new builder.IntentDialog({
     intentThreshold: 0.5,
     recognizeMode: builder.RecognizeMode.onBegin
 });
+
+
+
 
 
 bot.use({
@@ -60,7 +95,7 @@ bot.use({
 
         //     "recipient": null,
         //     "timestamp": timestamp,
-        //     "message": {
+        //     "message"+: {
         //         "object": "page",
         //         "entry": [
         //         {
@@ -90,7 +125,7 @@ bot.use({
         // userProfileAnalytics(senderId);
         // incomingMsgAnalytics(incomingMsgBody);
         var startOver = /^started|get started|start over/i.test(session.message.text);
-        
+
         if (session.message.text === "GET_STARTED" || startOver) {
             session.perUserInConversationData = {};
             session.userData = {};
@@ -112,7 +147,7 @@ bot.use({
                 form: params
             },
                 function (error, response, body) {
-                    
+
                     if (!error && response.statusCode == 200) {
                         var params = {
                             updatetype: "reset",
@@ -122,7 +157,7 @@ bot.use({
                             profiletype: ""
                         }
                         parser.member.updatemember(params, function (err, res, body) {
-                            if(err){console.log('error reset', res.statusCode)}
+                            if (err) { console.log('error reset', res.statusCode) }
                         });
                         session.userData.firstRun = true;
                         var welcomeCard = new builder.HeroCard(session)
@@ -137,7 +172,7 @@ bot.use({
                             .addAttachment(welcomeCard));
 
                         request({
-                           // url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name,locale,timezone&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
+                            // url: `https://graph.facebook.com/v2.6/${session.message.sourceEvent.sender.id}/?fields=first_name,gender,last_name,locale,timezone&access_token=${CONSTANTS.FB_PAGE_ACCESS_TOKEN}`,
                             url: `https://graph.facebook.com/v2.6/1373383332685110/?fields=first_name,gender,last_name,locale,timezone&access_token=EAAXL7443DqQBAAVEyWZCMFPEFG7O2n88VriJ2MLT9ZAnZBosCEHdr3VMMiaCgXlTXdrlZAfwXqdlDEqDZCkouXdLYZBcOZApOcFTpE67keYvM3cIKMMQVcXKK4ZCuPvq38mrmCjshSmI4lfdi8sCUxV8ZB3onULXK86514G0xFqZAtEgZDZD`,
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
@@ -163,7 +198,6 @@ bot.use({
                                 }
                             });
                     }
-
                 });
 
         } else {
