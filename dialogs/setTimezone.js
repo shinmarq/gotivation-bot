@@ -57,7 +57,7 @@ module.exports = [
         const { response } = results;
         const index = (response && response.hasOwnProperty('index')) ? response.index : 0;
         const location = geocoding[index].geometry.location;
-        const timestamp = 1331161200
+        var timestamp = Math.round((new Date()).getTime() / 1000);
         googleMapsClient.timezone({ location,timestamp }, (err, response) => {
             if (err) {
                 console.log(err);

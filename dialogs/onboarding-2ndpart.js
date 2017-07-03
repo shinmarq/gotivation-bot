@@ -19,11 +19,6 @@ module.exports = [
     //         });
     // },
     function (session) {
-        session.dialogData.origintext = session.message.text;
-        session.beginDialog('/setTimezone', { prompt: "I need your timezone before we proceed. Which city do you live in?" });
-    },
-    function (session, results) {
-        session.send(`Thanks! I have your current time as %s`, results.response);
         var changetime = /^Change_Time|change time|Change time/i.test(session.dialogData.origintext);
         if (changetime) {
             var params = {
@@ -35,7 +30,7 @@ module.exports = [
                     if (membercategory.length == 0) {
                         session.endConversation('Please select first a category.');
                     } else {
-                        builder.Prompts.time(session, "What time would you prefer to receive your daily motivation? \n\nEx. 7:45PM");
+                        session.beginDialog('/setTimezone', { prompt: "I need your timezone before we proceed. From which city do you live again?" });
                     }
                 } else {
                     console.log('there is error...', response);
@@ -43,9 +38,12 @@ module.exports = [
             });
 
         } else {
-            builder.Prompts.time(session, "What time would you prefer to receive your daily motivation? \n\nEx. 10:15AM");
+            session.beginDialog('/setTimezone', { prompt: "I need your timezone before we proceed. Which city do you live in?" });
         }
-
+    },
+    function (session, results) {
+        session.send(`Thanks! I have your current time as %s`, results.response);
+        builder.Prompts.time(session, "What time would you prefer to receive your daily motivation? \n\nEx. 10:15AM");
     },
     function (session, results, next) {
         session.sendTyping();
@@ -55,13 +53,11 @@ module.exports = [
             //var utc_offset = moment(recurrence).utcOffset(session.userData.user.timezone).format('ZZ');
             //console.log('UTCOFFSET SHIT => ', utc_offset)
             const { dstOffset, rawOffset, timeZoneId } = session.userData.timeZoneData;
-            const offset = ((rawOffset + dstOffset) / 3600)*-1;
-            const method = getMomentMethod(session.userData.timeZoneData);
-            recurrence = moment(recurrence)[method](offset, 'hour').format("HH:mm");;
+            const offset = ((rawOffset + dstOffset) / 3600) * -1;
+            recurrence = moment(recurrence).add(offset, 'hour').format("HH:mm");;
             // var concattime = moment(recurrence).format("hh:mm:ss a")
             // recurrence = moment.utc(recurrence).add(offset * -1, "seconds");
             // recurrence = recurrence.format("HH:mm");
-            console.log(recurrence)
             //console.log('RECURRENCE SHIT => ', recurrence)
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
@@ -100,11 +96,6 @@ module.exports = [
     }
 
 ]
-const getMomentMethod = (timeZoneData) => {
-    const { dstOffset, rawOffset } = timeZoneData;
-    const offset = (rawOffset + dstOffset) / 3600;
-    return offset >= 0 ? 'subtract' : 'add';
-};
 
 
 
