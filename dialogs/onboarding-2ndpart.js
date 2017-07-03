@@ -20,10 +20,10 @@ module.exports = [
     // },
     function (session) {
         session.dialogData.origintext = session.message.text;
-        session.beginDialog('/setTimezone',{prompt: "I need your timezone before we proceed. Which city do you live in?"});
+        session.beginDialog('/setTimezone', { prompt: "I need your timezone before we proceed. Which city do you live in?" });
     },
     function (session, results) {
-        session.send(`Thanks! I have your current time as %s`,results.response);
+        session.send(`Thanks! I have your current time as %s`, results.response);
         var changetime = /^Change_Time|change time|Change time/i.test(session.dialogData.origintext);
         if (changetime) {
             var params = {
@@ -54,11 +54,14 @@ module.exports = [
             var recurrence = builder.EntityRecognizer.resolveTime([results.response]);
             //var utc_offset = moment(recurrence).utcOffset(session.userData.user.timezone).format('ZZ');
             //console.log('UTCOFFSET SHIT => ', utc_offset)
-            console.log(session.userData.timeZoneData);
-            var offset = session.userData.timeZoneData.rawOffset + session.userData.timeZoneData.dstOffset;
-            var concattime = moment(recurrence).format("hh:mm:ss a")
-            recurrence = moment.utc(recurrence).add(offset * -1, "seconds");
-            recurrence = recurrence.format("HH:mm");
+            const { dstOffset, rawOffset, timeZoneId } = session.userData.timeZoneData;
+            const offset = (rawOffset + dstOffset) / 3600;
+            const method = getMomentMethod(session.userData.timeZoneData);
+            recurrence = moment(recurrence)[method](offset, 'hour').format("HH:mm");;
+            // var concattime = moment(recurrence).format("hh:mm:ss a")
+            // recurrence = moment.utc(recurrence).add(offset * -1, "seconds");
+            // recurrence = recurrence.format("HH:mm");
+            console.log(recurrence)
             //console.log('RECURRENCE SHIT => ', recurrence)
             session.dialogData.recurrence = recurrence;
             if (session.dialogData.recurrence) {
@@ -97,5 +100,11 @@ module.exports = [
     }
 
 ]
+const getMomentMethod = (timeZoneData) => {
+    const { dstOffset, rawOffset } = timeZoneData;
+    const offset = (rawOffset + dstOffset) / 3600;
+    return offset >= 0 ? 'subtract' : 'add';
+};
+
 
 
