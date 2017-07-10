@@ -54,6 +54,36 @@ var intentDialog = new builder.IntentDialog({
     recognizeMode: builder.RecognizeMode.onBegin
 });
 
+const logUserConversation = (event,type) => {
+    if (event.type == "message" && event.text) {
+        var params = {};
+        params = {
+            member_id: event.address.user.id,
+            message_body:{
+                message: event.text,
+                message_type: type,
+            }
+        };
+        parser.messenger.updatemessenger(params,function(err,response){
+            !err ? console.log(response) : console.log(err);
+        });
+        // console.log(event.attachments[0].content);
+
+    }
+};
+
+// Middleware for logging
+bot.use({
+    receive: function (event, next) {
+        logUserConversation(event,"inbound");
+        next();
+    },
+    send: function (event, next) {
+        logUserConversation(event,"outbound");
+        next();
+    }
+});
+
 
 bot.use({
     botbuilder: function (session, next) {
