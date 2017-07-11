@@ -54,7 +54,7 @@ var intentDialog = new builder.IntentDialog({
     recognizeMode: builder.RecognizeMode.onBegin
 });
 
-const logUserConversation = (event,type) => {
+const logUserConversation = (event, next, type) => {
     if (event.type == "message" && event.text) {
         var params = {};
         params = {
@@ -64,8 +64,13 @@ const logUserConversation = (event,type) => {
                 message_type: type,
             }
         };
-        parser.messenger.updatemessenger(params,function(err,response){
-            !err ? console.log(response) : console.log(err);
+        parser.messenger.updatemessenger(params, function(err,response){
+            if(!err){
+                console.log(response);
+                next();
+            }else{
+                console.log(err);
+            }
         });
         // console.log(event.attachments[0].content);
 
@@ -75,12 +80,10 @@ const logUserConversation = (event,type) => {
 // Middleware for logging
 bot.use({
     receive: function (event, next) {
-        logUserConversation(event,"inbound");
-        next();
+        logUserConversation(event, next, "inbound");
     },
     send: function (event, next) {
-        logUserConversation(event,"outbound");
-        next();
+        logUserConversation(event, next, "outbound");
     }
 });
 
